@@ -1,0 +1,3143 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>AIプロンプト完全集 160本</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Zen+Kaku+Gothic+New:wght@700;900&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--warm:#E8724A;--cream:#FFF8F0;--text:#2A2420;--muted:#8A7A72;--border:#EDE5DE;--sage:#5A8F7B;--gold:#D4A843}
+body{font-family:'Noto Sans JP',sans-serif;background:var(--cream);color:var(--text);-webkit-font-smoothing:antialiased}
+/* HEADER */
+.hdr{background:var(--warm);color:#fff;padding:16px 14px 12px;position:sticky;top:0;z-index:100;box-shadow:0 2px 14px rgba(200,80,40,.3)}
+.hdr-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.hdr-title{font-family:'Zen Kaku Gothic New',sans-serif;font-size:14px;font-weight:900;line-height:1.3}
+.hdr-title small{font-size:10px;opacity:.8;display:block;margin-top:2px;font-family:'Noto Sans JP',sans-serif;font-weight:400}
+.sos-btn{background:#fff;color:var(--warm);border:none;border-radius:20px;padding:7px 13px;font-family:'Noto Sans JP',sans-serif;font-weight:700;font-size:12px;cursor:pointer;display:flex;align-items:center;gap:4px;box-shadow:0 2px 8px rgba(0,0,0,.15);flex-shrink:0}
+.sos-btn:active{transform:scale(.95)}
+.search-wrap{position:relative}
+.search-input{width:100%;background:rgba(255,255,255,.2);border:1.5px solid rgba(255,255,255,.4);border-radius:22px;padding:9px 38px 9px 38px;font-family:'Noto Sans JP',sans-serif;font-size:14px;color:#fff;outline:none}
+.search-input::placeholder{color:rgba(255,255,255,.65)}
+.search-input:focus{background:rgba(255,255,255,.3)}
+.si{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:15px;pointer-events:none}
+.sc{position:absolute;right:11px;top:50%;transform:translateY(-50%);background:none;border:none;color:#fff;font-size:17px;cursor:pointer;display:none;padding:3px}
+/* NAV */
+.cat-nav{overflow-x:auto;-webkit-overflow-scrolling:touch;padding:10px 14px;background:#fff;border-bottom:1px solid var(--border);display:flex;gap:7px;scrollbar-width:none}
+.cat-nav::-webkit-scrollbar{display:none}
+.chip{flex-shrink:0;background:var(--cream);border:1.5px solid var(--border);border-radius:18px;padding:5px 12px;font-size:11.5px;font-weight:700;cursor:pointer;white-space:nowrap;color:var(--muted);text-decoration:none;display:block;transition:all .15s}
+.chip:active,.chip:hover{background:var(--cc,var(--warm));color:#fff;border-color:transparent}
+/* MAIN */
+.main{padding:0 14px 80px}
+/* INTRO */
+.intro-box{margin:14px 0;background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 2px 10px rgba(80,40,20,.07)}
+.intro-toggle{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;cursor:pointer}
+.intro-label{font-size:13.5px;font-weight:700;color:var(--warm);display:flex;align-items:center;gap:7px}
+.intro-arrow{font-size:11px;color:var(--muted);transition:transform .2s}
+.intro-body{display:none;padding:0 16px 16px;border-top:1px solid var(--border)}
+.intro-body p{font-size:13px;line-height:1.8;color:var(--text);margin-top:12px}
+.steps{margin-top:12px;display:flex;flex-direction:column;gap:9px}
+.step{display:flex;align-items:flex-start;gap:10px}
+.sn{background:var(--warm);color:#fff;border-radius:50%;width:22px;height:22px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0}
+.st{font-size:12.5px;line-height:1.6;padding-top:2px}
+/* FAV BAR */
+.fav-bar{display:none;margin:0 0 4px;background:#FDF3D8;border-radius:10px;padding:9px 13px;font-size:12px;font-weight:700;color:var(--gold);align-items:center;gap:5px;cursor:pointer}
+.fav-bar.on{display:flex}
+/* SECTION */
+.cat-section{margin-top:24px}
+.cat-heading{display:flex;align-items:center;gap:8px;margin-bottom:12px;padding-left:10px}
+.cat-emoji{font-size:20px}
+.cat-name{font-family:'Zen Kaku Gothic New',sans-serif;font-size:17px;font-weight:900}
+.cat-cnt{font-size:11px;color:var(--muted);margin-left:auto}
+/* CARD */
+.card{background:#fff;border-radius:14px;box-shadow:0 2px 10px rgba(80,40,20,.07);margin-bottom:10px;overflow:hidden;border:1.5px solid transparent;transition:border-color .2s}
+.card.faved{border-color:var(--gold)}
+.card-head{display:flex;align-items:center;padding:12px 14px 8px;gap:7px}
+.card-num{font-size:10px;font-weight:700;color:var(--muted);flex-shrink:0}
+.card-title{font-size:13.5px;font-weight:700;line-height:1.4;flex:1}
+.fav-btn{background:none;border:none;font-size:19px;cursor:pointer;flex-shrink:0;padding:2px;line-height:1;color:#ccc;transition:color .15s}
+.fav-btn.on{color:#D4A843}
+.card-body{padding:0 14px 10px}
+.prompt-box{background:var(--cream);border-radius:9px;padding:11px 13px;font-size:12.5px;line-height:1.8;color:var(--text)}
+.card-foot{display:flex;align-items:center;padding:0 14px 12px;gap:8px}
+.tip-btn{background:none;border:none;font-size:11.5px;color:var(--muted);cursor:pointer;flex:1;text-align:left;font-family:'Noto Sans JP',sans-serif;padding:0;display:flex;align-items:center;gap:3px}
+.tip-arrow-icon{display:inline-block;transition:transform .2s}
+.copy-btn{background:var(--warm);color:#fff;border:none;border-radius:18px;padding:7px 16px;font-family:'Noto Sans JP',sans-serif;font-size:12.5px;font-weight:700;cursor:pointer;display:flex;align-items:center;gap:5px;flex-shrink:0;min-width:80px;justify-content:center;transition:all .15s}
+.copy-btn:active{transform:scale(.94)}
+.copy-btn.done{background:var(--sage)}
+.tip-box{display:none;background:#FDF3D8;border-left:3px solid var(--gold);border-radius:0 8px 8px 0;padding:9px 13px;margin:0 14px 12px;font-size:12px;line-height:1.7;color:#705820}
+/* SEARCH EMPTY */
+.no-res{display:none;text-align:center;padding:50px 20px;color:var(--muted)}
+.no-res.on{display:block}
+.no-res-ico{font-size:42px;margin-bottom:10px}
+/* OVERLAY */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;align-items:flex-end}
+.overlay.on{display:flex}
+.sheet{background:#fff;border-radius:22px 22px 0 0;width:100%;max-height:85vh;overflow-y:auto;padding:22px 14px 36px;animation:up .25s ease}
+@keyframes up{from{transform:translateY(40px);opacity:0}to{transform:translateY(0);opacity:1}}
+.sheet-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.sheet-title{font-family:'Zen Kaku Gothic New',sans-serif;font-size:19px;font-weight:900;color:var(--warm)}
+.sheet-close{background:var(--border);border:none;border-radius:50%;width:30px;height:30px;font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.sheet-desc{font-size:12.5px;color:var(--muted);margin-bottom:16px;line-height:1.6}
+/* TOAST */
+.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(70px);background:var(--text);color:#fff;padding:9px 18px;border-radius:18px;font-size:12.5px;font-weight:700;z-index:300;transition:transform .3s;white-space:nowrap}
+.toast.on{transform:translateX(-50%) translateY(0)}
+/* TOP BTN */
+.top-btn{position:fixed;bottom:22px;right:14px;background:var(--warm);color:#fff;border:none;border-radius:50%;width:42px;height:42px;font-size:18px;cursor:pointer;box-shadow:0 4px 14px rgba(200,80,40,.4);display:none;align-items:center;justify-content:center;z-index:150}
+.top-btn.on{display:flex}
+.top-btn:active{transform:scale(.92)}
+.hidden{display:none!important}
+footer{text-align:center;padding:30px 16px 16px;font-size:11.5px;color:var(--muted);line-height:1.8}
+</style>
+</head>
+<body>
+<header class="hdr">
+  <div class="hdr-top">
+    <div class="hdr-title">AIプロンプト完全集 160本<small>夕方、もう限界なママへ 読者特典①</small></div>
+    <button class="sos-btn" onclick="openSOS()">🆘 SOS</button>
+  </div>
+  <div class="search-wrap">
+    <span class="si">🔍</span>
+    <input class="search-input" id="q" type="search" placeholder="キーワード検索（例：お風呂、宿題）" oninput="doSearch()" />
+    <button class="sc" id="qc" onclick="clearQ()">✕</button>
+  </div>
+</header>
+
+<nav class="cat-nav"><a class="chip" href="#cat-food" style="--cc:#E8724A">🍳 夕飯・料理</a>
+<a class="chip" href="#cat-time" style="--cc:#4A7CBE">📅 段取り・時間管理</a>
+<a class="chip" href="#cat-study" style="--cc:#5A8F7B">📚 宿題・学習サポート</a>
+<a class="chip" href="#cat-voice" style="--cc:#D4A843">💬 子どもへの声かけ</a>
+<a class="chip" href="#cat-read" style="--cc:#7C5CBF">🔍 子どもの行動解読</a>
+<a class="chip" href="#cat-house" style="--cc:#C4856A">🏠 見えない家事管理</a>
+<a class="chip" href="#cat-mental" style="--cc:#C45480">💗 親自身のメンタルケア</a>
+<a class="chip" href="#cat-couple" style="--cc:#5A8F7B">💑 夫婦・パートナー連携</a>
+<a class="chip" href="#cat-moms" style="--cc:#7C5CBF">👩‍👧 ママ友・保護者関係</a>
+<a class="chip" href="#cat-grandpa" style="--cc:#D4A843">👴 祖父母との対応</a>
+<a class="chip" href="#cat-school" style="--cc:#4A7CBE">🏫 先生・学校との連携</a>
+<a class="chip" href="#cat-special" style="--cc:#E8724A">🌟 応用・特殊シーン</a></nav>
+
+<div class="main">
+<div class="intro-box">
+  <div class="intro-toggle" onclick="toggleIntro(this)">
+    <div class="intro-label">📖 このプロンプト集の使い方</div>
+    <span class="intro-arrow" id="intro-arr">▼</span>
+  </div>
+  <div class="intro-body" id="intro-body">
+    <p>「（　）の中を自分の状況に書き換えて、AIに貼り付けるだけ」の穴埋め式テンプレートです。</p>
+    <div class="steps">
+      <div class="step"><div class="sn">1</div><div class="st">今夜困っている場面のプロンプトを見つける</div></div>
+      <div class="step"><div class="sn">2</div><div class="st">「コピー」ボタンを押してテキストをコピー</div></div>
+      <div class="step"><div class="sn">3</div><div class="st">ChatGPT / Claude / Gemini に貼り付けて送信</div></div>
+    </div>
+    <p style="margin-top:12px;color:var(--warm);font-weight:700;font-size:12.5px">💡 全部読まなくていい。まず1本だけ試してみてください。</p>
+  </div>
+</div>
+
+<div class="fav-bar" id="fav-bar" onclick="openFavs()">
+  <span>⭐</span><span id="fav-bar-txt">お気に入り</span>
+  <span style="margin-left:auto;font-size:10px;opacity:.7">タップで表示 ›</span>
+</div>
+
+<section class="cat-section" id="cat-food">
+  <div class="cat-heading" style="border-left:4px solid #E8724A">
+    <span class="cat-emoji">🍳</span>
+    <span class="cat-name" style="color:#E8724A">夕飯・料理</span>
+    <span class="cat-cnt">18本</span>
+  </div>
+  <div class="card" id="card-1" data-text="今夜の夕飯を決めてほしいです。
+冷蔵庫にあるもの：（食材を書く）
+子どもの年齢：（　）歳と（　）歳
+調理時間：（　）分以内
+昨日食べたもの：（　）なのでそれ以外で
+追加の希望：（なるべく洗い物を少なく、など）
+メイン・副菜・汁物のセットで、工程も簡単に教えてください。" data-title="食材指定・フル条件版" data-tip="条件が多いほど精度が上がる。「昨日食べたもの」を入れると被りを避けてくれる。">
+  <div class="card-head">
+    <span class="card-num">No.01</span>
+    <span class="card-title">食材指定・フル条件版</span>
+    <button class="fav-btn" id="fav-1" onclick="toggleFav(1)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-1">今夜の夕飯を決めてほしいです。<br>冷蔵庫にあるもの：（食材を書く）<br>子どもの年齢：（　）歳と（　）歳<br>調理時間：（　）分以内<br>昨日食べたもの：（　）なのでそれ以外で<br>追加の希望：（なるべく洗い物を少なく、など）<br>メイン・副菜・汁物のセットで、工程も簡単に教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-1" onclick="toggleTip(1)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-1" onclick="doCopy(1)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-1">条件が多いほど精度が上がる。「昨日食べたもの」を入れると被りを避けてくれる。</div>
+</div>
+<div class="card" id="card-2" data-text="来週月〜日（7日分）の夕飯献立を作ってください。
+条件：子ども（（　）歳・（　）歳）が食べられる、魚料理（　）回・肉料理（　）回、各日30分以内の調理時間、週（　）回の買い物で完結するよう食材を使い回す。
+日付・メイン・副菜・汁物の表形式で出してください。" data-title="週間献立の一括設計" data-tip="週初めに一度やるだけで「今日何にしよう」という悩みが7日間消える。">
+  <div class="card-head">
+    <span class="card-num">No.02</span>
+    <span class="card-title">週間献立の一括設計</span>
+    <button class="fav-btn" id="fav-2" onclick="toggleFav(2)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-2">来週月〜日（7日分）の夕飯献立を作ってください。<br>条件：子ども（（　）歳・（　）歳）が食べられる、魚料理（　）回・肉料理（　）回、各日30分以内の調理時間、週（　）回の買い物で完結するよう食材を使い回す。<br>日付・メイン・副菜・汁物の表形式で出してください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-2" onclick="toggleTip(2)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-2" onclick="doCopy(2)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-2">週初めに一度やるだけで「今日何にしよう」という悩みが7日間消える。</div>
+</div>
+<div class="card" id="card-3" data-text="↑の献立で必要な食材をリストにしてください。
+冷蔵庫に今あるもの：（　）は除いてください。
+野菜・肉魚・乳製品・乾物・調味料のカテゴリ別に整理して出してください。" data-title="買い物リスト自動生成" data-tip="週間献立プロンプトの直後に続けて送るとそのまま買い物リストが出来上がる。">
+  <div class="card-head">
+    <span class="card-num">No.03</span>
+    <span class="card-title">買い物リスト自動生成</span>
+    <button class="fav-btn" id="fav-3" onclick="toggleFav(3)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-3">↑の献立で必要な食材をリストにしてください。<br>冷蔵庫に今あるもの：（　）は除いてください。<br>野菜・肉魚・乳製品・乾物・調味料のカテゴリ別に整理して出してください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-3" onclick="toggleTip(3)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-3" onclick="doCopy(3)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-3">週間献立プロンプトの直後に続けて送るとそのまま買い物リストが出来上がる。</div>
+</div>
+<div class="card" id="card-4" data-text="以下の買い物リストを、スーパーの売り場順に並べ替えてください。
+（青果→精肉・鮮魚→乳製品・卵→冷凍食品→日配・豆腐→乾物・缶詰の順を想定）
+リスト：（リストをここに貼る）" data-title="スーパーの効率動線" data-tip="行ったり来たりがなくなり、買い物時間が10〜15分短縮される。">
+  <div class="card-head">
+    <span class="card-num">No.04</span>
+    <span class="card-title">スーパーの効率動線</span>
+    <button class="fav-btn" id="fav-4" onclick="toggleFav(4)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-4">以下の買い物リストを、スーパーの売り場順に並べ替えてください。<br>（青果→精肉・鮮魚→乳製品・卵→冷凍食品→日配・豆腐→乾物・缶詰の順を想定）<br>リスト：（リストをここに貼る）</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-4" onclick="toggleTip(4)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-4" onclick="doCopy(4)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-4">行ったり来たりがなくなり、買い物時間が10〜15分短縮される。</div>
+</div>
+<div class="card" id="card-5" data-text="（昨日の料理名）が（量）ほど余っています。
+今日の夕飯・明日のお弁当・明日の朝ごはんのどれかに使えるアレンジを3つ教えてください。
+できれば子ども（（　）歳）が食べやすい味付けで。" data-title="残り物リメイク3案" data-tip="「捨てるしかない」がなくなる。食費節約にも直結する。">
+  <div class="card-head">
+    <span class="card-num">No.05</span>
+    <span class="card-title">残り物リメイク3案</span>
+    <button class="fav-btn" id="fav-5" onclick="toggleFav(5)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-5">（昨日の料理名）が（量）ほど余っています。<br>今日の夕飯・明日のお弁当・明日の朝ごはんのどれかに使えるアレンジを3つ教えてください。<br>できれば子ども（（　）歳）が食べやすい味付けで。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-5" onclick="toggleTip(5)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-5" onclick="doCopy(5)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-5">「捨てるしかない」がなくなる。食費節約にも直結する。</div>
+</div>
+<div class="card" id="card-6" data-text="今日は全然時間がなくて夕飯を作る余裕がありません。
+冷蔵庫に（食材）と（食材）があります。
+調理10分以内・子どもが食べられる・洗い物が少ない、この条件で作れるものを教えてください。" data-title="10分緊急メニュー" data-tip="「もう無理」な日のお守り。これがあるだけで気持ちが少し楽になる。">
+  <div class="card-head">
+    <span class="card-num">No.06</span>
+    <span class="card-title">10分緊急メニュー</span>
+    <button class="fav-btn" id="fav-6" onclick="toggleFav(6)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-6">今日は全然時間がなくて夕飯を作る余裕がありません。<br>冷蔵庫に（食材）と（食材）があります。<br>調理10分以内・子どもが食べられる・洗い物が少ない、この条件で作れるものを教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-6" onclick="toggleTip(6)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-6" onclick="doCopy(6)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-6">「もう無理」な日のお守り。これがあるだけで気持ちが少し楽になる。</div>
+</div>
+<div class="card" id="card-7" data-text="（　）歳の子どもが（野菜名）を嫌がって食べません。
+（野菜名）をうまく隠せる、または食べやすくなる調理法・レシピを5つ教えてください。
+子どもがわからないうちに食べてしまうようなアイデアも歓迎です。" data-title="嫌いな野菜を隠すレシピ" data-tip="「隠す」ことへの罪悪感は不要。食べられるようになることが最優先。">
+  <div class="card-head">
+    <span class="card-num">No.07</span>
+    <span class="card-title">嫌いな野菜を隠すレシピ</span>
+    <button class="fav-btn" id="fav-7" onclick="toggleFav(7)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-7">（　）歳の子どもが（野菜名）を嫌がって食べません。<br>（野菜名）をうまく隠せる、または食べやすくなる調理法・レシピを5つ教えてください。<br>子どもがわからないうちに食べてしまうようなアイデアも歓迎です。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-7" onclick="toggleTip(7)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-7" onclick="doCopy(7)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-7">「隠す」ことへの罪悪感は不要。食べられるようになることが最優先。</div>
+</div>
+<div class="card" id="card-8" data-text="土日に（　）時間で作り置きをします。
+月〜木の夕飯で使い回せる料理を（　）品提案してください。
+条件：子ども（（　）歳）が食べられる、コンロとオーブンを同時使用して効率化。
+必要な食材リストと調理順序タイムラインもセットで出してください。" data-title="作り置き2時間プラン" data-tip="一度やると「月〜木の夕飯を考えなくていい」状態が手に入る。">
+  <div class="card-head">
+    <span class="card-num">No.08</span>
+    <span class="card-title">作り置き2時間プラン</span>
+    <button class="fav-btn" id="fav-8" onclick="toggleFav(8)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-8">土日に（　）時間で作り置きをします。<br>月〜木の夕飯で使い回せる料理を（　）品提案してください。<br>条件：子ども（（　）歳）が食べられる、コンロとオーブンを同時使用して効率化。<br>必要な食材リストと調理順序タイムラインもセットで出してください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-8" onclick="toggleTip(8)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-8" onclick="doCopy(8)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-8">一度やると「月〜木の夕飯を考えなくていい」状態が手に入る。</div>
+</div>
+<div class="card" id="card-9" data-text="今夜の夕飯：（メニュー名）
+調理時間を最短にするために、「コンロ・レンジ・切る作業」をどの順番で並行させればいいか教えてください。
+ステップをシンプルに書いてください。" data-title="調理工程の並行化" data-tip="工程を最適化するだけで20分かかる料理が15分になることもある。">
+  <div class="card-head">
+    <span class="card-num">No.09</span>
+    <span class="card-title">調理工程の並行化</span>
+    <button class="fav-btn" id="fav-9" onclick="toggleFav(9)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-9">今夜の夕飯：（メニュー名）<br>調理時間を最短にするために、「コンロ・レンジ・切る作業」をどの順番で並行させればいいか教えてください。<br>ステップをシンプルに書いてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-9" onclick="toggleTip(9)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-9" onclick="doCopy(9)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-9">工程を最適化するだけで20分かかる料理が15分になることもある。</div>
+</div>
+<div class="card" id="card-10" data-text="今日の夕飯：（メニューを書く）
+この内容で子どもに不足しがちな栄養素はありますか？
+足りない場合、今夜または明日にさりげなく補える食材・料理を提案してください。" data-title="栄養バランスチェック" data-tip="「ちゃんと食べさせられているか」の不安を手放せる使い方。">
+  <div class="card-head">
+    <span class="card-num">No.10</span>
+    <span class="card-title">栄養バランスチェック</span>
+    <button class="fav-btn" id="fav-10" onclick="toggleFav(10)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-10">今日の夕飯：（メニューを書く）<br>この内容で子どもに不足しがちな栄養素はありますか？<br>足りない場合、今夜または明日にさりげなく補える食材・料理を提案してください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-10" onclick="toggleTip(10)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-10" onclick="doCopy(10)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-10">「ちゃんと食べさせられているか」の不安を手放せる使い方。</div>
+</div>
+<div class="card" id="card-11" data-text="今（　）月です。この季節の旬の食材を使った子ども向けの夕飯を3品提案してください。
+スーパーで安く手に入りやすい食材を使ったものにしてください。" data-title="旬食材×子ども向けメニュー" data-tip="旬の食材は安くて栄養が高い。一石二鳥の選択。">
+  <div class="card-head">
+    <span class="card-num">No.11</span>
+    <span class="card-title">旬食材×子ども向けメニュー</span>
+    <button class="fav-btn" id="fav-11" onclick="toggleFav(11)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-11">今（　）月です。この季節の旬の食材を使った子ども向けの夕飯を3品提案してください。<br>スーパーで安く手に入りやすい食材を使ったものにしてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-11" onclick="toggleTip(11)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-11" onclick="doCopy(11)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-11">旬の食材は安くて栄養が高い。一石二鳥の選択。</div>
+</div>
+<div class="card" id="card-12" data-text="子どもが（　）アレルギーです。
+（　）を使わずに作れる（メニュー名またはジャンル）のレシピを教えてください。
+（　）の代わりに使える食材も一緒に教えてください。" data-title="アレルギー対応メニュー" data-tip="除去食を聞くときは「代替食材」もセットで聞くのがコツ。">
+  <div class="card-head">
+    <span class="card-num">No.12</span>
+    <span class="card-title">アレルギー対応メニュー</span>
+    <button class="fav-btn" id="fav-12" onclick="toggleFav(12)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-12">子どもが（　）アレルギーです。<br>（　）を使わずに作れる（メニュー名またはジャンル）のレシピを教えてください。<br>（　）の代わりに使える食材も一緒に教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-12" onclick="toggleTip(12)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-12" onclick="doCopy(12)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-12">除去食を聞くときは「代替食材」もセットで聞くのがコツ。</div>
+</div>
+<div class="card" id="card-13" data-text="週（　）日分のお弁当おかずの作り置きを（　）品提案してください。
+条件：色鮮やか、日持ち3日以上、子ども（（　）歳）が食べられる、冷凍可能なものも含める。" data-title="お弁当おかずの作り置き" data-tip="弁当の悩みが週末の30分で解決する。">
+  <div class="card-head">
+    <span class="card-num">No.13</span>
+    <span class="card-title">お弁当おかずの作り置き</span>
+    <button class="fav-btn" id="fav-13" onclick="toggleFav(13)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-13">週（　）日分のお弁当おかずの作り置きを（　）品提案してください。<br>条件：色鮮やか、日持ち3日以上、子ども（（　）歳）が食べられる、冷凍可能なものも含める。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-13" onclick="toggleTip(13)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-13" onclick="doCopy(13)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-13">弁当の悩みが週末の30分で解決する。</div>
+</div>
+<div class="card" id="card-14" data-text="（　）歳の子どもが今日（　）で食欲がなさそうです。
+体調を考慮した、消化がよくて食べやすい夕飯を提案してください。
+冷蔵庫には（食材）があります。" data-title="食欲のない日のメニュー" data-tip="体調不良の日は普段より5分で決めたい。このプロンプトで即解決。">
+  <div class="card-head">
+    <span class="card-num">No.14</span>
+    <span class="card-title">食欲のない日のメニュー</span>
+    <button class="fav-btn" id="fav-14" onclick="toggleFav(14)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-14">（　）歳の子どもが今日（　）で食欲がなさそうです。<br>体調を考慮した、消化がよくて食べやすい夕飯を提案してください。<br>冷蔵庫には（食材）があります。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-14" onclick="toggleTip(14)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-14" onclick="doCopy(14)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-14">体調不良の日は普段より5分で決めたい。このプロンプトで即解決。</div>
+</div>
+<div class="card" id="card-15" data-text="今日は（　）（スーパーやコンビニの惣菜名）を買ってきました。
+これに一手間加えて「手作り感」や「ボリューム感」を出す方法を教えてください。
+追加する食材は冷蔵庫にある（食材）を使ってください。" data-title="市販惣菜の手作り感アップ" data-tip="手抜きを「アレンジ」に変換する魔法のプロンプト。">
+  <div class="card-head">
+    <span class="card-num">No.15</span>
+    <span class="card-title">市販惣菜の手作り感アップ</span>
+    <button class="fav-btn" id="fav-15" onclick="toggleFav(15)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-15">今日は（　）（スーパーやコンビニの惣菜名）を買ってきました。<br>これに一手間加えて「手作り感」や「ボリューム感」を出す方法を教えてください。<br>追加する食材は冷蔵庫にある（食材）を使ってください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-15" onclick="toggleTip(15)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-15" onclick="doCopy(15)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-15">手抜きを「アレンジ」に変換する魔法のプロンプト。</div>
+</div>
+<div class="card" id="card-16" data-text="（　）の記念日（誕生日・入学記念など）のために、特別感がある夕飯を作りたいです。
+調理時間（　）分以内、子ども（（　）歳）が喜ぶ、予算（　）円以内で、
+メイン・デザートも含めて提案してください。" data-title="記念日の簡単ご馳走" data-tip="「特別な日」をAIに手伝ってもらうことに罪悪感を感じなくていい。">
+  <div class="card-head">
+    <span class="card-num">No.16</span>
+    <span class="card-title">記念日の簡単ご馳走</span>
+    <button class="fav-btn" id="fav-16" onclick="toggleFav(16)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-16">（　）の記念日（誕生日・入学記念など）のために、特別感がある夕飯を作りたいです。<br>調理時間（　）分以内、子ども（（　）歳）が喜ぶ、予算（　）円以内で、<br>メイン・デザートも含めて提案してください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-16" onclick="toggleTip(16)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-16" onclick="doCopy(16)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-16">「特別な日」をAIに手伝ってもらうことに罪悪感を感じなくていい。</div>
+</div>
+<div class="card" id="card-17" data-text="今夜の大人の夕飯：（メニュー名）
+これを（　）ヶ月の赤ちゃん・（　）歳の幼児向けに取り分ける方法を教えてください。
+味付け・大きさ・硬さの調整方法も含めて。" data-title="離乳食・幼児食アレンジ" data-tip="「大人と子どもで別々に作る」を「取り分けで済む」に変える。">
+  <div class="card-head">
+    <span class="card-num">No.17</span>
+    <span class="card-title">離乳食・幼児食アレンジ</span>
+    <button class="fav-btn" id="fav-17" onclick="toggleFav(17)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-17">今夜の大人の夕飯：（メニュー名）<br>これを（　）ヶ月の赤ちゃん・（　）歳の幼児向けに取り分ける方法を教えてください。<br>味付け・大きさ・硬さの調整方法も含めて。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-17" onclick="toggleTip(17)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-17" onclick="doCopy(17)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-17">「大人と子どもで別々に作る」を「取り分けで済む」に変える。</div>
+</div>
+<div class="card" id="card-18" data-text="冷凍庫にある食品：（冷凍食品名を列挙）
+これを使って今週（　）日分の夕飯をどう構成すればいいか提案してください。
+「冷凍食品だけ」に見えない工夫も教えてください。" data-title="冷凍食品フル活用プラン" data-tip="冷凍食品を「手抜き」から「戦略」に変える発想の転換。">
+  <div class="card-head">
+    <span class="card-num">No.18</span>
+    <span class="card-title">冷凍食品フル活用プラン</span>
+    <button class="fav-btn" id="fav-18" onclick="toggleFav(18)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-18">冷凍庫にある食品：（冷凍食品名を列挙）<br>これを使って今週（　）日分の夕飯をどう構成すればいいか提案してください。<br>「冷凍食品だけ」に見えない工夫も教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-18" onclick="toggleTip(18)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-18" onclick="doCopy(18)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-18">冷凍食品を「手抜き」から「戦略」に変える発想の転換。</div>
+</div>
+</section><section class="cat-section" id="cat-time">
+  <div class="cat-heading" style="border-left:4px solid #4A7CBE">
+    <span class="cat-emoji">📅</span>
+    <span class="cat-name" style="color:#4A7CBE">段取り・時間管理</span>
+    <span class="cat-cnt">14本</span>
+  </div>
+  <div class="card" id="card-19" data-text="私の夕方（17:00〜21:30）のスケジュールを最適化してください。
+やること：夕飯準備（　分）、食事（　分）、片付け（　分）、（　）歳の宿題サポート（　分）、（　）歳の入浴（　分）、洗濯（機械（　分）、干し（　分））、寝かしつけ（21:00〜）。
+並行作業を最大化して最短で終わるプランをタイムライン表で出してください。" data-title="夕方タイムライン最適化（基本）" data-tip="一度作ったら印刷してキッチンに貼る。毎夜の「次何するんだっけ」が消える。">
+  <div class="card-head">
+    <span class="card-num">No.19</span>
+    <span class="card-title">夕方タイムライン最適化（基本）</span>
+    <button class="fav-btn" id="fav-19" onclick="toggleFav(19)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-19">私の夕方（17:00〜21:30）のスケジュールを最適化してください。<br>やること：夕飯準備（　分）、食事（　分）、片付け（　分）、（　）歳の宿題サポート（　分）、（　）歳の入浴（　分）、洗濯（機械（　分）、干し（　分））、寝かしつけ（21:00〜）。<br>並行作業を最大化して最短で終わるプランをタイムライン表で出してください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-19" onclick="toggleTip(19)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-19" onclick="doCopy(19)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-19">一度作ったら印刷してキッチンに貼る。毎夜の「次何するんだっけ」が消える。</div>
+</div>
+<div class="card" id="card-20" data-text="今日の特殊事情：（習い事の送迎がある・夫が早帰りする・子どもが体調不良など）
+帰宅時刻：（　）時　今日の夕飯：（　）
+21:30までに全部終わらせる最短プランを作ってください。" data-title="今日だけの特別スケジュール" data-tip="特殊な日こそAIに任せる。イレギュラー対応が一番消耗するから。">
+  <div class="card-head">
+    <span class="card-num">No.20</span>
+    <span class="card-title">今日だけの特別スケジュール</span>
+    <button class="fav-btn" id="fav-20" onclick="toggleFav(20)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-20">今日の特殊事情：（習い事の送迎がある・夫が早帰りする・子どもが体調不良など）<br>帰宅時刻：（　）時　今日の夕飯：（　）<br>21:30までに全部終わらせる最短プランを作ってください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-20" onclick="toggleTip(20)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-20" onclick="doCopy(20)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-20">特殊な日こそAIに任せる。イレギュラー対応が一番消耗するから。</div>
+</div>
+<div class="card" id="card-21" data-text="私の一週間のエネルギー消耗パターンを分析してください。
+月：（状況）、火：（状況）、水：（状況）、木：（状況）、金：（状況）
+「エネルギーが最も消耗するポイント」と来週以降の予防策を提案してください。" data-title="エネルギー消耗パターン分析" data-tip="「なんか木・金だけしんどい」の原因が見える。先手を打てるようになる。">
+  <div class="card-head">
+    <span class="card-num">No.21</span>
+    <span class="card-title">エネルギー消耗パターン分析</span>
+    <button class="fav-btn" id="fav-21" onclick="toggleFav(21)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-21">私の一週間のエネルギー消耗パターンを分析してください。<br>月：（状況）、火：（状況）、水：（状況）、木：（状況）、金：（状況）<br>「エネルギーが最も消耗するポイント」と来週以降の予防策を提案してください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-21" onclick="toggleTip(21)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-21" onclick="doCopy(21)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-21">「なんか木・金だけしんどい」の原因が見える。先手を打てるようになる。</div>
+</div>
+<div class="card" id="card-22" data-text="今日は本当に限界まで疲れています。エネルギーが残り5%の状態です。
+子ども（（　）歳・（　）歳）がいて、21時までには寝かしつけたいです。
+「今夜絶対やらなければいけないこと」だけに絞った最低限のプランを教えてください。
+品質は下げていいです。それをやれば最悪の状況は回避できる最低ラインで。" data-title="今夜の最低ラインプラン（MVE）" data-tip="「完璧にやらなくていい日」の許可証になるプロンプト。">
+  <div class="card-head">
+    <span class="card-num">No.22</span>
+    <span class="card-title">今夜の最低ラインプラン（MVE）</span>
+    <button class="fav-btn" id="fav-22" onclick="toggleFav(22)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-22">今日は本当に限界まで疲れています。エネルギーが残り5%の状態です。<br>子ども（（　）歳・（　）歳）がいて、21時までには寝かしつけたいです。<br>「今夜絶対やらなければいけないこと」だけに絞った最低限のプランを教えてください。<br>品質は下げていいです。それをやれば最悪の状況は回避できる最低ラインで。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-22" onclick="toggleTip(22)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-22" onclick="doCopy(22)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-22">「完璧にやらなくていい日」の許可証になるプロンプト。</div>
+</div>
+<div class="card" id="card-23" data-text="翌朝バタバタしないために、今夜（子どもが寝てから30分）にやっておくべき準備を優先順位付きで教えてください。
+子どもの年齢：（　）歳と（　）歳　明日の予定：（　）" data-title="翌朝バタバタ防止・夜仕込み" data-tip="夜の30分が翌朝の1時間を救う。それをAIに設計させる。">
+  <div class="card-head">
+    <span class="card-num">No.23</span>
+    <span class="card-title">翌朝バタバタ防止・夜仕込み</span>
+    <button class="fav-btn" id="fav-23" onclick="toggleFav(23)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-23">翌朝バタバタしないために、今夜（子どもが寝てから30分）にやっておくべき準備を優先順位付きで教えてください。<br>子どもの年齢：（　）歳と（　）歳　明日の予定：（　）</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-23" onclick="toggleTip(23)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-23" onclick="doCopy(23)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-23">夜の30分が翌朝の1時間を救う。それをAIに設計させる。</div>
+</div>
+<div class="card" id="card-24" data-text="月曜日がいつも一番しんどいです。
+日曜日の夜（15〜30分）にやっておくと月曜日が楽になる準備を教えてください。
+家事・育児・仕事の3カテゴリで出してください。" data-title="週初め設計（日曜15分）" data-tip="日曜夜の15分が月曜の朝の空気を変える。">
+  <div class="card-head">
+    <span class="card-num">No.24</span>
+    <span class="card-title">週初め設計（日曜15分）</span>
+    <button class="fav-btn" id="fav-24" onclick="toggleFav(24)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-24">月曜日がいつも一番しんどいです。<br>日曜日の夜（15〜30分）にやっておくと月曜日が楽になる準備を教えてください。<br>家事・育児・仕事の3カテゴリで出してください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-24" onclick="toggleTip(24)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-24" onclick="doCopy(24)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-24">日曜夜の15分が月曜の朝の空気を変える。</div>
+</div>
+<div class="card" id="card-25" data-text="夕方17時〜21時の間に、夕飯・お風呂・寝かしつけをしながら洗濯を回して干すとしたら、
+いつ洗濯機をスタートさせて、いつ干すのが最も効率的ですか？
+今日の夕飯：（　）　帰宅時刻：（　）時" data-title="洗濯の最適タイミング" data-tip="「いつ回せばいいかわからない」が解決。">
+  <div class="card-head">
+    <span class="card-num">No.25</span>
+    <span class="card-title">洗濯の最適タイミング</span>
+    <button class="fav-btn" id="fav-25" onclick="toggleFav(25)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-25">夕方17時〜21時の間に、夕飯・お風呂・寝かしつけをしながら洗濯を回して干すとしたら、<br>いつ洗濯機をスタートさせて、いつ干すのが最も効率的ですか？<br>今日の夕飯：（　）　帰宅時刻：（　）時</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-25" onclick="toggleTip(25)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-25" onclick="doCopy(25)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-25">「いつ回せばいいかわからない」が解決。</div>
+</div>
+<div class="card" id="card-26" data-text="今日やらなければいけないことが多すぎてパンクしそうです。
+以下のタスクの中から「今日絶対やる3つ」だけを選んでください。
+タスク一覧：（やることを全部書き出す）
+選んだ理由も教えてください。" data-title="今日のやることを3つに絞る" data-tip="「全部やらなきゃ」から「3つだけでいい」への心理的解放。">
+  <div class="card-head">
+    <span class="card-num">No.26</span>
+    <span class="card-title">今日のやることを3つに絞る</span>
+    <button class="fav-btn" id="fav-26" onclick="toggleFav(26)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-26">今日やらなければいけないことが多すぎてパンクしそうです。<br>以下のタスクの中から「今日絶対やる3つ」だけを選んでください。<br>タスク一覧：（やることを全部書き出す）<br>選んだ理由も教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-26" onclick="toggleTip(26)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-26" onclick="doCopy(26)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-26">「全部やらなきゃ」から「3つだけでいい」への心理的解放。</div>
+</div>
+<div class="card" id="card-27" data-text="以下のタスクを「ながら作業ができるもの」と「集中が必要なもの」に分類してください。
+タスク：（やることリストを書く）
+ながら作業可能なものについては、何と組み合わせられるかも教えてください。" data-title="並行作業の仕分け" data-tip="「同時にできること」を可視化するだけで体感の作業量が減る。">
+  <div class="card-head">
+    <span class="card-num">No.27</span>
+    <span class="card-title">並行作業の仕分け</span>
+    <button class="fav-btn" id="fav-27" onclick="toggleFav(27)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-27">以下のタスクを「ながら作業ができるもの」と「集中が必要なもの」に分類してください。<br>タスク：（やることリストを書く）<br>ながら作業可能なものについては、何と組み合わせられるかも教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-27" onclick="toggleTip(27)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-27" onclick="doCopy(27)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-27">「同時にできること」を可視化するだけで体感の作業量が減る。</div>
+</div>
+<div class="card" id="card-28" data-text="今日の夕方、以下のどちらにするか迷っています。
+案A：（やり方・順番）
+案B：（やり方・順番）
+子どもは（　）歳と（　）歳。今日の状況：（特記事項）
+帰宅（　）時、21時までに終わらせたい。どちらが今日の状況に合っていますか？" data-title="案A vs 案Bのシミュレーション" data-tip="「どっちにしよう」の迷い時間ゼロ。">
+  <div class="card-head">
+    <span class="card-num">No.28</span>
+    <span class="card-title">案A vs 案Bのシミュレーション</span>
+    <button class="fav-btn" id="fav-28" onclick="toggleFav(28)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-28">今日の夕方、以下のどちらにするか迷っています。<br>案A：（やり方・順番）<br>案B：（やり方・順番）<br>子どもは（　）歳と（　）歳。今日の状況：（特記事項）<br>帰宅（　）時、21時までに終わらせたい。どちらが今日の状況に合っていますか？</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-28" onclick="toggleTip(28)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-28" onclick="doCopy(28)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-28">「どっちにしよう」の迷い時間ゼロ。</div>
+</div>
+<div class="card" id="card-29" data-text="今週平日にできなかった家事がたまっています。
+リスト：（やること一覧）
+土曜（　）時間・日曜（　）時間を使って効率的に消化するプランを作ってください。
+子どもが家にいる前提で、一緒にできることも含めて。" data-title="土日の家事まとめ計画" data-tip="「週末に全部やろう」が「いつ何をやるか決まっている週末」になる。">
+  <div class="card-head">
+    <span class="card-num">No.29</span>
+    <span class="card-title">土日の家事まとめ計画</span>
+    <button class="fav-btn" id="fav-29" onclick="toggleFav(29)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-29">今週平日にできなかった家事がたまっています。<br>リスト：（やること一覧）<br>土曜（　）時間・日曜（　）時間を使って効率的に消化するプランを作ってください。<br>子どもが家にいる前提で、一緒にできることも含めて。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-29" onclick="toggleTip(29)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-29" onclick="doCopy(29)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-29">「週末に全部やろう」が「いつ何をやるか決まっている週末」になる。</div>
+</div>
+<div class="card" id="card-30" data-text="月〜金の夕方を「判断しなくて済む状態」にしたいです。
+私の家族構成：（　）、子どもの習い事スケジュール：（　）
+夕飯のジャンル・お風呂の順番・洗濯のタイミングを曜日ごとに固定ルール化してください。" data-title="夕方の「判断ゼロ化」週間設計" data-tip="「ルール化」が一番強い判断削減策。月〜金を自動操縦にする。">
+  <div class="card-head">
+    <span class="card-num">No.30</span>
+    <span class="card-title">夕方の「判断ゼロ化」週間設計</span>
+    <button class="fav-btn" id="fav-30" onclick="toggleFav(30)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-30">月〜金の夕方を「判断しなくて済む状態」にしたいです。<br>私の家族構成：（　）、子どもの習い事スケジュール：（　）<br>夕飯のジャンル・お風呂の順番・洗濯のタイミングを曜日ごとに固定ルール化してください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-30" onclick="toggleTip(30)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-30" onclick="doCopy(30)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-30">「ルール化」が一番強い判断削減策。月〜金を自動操縦にする。</div>
+</div>
+<div class="card" id="card-31" data-text="（曜日）に（　）歳の子どもの（習い事名）の送迎があります。
+送迎時間：（　）時〜（　）時
+この送迎を組み込んだ（曜日）の夕方タイムラインを作ってください。" data-title="習い事送迎を組み込む" data-tip="送迎がある日は別プランが必要。曜日別に用意しておくと楽。">
+  <div class="card-head">
+    <span class="card-num">No.31</span>
+    <span class="card-title">習い事送迎を組み込む</span>
+    <button class="fav-btn" id="fav-31" onclick="toggleFav(31)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-31">（曜日）に（　）歳の子どもの（習い事名）の送迎があります。<br>送迎時間：（　）時〜（　）時<br>この送迎を組み込んだ（曜日）の夕方タイムラインを作ってください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-31" onclick="toggleTip(31)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-31" onclick="doCopy(31)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-31">送迎がある日は別プランが必要。曜日別に用意しておくと楽。</div>
+</div>
+<div class="card" id="card-32" data-text="夫の帰宅時間が日によって違います。
+①19時帰宅　②21時帰宅　③不在（残業・出張）
+の3パターンそれぞれで、私の夕方の動き方がどう変わるか、最適なフローを教えてください。" data-title="夫の帰宅タイミング別プラン" data-tip="3パターンを先に作っておけば、当日は「今日は②パターン」と選ぶだけ。">
+  <div class="card-head">
+    <span class="card-num">No.32</span>
+    <span class="card-title">夫の帰宅タイミング別プラン</span>
+    <button class="fav-btn" id="fav-32" onclick="toggleFav(32)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-32">夫の帰宅時間が日によって違います。<br>①19時帰宅　②21時帰宅　③不在（残業・出張）<br>の3パターンそれぞれで、私の夕方の動き方がどう変わるか、最適なフローを教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-32" onclick="toggleTip(32)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-32" onclick="doCopy(32)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-32">3パターンを先に作っておけば、当日は「今日は②パターン」と選ぶだけ。</div>
+</div>
+</section><section class="cat-section" id="cat-study">
+  <div class="cat-heading" style="border-left:4px solid #5A8F7B">
+    <span class="cat-emoji">📚</span>
+    <span class="cat-name" style="color:#5A8F7B">宿題・学習サポート</span>
+    <span class="cat-cnt">14本</span>
+  </div>
+  <div class="card" id="card-33" data-text="（　）歳の子どもが宿題をやりたがりません。
+今の状況：（ゲームをしている／疲れてソファに倒れている／泣いているなど）
+叱らずに、子どもが自分から動きたくなる声かけを5パターン教えてください。" data-title="やりたくない子への声かけ（パターン別）" data-tip="状況を書くのがポイント。「ゲーム中」と「泣いている」では最適な声かけが違う。">
+  <div class="card-head">
+    <span class="card-num">No.33</span>
+    <span class="card-title">やりたくない子への声かけ（パターン別）</span>
+    <button class="fav-btn" id="fav-33" onclick="toggleFav(33)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-33">（　）歳の子どもが宿題をやりたがりません。<br>今の状況：（ゲームをしている／疲れてソファに倒れている／泣いているなど）<br>叱らずに、子どもが自分から動きたくなる声かけを5パターン教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-33" onclick="toggleTip(33)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-33" onclick="doCopy(33)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-33">状況を書くのがポイント。「ゲーム中」と「泣いている」では最適な声かけが違う。</div>
+</div>
+<div class="card" id="card-34" data-text="小学（　）年生の算数「（単元名）」がわからないと子どもが言っています。
+（　）歳の子どもにわかるような説明をしてください。
+私が子どもに教えるための「セリフ例」も一緒に書いてください。" data-title="算数の教え方セリフ" data-tip="教え方がわからなくてもOK。AIがセリフまで用意してくれる。">
+  <div class="card-head">
+    <span class="card-num">No.34</span>
+    <span class="card-title">算数の教え方セリフ</span>
+    <button class="fav-btn" id="fav-34" onclick="toggleFav(34)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-34">小学（　）年生の算数「（単元名）」がわからないと子どもが言っています。<br>（　）歳の子どもにわかるような説明をしてください。<br>私が子どもに教えるための「セリフ例」も一緒に書いてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-34" onclick="toggleTip(34)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-34" onclick="doCopy(34)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-34">教え方がわからなくてもOK。AIがセリフまで用意してくれる。</div>
+</div>
+<div class="card" id="card-35" data-text="「（漢字または語句）」の意味・読み方・使い方を、小学（　）年生にわかるやさしい言葉で説明してください。
+面白い例文や、子どもが覚えやすいゴロ・コツもあれば教えてください。" data-title="漢字・語句の楽しい覚え方" data-tip="「つまらない暗記」を「面白いクイズ」に変換してくれる。">
+  <div class="card-head">
+    <span class="card-num">No.35</span>
+    <span class="card-title">漢字・語句の楽しい覚え方</span>
+    <button class="fav-btn" id="fav-35" onclick="toggleFav(35)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-35">「（漢字または語句）」の意味・読み方・使い方を、小学（　）年生にわかるやさしい言葉で説明してください。<br>面白い例文や、子どもが覚えやすいゴロ・コツもあれば教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-35" onclick="toggleTip(35)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-35" onclick="doCopy(35)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-35">「つまらない暗記」を「面白いクイズ」に変換してくれる。</div>
+</div>
+<div class="card" id="card-36" data-text="小学（　）年生の子どもが読書感想文を書かなければいけません。
+本のタイトル：「（　）」
+子どもが自分で書けるようになるための「構成と書き方のステップ」を教えてください。
+親が代わりに書くのではなく、子どもが自分で書けるようなサポートができる教え方で。" data-title="読書感想文の構成ガイド" data-tip="「代わりに書く」のではなく「書き方を教える」という使い方が正解。">
+  <div class="card-head">
+    <span class="card-num">No.36</span>
+    <span class="card-title">読書感想文の構成ガイド</span>
+    <button class="fav-btn" id="fav-36" onclick="toggleFav(36)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-36">小学（　）年生の子どもが読書感想文を書かなければいけません。<br>本のタイトル：「（　）」<br>子どもが自分で書けるようになるための「構成と書き方のステップ」を教えてください。<br>親が代わりに書くのではなく、子どもが自分で書けるようなサポートができる教え方で。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-36" onclick="toggleTip(36)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-36" onclick="doCopy(36)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-36">「代わりに書く」のではなく「書き方を教える」という使い方が正解。</div>
+</div>
+<div class="card" id="card-37" data-text="小学（　）年生の自由研究のテーマを決めてほしいです。
+子どもが興味あるもの：（　）
+家にある材料・道具：（　）
+ユニークで実験・観察しやすいテーマを5案出してください。難易度も教えてください。" data-title="自由研究テーマを30秒で決める" data-tip="夏休み初日にこれをやっておくと「自由研究どうしよう」が消える。">
+  <div class="card-head">
+    <span class="card-num">No.37</span>
+    <span class="card-title">自由研究テーマを30秒で決める</span>
+    <button class="fav-btn" id="fav-37" onclick="toggleFav(37)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-37">小学（　）年生の自由研究のテーマを決めてほしいです。<br>子どもが興味あるもの：（　）<br>家にある材料・道具：（　）<br>ユニークで実験・観察しやすいテーマを5案出してください。難易度も教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-37" onclick="toggleTip(37)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-37" onclick="doCopy(37)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-37">夏休み初日にこれをやっておくと「自由研究どうしよう」が消える。</div>
+</div>
+<div class="card" id="card-38" data-text="（　）歳の子どもが音読の宿題を嫌がります。
+楽しくやれるようになる工夫・ゲーム化のアイデアを5つ教えてください。
+親が一緒にできるものも含めて。" data-title="音読を楽しくやらせる工夫" data-tip="「読んで」「読んでよ」の攻防がなくなる。">
+  <div class="card-head">
+    <span class="card-num">No.38</span>
+    <span class="card-title">音読を楽しくやらせる工夫</span>
+    <button class="fav-btn" id="fav-38" onclick="toggleFav(38)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-38">（　）歳の子どもが音読の宿題を嫌がります。<br>楽しくやれるようになる工夫・ゲーム化のアイデアを5つ教えてください。<br>親が一緒にできるものも含めて。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-38" onclick="toggleTip(38)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-38" onclick="doCopy(38)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-38">「読んで」「読んでよ」の攻防がなくなる。</div>
+</div>
+<div class="card" id="card-39" data-text="（　）歳の子どもが宿題中にすぐ気が散ってしまいます。
+集中が途切れやすいタイミングや環境の改善策と、集中が続くようになる声かけを教えてください。" data-title="集中力が続かない子への対応" data-tip="「集中しなさい」は最も効果のない声かけ。環境設計で解決する。">
+  <div class="card-head">
+    <span class="card-num">No.39</span>
+    <span class="card-title">集中力が続かない子への対応</span>
+    <button class="fav-btn" id="fav-39" onclick="toggleFav(39)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-39">（　）歳の子どもが宿題中にすぐ気が散ってしまいます。<br>集中が途切れやすいタイミングや環境の改善策と、集中が続くようになる声かけを教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-39" onclick="toggleTip(39)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-39" onclick="doCopy(39)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-39">「集中しなさい」は最も効果のない声かけ。環境設計で解決する。</div>
+</div>
+<div class="card" id="card-40" data-text="（　）歳の子どもに「帰宅したら宿題をする」習慣をつけたいです。
+叱らずに自然と習慣になるような、親の関わり方・声かけ・仕組みを教えてください。
+1週間のステップアップ計画にしてもらえると嬉しいです。" data-title="宿題の習慣化・1週間ステップ" data-tip="習慣化は1週間で設計できる。最初の3日が最重要。">
+  <div class="card-head">
+    <span class="card-num">No.40</span>
+    <span class="card-title">宿題の習慣化・1週間ステップ</span>
+    <button class="fav-btn" id="fav-40" onclick="toggleFav(40)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-40">（　）歳の子どもに「帰宅したら宿題をする」習慣をつけたいです。<br>叱らずに自然と習慣になるような、親の関わり方・声かけ・仕組みを教えてください。<br>1週間のステップアップ計画にしてもらえると嬉しいです。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-40" onclick="toggleTip(40)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-40" onclick="doCopy(40)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-40">習慣化は1週間で設計できる。最初の3日が最重要。</div>
+</div>
+<div class="card" id="card-41" data-text="小学（　）年生の子どもが英語の学習を始めました。
+遊びながら自然に覚えられる方法・家でできる練習アイデアを教えてください。
+アプリや動画の活用方法も含めて。" data-title="英語・外国語の初歩の教え方" data-tip="親が英語が苦手でも大丈夫。方法だけ教えてもらえばいい。">
+  <div class="card-head">
+    <span class="card-num">No.41</span>
+    <span class="card-title">英語・外国語の初歩の教え方</span>
+    <button class="fav-btn" id="fav-41" onclick="toggleFav(41)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-41">小学（　）年生の子どもが英語の学習を始めました。<br>遊びながら自然に覚えられる方法・家でできる練習アイデアを教えてください。<br>アプリや動画の活用方法も含めて。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-41" onclick="toggleTip(41)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-41" onclick="doCopy(41)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-41">親が英語が苦手でも大丈夫。方法だけ教えてもらえばいい。</div>
+</div>
+<div class="card" id="card-42" data-text="（　）歳の子どもがテストで（　）点を取ってきました。
+点数を責めずに、「どこでつまずいたか」にフォーカスした声かけと関わり方を教えてください。
+次につながるアプローチで。" data-title="テストが悪かった後の関わり方" data-tip="「なんでこんな点数なの」の代わりになる言葉がAIから出てくる。">
+  <div class="card-head">
+    <span class="card-num">No.42</span>
+    <span class="card-title">テストが悪かった後の関わり方</span>
+    <button class="fav-btn" id="fav-42" onclick="toggleFav(42)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-42">（　）歳の子どもがテストで（　）点を取ってきました。<br>点数を責めずに、「どこでつまずいたか」にフォーカスした声かけと関わり方を教えてください。<br>次につながるアプローチで。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-42" onclick="toggleTip(42)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-42" onclick="doCopy(42)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-42">「なんでこんな点数なの」の代わりになる言葉がAIから出てくる。</div>
+</div>
+<div class="card" id="card-43" data-text="（　）歳の子どもが「勉強嫌い」と言います。
+どの教科が・どんな場面で・何が嫌なのかを明らかにするための親の問いかけ方を教えてください。
+「嫌い」の原因を特定した後の対処法も教えてください。" data-title="「勉強嫌い」への対処" data-tip="「嫌い」は原因が複数ある。特定するまでは対処不能。">
+  <div class="card-head">
+    <span class="card-num">No.43</span>
+    <span class="card-title">「勉強嫌い」への対処</span>
+    <button class="fav-btn" id="fav-43" onclick="toggleFav(43)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-43">（　）歳の子どもが「勉強嫌い」と言います。<br>どの教科が・どんな場面で・何が嫌なのかを明らかにするための親の問いかけ方を教えてください。<br>「嫌い」の原因を特定した後の対処法も教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-43" onclick="toggleTip(43)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-43" onclick="doCopy(43)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-43">「嫌い」は原因が複数ある。特定するまでは対処不能。</div>
+</div>
+<div class="card" id="card-44" data-text="学校からのプリントが溜まってしまいます。
+子ども（（　）歳）と一緒に「プリントを溜めない仕組み」を作りたいです。
+子どもが自分でできるようになるルールと環境の設計を教えてください。" data-title="プリント・宿題の管理仕組み化" data-tip="「また出してない！」の毎日から解放される仕組みを設計する。">
+  <div class="card-head">
+    <span class="card-num">No.44</span>
+    <span class="card-title">プリント・宿題の管理仕組み化</span>
+    <button class="fav-btn" id="fav-44" onclick="toggleFav(44)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-44">学校からのプリントが溜まってしまいます。<br>子ども（（　）歳）と一緒に「プリントを溜めない仕組み」を作りたいです。<br>子どもが自分でできるようになるルールと環境の設計を教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-44" onclick="toggleTip(44)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-44" onclick="doCopy(44)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-44">「また出してない！」の毎日から解放される仕組みを設計する。</div>
+</div>
+<div class="card" id="card-45" data-text="（　）年生の子どもに合った市販ドリルを選びたいです。
+子どもの状況：（得意不得意・今困っている単元・やる気の度合い）
+目的：（苦手克服・先取り・基礎固めなど）
+この状況に合ったドリルの種類と選び方の基準を教えてください。" data-title="市販ドリルの選び方" data-tip="書店で迷わなくなる。「何を選べばいいか」の基準が手に入る。">
+  <div class="card-head">
+    <span class="card-num">No.45</span>
+    <span class="card-title">市販ドリルの選び方</span>
+    <button class="fav-btn" id="fav-45" onclick="toggleFav(45)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-45">（　）年生の子どもに合った市販ドリルを選びたいです。<br>子どもの状況：（得意不得意・今困っている単元・やる気の度合い）<br>目的：（苦手克服・先取り・基礎固めなど）<br>この状況に合ったドリルの種類と選び方の基準を教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-45" onclick="toggleTip(45)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-45" onclick="doCopy(45)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-45">書店で迷わなくなる。「何を選べばいいか」の基準が手に入る。</div>
+</div>
+<div class="card" id="card-46" data-text="（　）年生の子どもの塾通いを検討しています。
+今の学習状況：（　）
+目的：（中学受験・苦手克服・学習習慣など）
+塾が必要か・不要かの判断基準と、必要な場合の選び方を教えてください。" data-title="塾を検討するタイミングの判断基準" data-tip="「とりあえず塾」より「目的に合った塾」を選ぶための整理に使う。">
+  <div class="card-head">
+    <span class="card-num">No.46</span>
+    <span class="card-title">塾を検討するタイミングの判断基準</span>
+    <button class="fav-btn" id="fav-46" onclick="toggleFav(46)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-46">（　）年生の子どもの塾通いを検討しています。<br>今の学習状況：（　）<br>目的：（中学受験・苦手克服・学習習慣など）<br>塾が必要か・不要かの判断基準と、必要な場合の選び方を教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-46" onclick="toggleTip(46)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-46" onclick="doCopy(46)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-46">「とりあえず塾」より「目的に合った塾」を選ぶための整理に使う。</div>
+</div>
+</section><section class="cat-section" id="cat-voice">
+  <div class="cat-heading" style="border-left:4px solid #D4A843">
+    <span class="cat-emoji">💬</span>
+    <span class="cat-name" style="color:#D4A843">子どもへの声かけ</span>
+    <span class="cat-cnt">16本</span>
+  </div>
+  <div class="card" id="card-47" data-text="（　）歳の子どもに「お母さん嫌い！」と言われました。
+動揺せずに受け取るための言葉と、その後の関わり方を教えてください。
+この年齢の「嫌い」という言葉が何を意味するかも教えてください。" data-title="「嫌い！」と言われた瞬間" data-tip="「嫌い」の裏にある本当の気持ちを知るだけで、動揺しなくなる。">
+  <div class="card-head">
+    <span class="card-num">No.47</span>
+    <span class="card-title">「嫌い！」と言われた瞬間</span>
+    <button class="fav-btn" id="fav-47" onclick="toggleFav(47)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-47">（　）歳の子どもに「お母さん嫌い！」と言われました。<br>動揺せずに受け取るための言葉と、その後の関わり方を教えてください。<br>この年齢の「嫌い」という言葉が何を意味するかも教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-47" onclick="toggleTip(47)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-47" onclick="doCopy(47)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-47">「嫌い」の裏にある本当の気持ちを知るだけで、動揺しなくなる。</div>
+</div>
+<div class="card" id="card-48" data-text="（　）歳の子どもが理由もわからないまま泣き続けています。
+「泣き止ませる」のではなく「安心させる」ことを優先した関わり方と声かけを教えてください。
+体の使い方（抱っこなど）も含めて。" data-title="泣き止まない子どもへの関わり方" data-tip="「泣き止みなさい」は逆効果。受容が最短ルート。">
+  <div class="card-head">
+    <span class="card-num">No.48</span>
+    <span class="card-title">泣き止まない子どもへの関わり方</span>
+    <button class="fav-btn" id="fav-48" onclick="toggleFav(48)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-48">（　）歳の子どもが理由もわからないまま泣き続けています。<br>「泣き止ませる」のではなく「安心させる」ことを優先した関わり方と声かけを教えてください。<br>体の使い方（抱っこなど）も含めて。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-48" onclick="toggleTip(48)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-48" onclick="doCopy(48)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-48">「泣き止みなさい」は逆効果。受容が最短ルート。</div>
+</div>
+<div class="card" id="card-49" data-text="（　）歳と（　）歳の子どもが（原因）でケンカをしています。
+どちらかが一方的に我慢するのではなく、両者が納得できる解決策と、
+それを導くための親からの声かけを教えてください。" data-title="きょうだいゲンカの仲裁" data-tip="「どちらが悪いか」を決めるのが仲裁ではない。両者の「納得」を作るのが仲裁。">
+  <div class="card-head">
+    <span class="card-num">No.49</span>
+    <span class="card-title">きょうだいゲンカの仲裁</span>
+    <button class="fav-btn" id="fav-49" onclick="toggleFav(49)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-49">（　）歳と（　）歳の子どもが（原因）でケンカをしています。<br>どちらかが一方的に我慢するのではなく、両者が納得できる解決策と、<br>それを導くための親からの声かけを教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-49" onclick="toggleTip(49)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-49" onclick="doCopy(49)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-49">「どちらが悪いか」を決めるのが仲裁ではない。両者の「納得」を作るのが仲裁。</div>
+</div>
+<div class="card" id="card-50" data-text="（　）歳の子どもがお風呂に入るのを嫌がります。
+強制せず楽しく誘導する方法を5つ教えてください。
+お風呂の中でできる遊びやゲームのアイデアも含めて。" data-title="お風呂拒否を楽しく突破" data-tip="毎晩の攻防がなくなる。「楽しいことがある」が最強の誘い文句。">
+  <div class="card-head">
+    <span class="card-num">No.50</span>
+    <span class="card-title">お風呂拒否を楽しく突破</span>
+    <button class="fav-btn" id="fav-50" onclick="toggleFav(50)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-50">（　）歳の子どもがお風呂に入るのを嫌がります。<br>強制せず楽しく誘導する方法を5つ教えてください。<br>お風呂の中でできる遊びやゲームのアイデアも含めて。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-50" onclick="toggleTip(50)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-50" onclick="doCopy(50)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-50">毎晩の攻防がなくなる。「楽しいことがある」が最強の誘い文句。</div>
+</div>
+<div class="card" id="card-51" data-text="（　）歳の子どもが食事中にすぐ立ち歩いてしまいます。
+怒鳴って座らせるのではなく、子どもが自分から「座って食べたい」と思える工夫を教えてください。" data-title="食事中に立ち歩く子への対応" data-tip="「座りなさい」より「座りたくなる仕掛け」で解決する。">
+  <div class="card-head">
+    <span class="card-num">No.51</span>
+    <span class="card-title">食事中に立ち歩く子への対応</span>
+    <button class="fav-btn" id="fav-51" onclick="toggleFav(51)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-51">（　）歳の子どもが食事中にすぐ立ち歩いてしまいます。<br>怒鳴って座らせるのではなく、子どもが自分から「座って食べたい」と思える工夫を教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-51" onclick="toggleTip(51)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-51" onclick="doCopy(51)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-51">「座りなさい」より「座りたくなる仕掛け」で解決する。</div>
+</div>
+<div class="card" id="card-52" data-text="（　）歳の子どもが朝の支度（着替え・歯磨き・持ち物確認）をなかなかやりません。
+怒鳴らずに、子どもが自分で動けるようになる声かけと仕組みを教えてください。
+今日から始められる方法で。" data-title="朝の支度をスムーズにする仕組み" data-tip="朝の怒鳴り声がなくなるだけで、一日の空気が変わる。">
+  <div class="card-head">
+    <span class="card-num">No.52</span>
+    <span class="card-title">朝の支度をスムーズにする仕組み</span>
+    <button class="fav-btn" id="fav-52" onclick="toggleFav(52)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-52">（　）歳の子どもが朝の支度（着替え・歯磨き・持ち物確認）をなかなかやりません。<br>怒鳴らずに、子どもが自分で動けるようになる声かけと仕組みを教えてください。<br>今日から始められる方法で。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-52" onclick="toggleTip(52)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-52" onclick="doCopy(52)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-52">朝の怒鳴り声がなくなるだけで、一日の空気が変わる。</div>
+</div>
+<div class="card" id="card-53" data-text="（　）歳の子どものゲーム・スマホ・テレビの時間が長すぎて困っています。
+強制的に取り上げるのではなく、子どもが自分でコントロールできるようになる方法を教えてください。
+「ルールの決め方」と「守れなかったときの対処法」も教えてください。" data-title="スクリーンタイムを子ども自身が管理" data-tip="取り上げると反発する。「自分で決めた」ルールなら守りやすい。">
+  <div class="card-head">
+    <span class="card-num">No.53</span>
+    <span class="card-title">スクリーンタイムを子ども自身が管理</span>
+    <button class="fav-btn" id="fav-53" onclick="toggleFav(53)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-53">（　）歳の子どものゲーム・スマホ・テレビの時間が長すぎて困っています。<br>強制的に取り上げるのではなく、子どもが自分でコントロールできるようになる方法を教えてください。<br>「ルールの決め方」と「守れなかったときの対処法」も教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-53" onclick="toggleTip(53)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-53" onclick="doCopy(53)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-53">取り上げると反発する。「自分で決めた」ルールなら守りやすい。</div>
+</div>
+<div class="card" id="card-54" data-text="（　）歳の子どもが何でも「自分でやる！」と言って手伝うと怒ります。
+この行動は「わがまま」ですか？「成長のサイン」ですか？
+この時期の最適な関わり方を教えてください。" data-title="「自分でやる！」への対応（第一反抗期）" data-tip="「成長のサイン」とわかるだけで、イライラが好奇心に変わる。">
+  <div class="card-head">
+    <span class="card-num">No.54</span>
+    <span class="card-title">「自分でやる！」への対応（第一反抗期）</span>
+    <button class="fav-btn" id="fav-54" onclick="toggleFav(54)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-54">（　）歳の子どもが何でも「自分でやる！」と言って手伝うと怒ります。<br>この行動は「わがまま」ですか？「成長のサイン」ですか？<br>この時期の最適な関わり方を教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-54" onclick="toggleTip(54)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-54" onclick="doCopy(54)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-54">「成長のサイン」とわかるだけで、イライラが好奇心に変わる。</div>
+</div>
+<div class="card" id="card-55" data-text="（　）歳の子どもが部屋を片付けません。「片付けなさい」と言っても動きません。
+命令ではなく、子どもが自分から動きたくなる声かけを教えてください。" data-title="片付けをしない子への声かけ" data-tip="「片付けなさい」は最も効果のない言葉。選択肢を与えると動く。">
+  <div class="card-head">
+    <span class="card-num">No.55</span>
+    <span class="card-title">片付けをしない子への声かけ</span>
+    <button class="fav-btn" id="fav-55" onclick="toggleFav(55)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-55">（　）歳の子どもが部屋を片付けません。「片付けなさい」と言っても動きません。<br>命令ではなく、子どもが自分から動きたくなる声かけを教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-55" onclick="toggleTip(55)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-55" onclick="doCopy(55)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-55">「片付けなさい」は最も効果のない言葉。選択肢を与えると動く。</div>
+</div>
+<div class="card" id="card-56" data-text="子どもが「つまらない」「ひまー」と言っています。
+スマホを渡さずに、一緒に楽しみを見つける会話の仕方と、家でできる遊びのアイデアを教えてください。
+子どもの年齢：（　）歳" data-title="「つまらない・ひま」への対応" data-tip="「ひまならスマホ」の流れを断ち切る会話のきっかけ。">
+  <div class="card-head">
+    <span class="card-num">No.56</span>
+    <span class="card-title">「つまらない・ひま」への対応</span>
+    <button class="fav-btn" id="fav-56" onclick="toggleFav(56)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-56">子どもが「つまらない」「ひまー」と言っています。<br>スマホを渡さずに、一緒に楽しみを見つける会話の仕方と、家でできる遊びのアイデアを教えてください。<br>子どもの年齢：（　）歳</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-56" onclick="toggleTip(56)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-56" onclick="doCopy(56)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-56">「ひまならスマホ」の流れを断ち切る会話のきっかけ。</div>
+</div>
+<div class="card" id="card-57" data-text="（　）歳の子どもになかなか「ありがとう」「ごめんなさい」が言えません。
+「言いなさい」と強制するのではなく、自然に言えるようになるための親の関わり方を教えてください。" data-title="ありがとう・ごめんなさいを教える" data-tip="教えるのでなく「見せる」。モデリングが最も強い教育法。">
+  <div class="card-head">
+    <span class="card-num">No.57</span>
+    <span class="card-title">ありがとう・ごめんなさいを教える</span>
+    <button class="fav-btn" id="fav-57" onclick="toggleFav(57)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-57">（　）歳の子どもになかなか「ありがとう」「ごめんなさい」が言えません。<br>「言いなさい」と強制するのではなく、自然に言えるようになるための親の関わり方を教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-57" onclick="toggleTip(57)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-57" onclick="doCopy(57)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-57">教えるのでなく「見せる」。モデリングが最も強い教育法。</div>
+</div>
+<div class="card" id="card-58" data-text="子どもとの就寝前の会話を「今日の振り返り」の習慣にしたいです。
+（　）歳の子どもが答えやすくて、自己肯定感が育つような問いかけを10個教えてください。" data-title="就寝前の振り返り習慣" data-tip="「今日どうだった？」より具体的な質問の方が子どもが話してくれる。">
+  <div class="card-head">
+    <span class="card-num">No.58</span>
+    <span class="card-title">就寝前の振り返り習慣</span>
+    <button class="fav-btn" id="fav-58" onclick="toggleFav(58)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-58">子どもとの就寝前の会話を「今日の振り返り」の習慣にしたいです。<br>（　）歳の子どもが答えやすくて、自己肯定感が育つような問いかけを10個教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-58" onclick="toggleTip(58)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-58" onclick="doCopy(58)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-58">「今日どうだった？」より具体的な質問の方が子どもが話してくれる。</div>
+</div>
+<div class="card" id="card-59" data-text="（　）歳の子どもが「死にたい」「消えたい」という言葉を言いました。
+状況：（宿題中・ゲームで負けた・叱られた後など）
+この年齢のこの言葉が何を意味するのか、今この瞬間に最もよい対応を教えてください。" data-title="「死にたい」など強い言葉への対応" data-tip="動揺せず受け取るための知識を先に持っておく。パニックにならないために。">
+  <div class="card-head">
+    <span class="card-num">No.59</span>
+    <span class="card-title">「死にたい」など強い言葉への対応</span>
+    <button class="fav-btn" id="fav-59" onclick="toggleFav(59)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-59">（　）歳の子どもが「死にたい」「消えたい」という言葉を言いました。<br>状況：（宿題中・ゲームで負けた・叱られた後など）<br>この年齢のこの言葉が何を意味するのか、今この瞬間に最もよい対応を教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-59" onclick="toggleTip(59)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-59" onclick="doCopy(59)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-59">動揺せず受け取るための知識を先に持っておく。パニックにならないために。</div>
+</div>
+<div class="card" id="card-60" data-text="（　）歳の子どもから（友達トラブルの内容）という話を聞きました。
+「どちらが悪いか」より「子どもがどうしたいか」を引き出す声かけを教えてください。
+また、親がどこまで介入すべきかの判断基準も教えてください。" data-title="友達トラブルの初期対応" data-tip="「先生に言う？」より先に子どもの気持ちを聞く。順番が大事。">
+  <div class="card-head">
+    <span class="card-num">No.60</span>
+    <span class="card-title">友達トラブルの初期対応</span>
+    <button class="fav-btn" id="fav-60" onclick="toggleFav(60)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-60">（　）歳の子どもから（友達トラブルの内容）という話を聞きました。<br>「どちらが悪いか」より「子どもがどうしたいか」を引き出す声かけを教えてください。<br>また、親がどこまで介入すべきかの判断基準も教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-60" onclick="toggleTip(60)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-60" onclick="doCopy(60)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-60">「先生に言う？」より先に子どもの気持ちを聞く。順番が大事。</div>
+</div>
+<div class="card" id="card-61" data-text="（　）歳の子どもが「学校行きたくない」と言い始めました。
+「行きなさい」と言う前に、最初にすべき対応と声かけを教えてください。
+理由の聞き方・受け取り方・その後の判断基準も含めて。" data-title="「学校行きたくない」の初期対応" data-tip="最初の48時間の対応が、その後の展開を大きく左右する。">
+  <div class="card-head">
+    <span class="card-num">No.61</span>
+    <span class="card-title">「学校行きたくない」の初期対応</span>
+    <button class="fav-btn" id="fav-61" onclick="toggleFav(61)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-61">（　）歳の子どもが「学校行きたくない」と言い始めました。<br>「行きなさい」と言う前に、最初にすべき対応と声かけを教えてください。<br>理由の聞き方・受け取り方・その後の判断基準も含めて。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-61" onclick="toggleTip(61)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-61" onclick="doCopy(61)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-61">最初の48時間の対応が、その後の展開を大きく左右する。</div>
+</div>
+<div class="card" id="card-62" data-text="（　）歳の子どもの自己肯定感を高めたいです。
+日常の何気ない場面で使える「自己肯定感が育つ声かけ」を10個教えてください。
+「すごい」「賢い」ではない、プロセスを認める言葉で。" data-title="自己肯定感を高める日常の声かけ習慣" data-tip="「すごい」より「自分でやりとげたね」。言葉の選び方で子どもの自己像が変わる。">
+  <div class="card-head">
+    <span class="card-num">No.62</span>
+    <span class="card-title">自己肯定感を高める日常の声かけ習慣</span>
+    <button class="fav-btn" id="fav-62" onclick="toggleFav(62)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-62">（　）歳の子どもの自己肯定感を高めたいです。<br>日常の何気ない場面で使える「自己肯定感が育つ声かけ」を10個教えてください。<br>「すごい」「賢い」ではない、プロセスを認める言葉で。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-62" onclick="toggleTip(62)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-62" onclick="doCopy(62)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-62">「すごい」より「自分でやりとげたね」。言葉の選び方で子どもの自己像が変わる。</div>
+</div>
+</section><section class="cat-section" id="cat-read">
+  <div class="cat-heading" style="border-left:4px solid #7C5CBF">
+    <span class="cat-emoji">🔍</span>
+    <span class="cat-name" style="color:#7C5CBF">子どもの行動解読</span>
+    <span class="cat-cnt">12本</span>
+  </div>
+  <div class="card" id="card-63" data-text="（　）歳の子どもが（行動・言葉）をしました。
+状況：（その前後の状況を書く）
+この行動は何を意味している可能性が高いですか？
+また、今この瞬間に最もよい対応を教えてください。" data-title="謎行動の一発翻訳" data-tip="「なんでこんなことするの」が「そういう意味だったのか」に変わる。">
+  <div class="card-head">
+    <span class="card-num">No.63</span>
+    <span class="card-title">謎行動の一発翻訳</span>
+    <button class="fav-btn" id="fav-63" onclick="toggleFav(63)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-63">（　）歳の子どもが（行動・言葉）をしました。<br>状況：（その前後の状況を書く）<br>この行動は何を意味している可能性が高いですか？<br>また、今この瞬間に最もよい対応を教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-63" onclick="toggleTip(63)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-63" onclick="doCopy(63)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-63">「なんでこんなことするの」が「そういう意味だったのか」に変わる。</div>
+</div>
+<div class="card" id="card-64" data-text="今週の（　）歳の子どもの様子です。
+月：（　）、火：（　）、水：（　）、木：（　）、金：（　）
+これらから何が読み取れますか？
+来週の関わり方のヒントと、気になる点があれば教えてください。" data-title="一週間の観察日記を分析" data-tip="週末に5分でまとめて送るだけ。1週間のパターンが見えてくる。">
+  <div class="card-head">
+    <span class="card-num">No.64</span>
+    <span class="card-title">一週間の観察日記を分析</span>
+    <button class="fav-btn" id="fav-64" onclick="toggleFav(64)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-64">今週の（　）歳の子どもの様子です。<br>月：（　）、火：（　）、水：（　）、木：（　）、金：（　）<br>これらから何が読み取れますか？<br>来週の関わり方のヒントと、気になる点があれば教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-64" onclick="toggleTip(64)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-64" onclick="doCopy(64)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-64">週末に5分でまとめて送るだけ。1週間のパターンが見えてくる。</div>
+</div>
+<div class="card" id="card-65" data-text="先月の子ども（（　）歳）の癇癪の記録です。
+（日付と状況を書く）
+このパターンから何が読み取れますか？予防策はありますか？" data-title="癇癪パターンの傾向分析" data-tip="癇癪は記録して分析すると「予防」できるようになる。">
+  <div class="card-head">
+    <span class="card-num">No.65</span>
+    <span class="card-title">癇癪パターンの傾向分析</span>
+    <button class="fav-btn" id="fav-65" onclick="toggleFav(65)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-65">先月の子ども（（　）歳）の癇癪の記録です。<br>（日付と状況を書く）<br>このパターンから何が読み取れますか？予防策はありますか？</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-65" onclick="toggleTip(65)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-65" onclick="doCopy(65)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-65">癇癪は記録して分析すると「予防」できるようになる。</div>
+</div>
+<div class="card" id="card-66" data-text="（　）歳の子どもが毎週（曜日）だけ（様子：元気がない・泣く・グズるなど）です。
+他の曜日は普通です。
+なぜ（曜日）だけなのか、考えられる原因と対処法を教えてください。" data-title="「なんでこの曜日だけ？」問題" data-tip="「月曜だけ泣く」には必ず理由がある。AIが仮説を立ててくれる。">
+  <div class="card-head">
+    <span class="card-num">No.66</span>
+    <span class="card-title">「なんでこの曜日だけ？」問題</span>
+    <button class="fav-btn" id="fav-66" onclick="toggleFav(66)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-66">（　）歳の子どもが毎週（曜日）だけ（様子：元気がない・泣く・グズるなど）です。<br>他の曜日は普通です。<br>なぜ（曜日）だけなのか、考えられる原因と対処法を教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-66" onclick="toggleTip(66)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-66" onclick="doCopy(66)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-66">「月曜だけ泣く」には必ず理由がある。AIが仮説を立ててくれる。</div>
+</div>
+<div class="card" id="card-67" data-text="今日の（　）歳の子どもの状況です。
+睡眠：（昨夜の就寝時刻・起床時刻）
+今日の予定：（　）
+食事：（朝ごはんの状況）
+今夜グズる可能性と、予防策を教えてください。" data-title="グズりのリスク予測（今日版）" data-tip="「天気予報」感覚で今夜のリスクを先読みする。">
+  <div class="card-head">
+    <span class="card-num">No.67</span>
+    <span class="card-title">グズりのリスク予測（今日版）</span>
+    <button class="fav-btn" id="fav-67" onclick="toggleFav(67)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-67">今日の（　）歳の子どもの状況です。<br>睡眠：（昨夜の就寝時刻・起床時刻）<br>今日の予定：（　）<br>食事：（朝ごはんの状況）<br>今夜グズる可能性と、予防策を教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-67" onclick="toggleTip(67)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-67" onclick="doCopy(67)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-67">「天気予報」感覚で今夜のリスクを先読みする。</div>
+</div>
+<div class="card" id="card-68" data-text="（　）歳の子どもが最近（行動）をします。
+これは発達的に見て「成長のサイン」ですか？「注意が必要なサイン」ですか？
+対応も含めて教えてください。" data-title="「これは成長？それとも問題？」判定" data-tip="知識があれば「問題」が「成長」に見える。視点が変わると対応が変わる。">
+  <div class="card-head">
+    <span class="card-num">No.68</span>
+    <span class="card-title">「これは成長？それとも問題？」判定</span>
+    <button class="fav-btn" id="fav-68" onclick="toggleFav(68)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-68">（　）歳の子どもが最近（行動）をします。<br>これは発達的に見て「成長のサイン」ですか？「注意が必要なサイン」ですか？<br>対応も含めて教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-68" onclick="toggleTip(68)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-68" onclick="doCopy(68)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-68">知識があれば「問題」が「成長」に見える。視点が変わると対応が変わる。</div>
+</div>
+<div class="card" id="card-69" data-text="（　）歳の子どもが最近急に（おむつに戻る・指しゃぶりする・赤ちゃん言葉になるなど）をするようになりました。
+なぜこうなるのか、どう対応すればいいかを教えてください。" data-title="退行現象への対応" data-tip="退行は「赤ちゃんに戻りたい」のサイン。責めないことが最善策。">
+  <div class="card-head">
+    <span class="card-num">No.69</span>
+    <span class="card-title">退行現象への対応</span>
+    <button class="fav-btn" id="fav-69" onclick="toggleFav(69)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-69">（　）歳の子どもが最近急に（おむつに戻る・指しゃぶりする・赤ちゃん言葉になるなど）をするようになりました。<br>なぜこうなるのか、どう対応すればいいかを教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-69" onclick="toggleTip(69)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-69" onclick="doCopy(69)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-69">退行は「赤ちゃんに戻りたい」のサイン。責めないことが最善策。</div>
+</div>
+<div class="card" id="card-70" data-text="（　）歳の子どもについて、保育園・学校の先生からは「普通に過ごしています」と言われますが、
+家では（グズる・暴れる・泣くなど）ことが多いです。
+なぜ家でだけこうなるのか、対応を教えてください。" data-title="「園では普通」なのに家でグズる理由" data-tip="「外では頑張っているから家で発散している」と知るだけで罪悪感が消える。">
+  <div class="card-head">
+    <span class="card-num">No.70</span>
+    <span class="card-title">「園では普通」なのに家でグズる理由</span>
+    <button class="fav-btn" id="fav-70" onclick="toggleFav(70)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-70">（　）歳の子どもについて、保育園・学校の先生からは「普通に過ごしています」と言われますが、<br>家では（グズる・暴れる・泣くなど）ことが多いです。<br>なぜ家でだけこうなるのか、対応を教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-70" onclick="toggleTip(70)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-70" onclick="doCopy(70)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-70">「外では頑張っているから家で発散している」と知るだけで罪悪感が消える。</div>
+</div>
+<div class="card" id="card-71" data-text="（　）歳の上の子が最近荒れています。
+思い当たる原因：（　）歳の下の子の世話が増えてから、など
+この背景に何があると考えられますか？上の子への声かけと関わり方を教えてください。" data-title="きょうだい間の扱いの差を感じているとき" data-tip="上の子の荒れは「愛情が欲しい」のサイン。行動ではなく感情に対処する。">
+  <div class="card-head">
+    <span class="card-num">No.71</span>
+    <span class="card-title">きょうだい間の扱いの差を感じているとき</span>
+    <button class="fav-btn" id="fav-71" onclick="toggleFav(71)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-71">（　）歳の上の子が最近荒れています。<br>思い当たる原因：（　）歳の下の子の世話が増えてから、など<br>この背景に何があると考えられますか？上の子への声かけと関わり方を教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-71" onclick="toggleTip(71)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-71" onclick="doCopy(71)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-71">上の子の荒れは「愛情が欲しい」のサイン。行動ではなく感情に対処する。</div>
+</div>
+<div class="card" id="card-72" data-text="（　）歳の子どもが（内容の嘘）をついていることがわかりました。
+この年齢の嘘はどういう意味を持ちますか？
+叱るのではなく、正直に話せるような関わり方を教えてください。" data-title="子どもの「嘘」への対応" data-tip="嘘の意味を知ると、叱り方が変わる。年齢によって意味が全然違う。">
+  <div class="card-head">
+    <span class="card-num">No.72</span>
+    <span class="card-title">子どもの「嘘」への対応</span>
+    <button class="fav-btn" id="fav-72" onclick="toggleFav(72)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-72">（　）歳の子どもが（内容の嘘）をついていることがわかりました。<br>この年齢の嘘はどういう意味を持ちますか？<br>叱るのではなく、正直に話せるような関わり方を教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-72" onclick="toggleTip(72)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-72" onclick="doCopy(72)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-72">嘘の意味を知ると、叱り方が変わる。年齢によって意味が全然違う。</div>
+</div>
+<div class="card" id="card-73" data-text="（　）歳の子どもが自分の気持ちをうまく言葉にできません。
+「どうしたの？」と聞いても「わからない」「別に」と言います。
+子どもが気持ちを言語化できるようになるための親の問いかけ方を教えてください。" data-title="感情を言葉にできない子へのサポート" data-tip="「どうしたの？」は答えにくい質問。具体的な問いかけが子どもを開く。">
+  <div class="card-head">
+    <span class="card-num">No.73</span>
+    <span class="card-title">感情を言葉にできない子へのサポート</span>
+    <button class="fav-btn" id="fav-73" onclick="toggleFav(73)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-73">（　）歳の子どもが自分の気持ちをうまく言葉にできません。<br>「どうしたの？」と聞いても「わからない」「別に」と言います。<br>子どもが気持ちを言語化できるようになるための親の問いかけ方を教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-73" onclick="toggleTip(73)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-73" onclick="doCopy(73)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-73">「どうしたの？」は答えにくい質問。具体的な問いかけが子どもを開く。</div>
+</div>
+<div class="card" id="card-74" data-text="（　）歳の子どもの（気になる特性・行動）が気になっています。
+発達的に見て「この年齢の標準範囲内か」「専門家に相談すべきか」の目安を教えてください。
+※最終判断は医師に確認します。" data-title="「発達に問題ある？」チェック" data-tip="「相談すべきか」の判断材料を整理する使い方。受診前に情報を整理できる。">
+  <div class="card-head">
+    <span class="card-num">No.74</span>
+    <span class="card-title">「発達に問題ある？」チェック</span>
+    <button class="fav-btn" id="fav-74" onclick="toggleFav(74)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-74">（　）歳の子どもの（気になる特性・行動）が気になっています。<br>発達的に見て「この年齢の標準範囲内か」「専門家に相談すべきか」の目安を教えてください。<br>※最終判断は医師に確認します。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-74" onclick="toggleTip(74)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-74" onclick="doCopy(74)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-74">「相談すべきか」の判断材料を整理する使い方。受診前に情報を整理できる。</div>
+</div>
+</section><section class="cat-section" id="cat-house">
+  <div class="cat-heading" style="border-left:4px solid #C4856A">
+    <span class="cat-emoji">🏠</span>
+    <span class="cat-name" style="color:#C4856A">見えない家事管理</span>
+    <span class="cat-cnt">10本</span>
+  </div>
+  <div class="card" id="card-75" data-text="私が頭の中で管理している「見えない家事・管理タスク」を棚卸ししてください。
+家族構成：夫・子ども（（　）歳・（　）歳）・私（（　）勤務）
+住まい：（マンション・戸建てなど）、子どもは（小学校・保育園など）
+毎日・毎週・毎月・年数回のカテゴリに分けてリストにしてください。" data-title="見えない家事の全棚卸し" data-tip="頭の中から「全部吐き出す」だけで、モヤが晴れる。">
+  <div class="card-head">
+    <span class="card-num">No.75</span>
+    <span class="card-title">見えない家事の全棚卸し</span>
+    <button class="fav-btn" id="fav-75" onclick="toggleFav(75)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-75">私が頭の中で管理している「見えない家事・管理タスク」を棚卸ししてください。<br>家族構成：夫・子ども（（　）歳・（　）歳）・私（（　）勤務）<br>住まい：（マンション・戸建てなど）、子どもは（小学校・保育園など）<br>毎日・毎週・毎月・年数回のカテゴリに分けてリストにしてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-75" onclick="toggleTip(75)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-75" onclick="doCopy(75)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-75">頭の中から「全部吐き出す」だけで、モヤが晴れる。</div>
+</div>
+<div class="card" id="card-76" data-text="（↑の棚卸しリストまたは自分のタスクリストを貼る）
+この中で「AIに判断・設計を任せられるもの」と「人間が判断すべきもの」を分類してください。" data-title="AI渡し可能な家事の仕分け" data-tip="「AIに渡せる」と知るだけで、頭の負担が減る。">
+  <div class="card-head">
+    <span class="card-num">No.76</span>
+    <span class="card-title">AI渡し可能な家事の仕分け</span>
+    <button class="fav-btn" id="fav-76" onclick="toggleFav(76)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-76">（↑の棚卸しリストまたは自分のタスクリストを貼る）<br>この中で「AIに判断・設計を任せられるもの」と「人間が判断すべきもの」を分類してください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-76" onclick="toggleTip(76)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-76" onclick="doCopy(76)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-76">「AIに渡せる」と知るだけで、頭の負担が減る。</div>
+</div>
+<div class="card" id="card-77" data-text="今月は（　）月です。
+子ども（（　）歳・（　）歳）のいる家庭で、今後3ヶ月以内にやっておくべき「先読み家事・手続き・準備」をリストにしてください。
+学校・保育園関連、家の管理、季節の変わり目対応を含めて。" data-title="季節の先読みタスクリスト" data-tip="3ヶ月ごとに繰り返すだけで「やり忘れた！」が消える。">
+  <div class="card-head">
+    <span class="card-num">No.77</span>
+    <span class="card-title">季節の先読みタスクリスト</span>
+    <button class="fav-btn" id="fav-77" onclick="toggleFav(77)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-77">今月は（　）月です。<br>子ども（（　）歳・（　）歳）のいる家庭で、今後3ヶ月以内にやっておくべき「先読み家事・手続き・準備」をリストにしてください。<br>学校・保育園関連、家の管理、季節の変わり目対応を含めて。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-77" onclick="toggleTip(77)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-77" onclick="doCopy(77)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-77">3ヶ月ごとに繰り返すだけで「やり忘れた！」が消える。</div>
+</div>
+<div class="card" id="card-78" data-text="（学校・保育園）から「（プリントの内容・依頼事項）」という連絡が来ました。
+私は（参加する・欠席する・〇〇を希望するなど）。
+角の立たない、丁寧な返信文を2〜3行で作ってください。" data-title="学校・保育園プリントの返信文" data-tip="毎回悩む「どう書けばいいか」が30秒で終わる。">
+  <div class="card-head">
+    <span class="card-num">No.78</span>
+    <span class="card-title">学校・保育園プリントの返信文</span>
+    <button class="fav-btn" id="fav-78" onclick="toggleFav(78)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-78">（学校・保育園）から「（プリントの内容・依頼事項）」という連絡が来ました。<br>私は（参加する・欠席する・〇〇を希望するなど）。<br>角の立たない、丁寧な返信文を2〜3行で作ってください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-78" onclick="toggleTip(78)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-78" onclick="doCopy(78)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-78">毎回悩む「どう書けばいいか」が30秒で終わる。</div>
+</div>
+<div class="card" id="card-79" data-text="今月の（　）歳の子どもの様子を思い出しながら書きます：
+（できるようになったこと・印象的な出来事・言葉などを箇条書きで）
+これをもとに、読み返したくなる成長記録の文章を書いてください。" data-title="子どもの成長記録を後から生成" data-tip="毎日書かなくていい。月に一回まとめてAIに変換してもらえばいい。">
+  <div class="card-head">
+    <span class="card-num">No.79</span>
+    <span class="card-title">子どもの成長記録を後から生成</span>
+    <button class="fav-btn" id="fav-79" onclick="toggleFav(79)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-79">今月の（　）歳の子どもの様子を思い出しながら書きます：<br>（できるようになったこと・印象的な出来事・言葉などを箇条書きで）<br>これをもとに、読み返したくなる成長記録の文章を書いてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-79" onclick="toggleTip(79)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-79" onclick="doCopy(79)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-79">毎日書かなくていい。月に一回まとめてAIに変換してもらえばいい。</div>
+</div>
+<div class="card" id="card-80" data-text="子ども（（　）歳）の状況を整理してください：
+症状：（　）、発症時刻：（　）、食欲：（　）、機嫌：（　）、体温：（　）
+「今日病院に行くべきか・様子を見るべきか」の判断材料を整理してください。
+※最終判断は自分で行います。" data-title="医療的判断の前整理" data-tip="判断材料を整理してもらうだけで、決断がしやすくなる。">
+  <div class="card-head">
+    <span class="card-num">No.80</span>
+    <span class="card-title">医療的判断の前整理</span>
+    <button class="fav-btn" id="fav-80" onclick="toggleFav(80)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-80">子ども（（　）歳）の状況を整理してください：<br>症状：（　）、発症時刻：（　）、食欲：（　）、機嫌：（　）、体温：（　）<br>「今日病院に行くべきか・様子を見るべきか」の判断材料を整理してください。<br>※最終判断は自分で行います。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-80" onclick="toggleTip(80)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-80" onclick="doCopy(80)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-80">判断材料を整理してもらうだけで、決断がしやすくなる。</div>
+</div>
+<div class="card" id="card-81" data-text="（　）歳の子どもの持ち物チェックをしたいです。
+今のシーズン：（春・夏・秋・冬）
+「サイズアップが必要なもの・新たに準備が必要なもの」のチェックリストを作ってください。" data-title="子どもの持ち物・サイズ管理" data-tip="季節の変わり目に一度やるだけで「急に靴が入らない！」がなくなる。">
+  <div class="card-head">
+    <span class="card-num">No.81</span>
+    <span class="card-title">子どもの持ち物・サイズ管理</span>
+    <button class="fav-btn" id="fav-81" onclick="toggleFav(81)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-81">（　）歳の子どもの持ち物チェックをしたいです。<br>今のシーズン：（春・夏・秋・冬）<br>「サイズアップが必要なもの・新たに準備が必要なもの」のチェックリストを作ってください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-81" onclick="toggleTip(81)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-81" onclick="doCopy(81)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-81">季節の変わり目に一度やるだけで「急に靴が入らない！」がなくなる。</div>
+</div>
+<div class="card" id="card-82" data-text="（　）歳の子どもの予防接種を管理したいです。
+これまでに受けた接種：（わかる範囲で）
+次に受けるべき接種と推奨時期を教えてください。
+※最終確認はかかりつけ医に行います。" data-title="予防接種スケジュール管理" data-tip="「次は何を打てばいいか」を毎回ネットで調べる手間がなくなる。">
+  <div class="card-head">
+    <span class="card-num">No.82</span>
+    <span class="card-title">予防接種スケジュール管理</span>
+    <button class="fav-btn" id="fav-82" onclick="toggleFav(82)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-82">（　）歳の子どもの予防接種を管理したいです。<br>これまでに受けた接種：（わかる範囲で）<br>次に受けるべき接種と推奨時期を教えてください。<br>※最終確認はかかりつけ医に行います。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-82" onclick="toggleTip(82)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-82" onclick="doCopy(82)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-82">「次は何を打てばいいか」を毎回ネットで調べる手間がなくなる。</div>
+</div>
+<div class="card" id="card-83" data-text="家族の保険・行政手続きの期限を管理したいです。
+家族構成：（　）
+一般的に「見落としやすい・期限が来る手続き」のチェックリストを作ってください。" data-title="保険・手続き類の期限管理" data-tip="「気づいたら期限切れ」を防ぐ先読みリスト。">
+  <div class="card-head">
+    <span class="card-num">No.83</span>
+    <span class="card-title">保険・手続き類の期限管理</span>
+    <button class="fav-btn" id="fav-83" onclick="toggleFav(83)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-83">家族の保険・行政手続きの期限を管理したいです。<br>家族構成：（　）<br>一般的に「見落としやすい・期限が来る手続き」のチェックリストを作ってください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-83" onclick="toggleTip(83)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-83" onclick="doCopy(83)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-83">「気づいたら期限切れ」を防ぐ先読みリスト。</div>
+</div>
+<div class="card" id="card-84" data-text="（　）歳の子どもが（習い事名）を「辞めたい」と言い始めました。
+始めてから（　）ヶ月、理由は「（　）」と言っています。
+辞めさせるか続けさせるか、どう考えればいいか。
+また子どもとどう話せばいいかを教えてください。" data-title="習い事の継続・辞め判断" data-tip="「辞め・継続」は感情で決めない。判断基準を整理してから決める。">
+  <div class="card-head">
+    <span class="card-num">No.84</span>
+    <span class="card-title">習い事の継続・辞め判断</span>
+    <button class="fav-btn" id="fav-84" onclick="toggleFav(84)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-84">（　）歳の子どもが（習い事名）を「辞めたい」と言い始めました。<br>始めてから（　）ヶ月、理由は「（　）」と言っています。<br>辞めさせるか続けさせるか、どう考えればいいか。<br>また子どもとどう話せばいいかを教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-84" onclick="toggleTip(84)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-84" onclick="doCopy(84)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-84">「辞め・継続」は感情で決めない。判断基準を整理してから決める。</div>
+</div>
+</section><section class="cat-section" id="cat-mental">
+  <div class="cat-heading" style="border-left:4px solid #C45480">
+    <span class="cat-emoji">💗</span>
+    <span class="cat-name" style="color:#C45480">親自身のメンタルケア</span>
+    <span class="cat-cnt">12本</span>
+  </div>
+  <div class="card" id="card-85" data-text="今、育児でパンクしそうです。子どもが（状況）で、夕飯もできていなくて、頭の中が真っ白です。
+今すぐ気持ちを落ち着けるために、今この瞬間にすることを1つだけ教えてください。
+長い説明はいらないので「まず〇〇してください」という短い答えで。" data-title="今すぐ落ち着く・緊急1アクション" data-tip="怒鳴る一歩手前にこれを使う。「1つだけ」と絞るのがポイント。">
+  <div class="card-head">
+    <span class="card-num">No.85</span>
+    <span class="card-title">今すぐ落ち着く・緊急1アクション</span>
+    <button class="fav-btn" id="fav-85" onclick="toggleFav(85)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-85">今、育児でパンクしそうです。子どもが（状況）で、夕飯もできていなくて、頭の中が真っ白です。<br>今すぐ気持ちを落ち着けるために、今この瞬間にすることを1つだけ教えてください。<br>長い説明はいらないので「まず〇〇してください」という短い答えで。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-85" onclick="toggleTip(85)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-85" onclick="doCopy(85)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-85">怒鳴る一歩手前にこれを使う。「1つだけ」と絞るのがポイント。</div>
+</div>
+<div class="card" id="card-86" data-text="子どもに怒鳴ってしまいました。理由：（状況）
+罪悪感と自己嫌悪が止まりません。
+客観的な視点から今日の私の行動を評価してください。
+また「良い親かどうか」について、考え方を変えるべきポイントがあれば教えてください。" data-title="怒鳴ってしまった後の立て直し" data-tip="AIは責めない。客観的に見てくれるだけで、少し楽になる。">
+  <div class="card-head">
+    <span class="card-num">No.86</span>
+    <span class="card-title">怒鳴ってしまった後の立て直し</span>
+    <button class="fav-btn" id="fav-86" onclick="toggleFav(86)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-86">子どもに怒鳴ってしまいました。理由：（状況）<br>罪悪感と自己嫌悪が止まりません。<br>客観的な視点から今日の私の行動を評価してください。<br>また「良い親かどうか」について、考え方を変えるべきポイントがあれば教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-86" onclick="toggleTip(86)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-86" onclick="doCopy(86)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-86">AIは責めない。客観的に見てくれるだけで、少し楽になる。</div>
+</div>
+<div class="card" id="card-87" data-text="最近ずっと「自分はダメな親だ」という罪悪感があります。
+具体的には（気になっていること）が原因です。
+この罪悪感を客観的に見て、どう捉え直すべきかを教えてください。" data-title="罪悪感を論理で解体する" data-tip="感情は感情で対処しにくい。論理で「解体」することで軽くなる。">
+  <div class="card-head">
+    <span class="card-num">No.87</span>
+    <span class="card-title">罪悪感を論理で解体する</span>
+    <button class="fav-btn" id="fav-87" onclick="toggleFav(87)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-87">最近ずっと「自分はダメな親だ」という罪悪感があります。<br>具体的には（気になっていること）が原因です。<br>この罪悪感を客観的に見て、どう捉え直すべきかを教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-87" onclick="toggleTip(87)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-87" onclick="doCopy(87)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-87">感情は感情で対処しにくい。論理で「解体」することで軽くなる。</div>
+</div>
+<div class="card" id="card-88" data-text="今日こんなことがありました：（出来事を書く）
+感情がぐるぐるして整理できません。
+客観的に見て、今日の私はどうだったと思いますか？
+また、明日に活かせることがあれば教えてください。" data-title="今日の出来事の整理・振り返り" data-tip="AIに話すことで「頭の外に出す」ができる。それだけで少し楽になる。">
+  <div class="card-head">
+    <span class="card-num">No.88</span>
+    <span class="card-title">今日の出来事の整理・振り返り</span>
+    <button class="fav-btn" id="fav-88" onclick="toggleFav(88)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-88">今日こんなことがありました：（出来事を書く）<br>感情がぐるぐるして整理できません。<br>客観的に見て、今日の私はどうだったと思いますか？<br>また、明日に活かせることがあれば教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-88" onclick="toggleTip(88)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-88" onclick="doCopy(88)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-88">AIに話すことで「頭の外に出す」ができる。それだけで少し楽になる。</div>
+</div>
+<div class="card" id="card-89" data-text="最近、育児の孤独感が強いです。誰にも話を聞いてもらえない気がします。
+この気持ちを言語化するのを手伝ってください。
+また、孤独感が強いとき、自分でできるケアを教えてください。" data-title="孤独感・誰にも話せない気持ちの整理" data-tip="話を聞いてもらうことができる。批判されない安全な相手として使う。">
+  <div class="card-head">
+    <span class="card-num">No.89</span>
+    <span class="card-title">孤独感・誰にも話せない気持ちの整理</span>
+    <button class="fav-btn" id="fav-89" onclick="toggleFav(89)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-89">最近、育児の孤独感が強いです。誰にも話を聞いてもらえない気がします。<br>この気持ちを言語化するのを手伝ってください。<br>また、孤独感が強いとき、自分でできるケアを教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-89" onclick="toggleTip(89)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-89" onclick="doCopy(89)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-89">話を聞いてもらうことができる。批判されない安全な相手として使う。</div>
+</div>
+<div class="card" id="card-90" data-text="SNSで他のお母さんと比べてしまい、自分が劣っているように感じます。
+「完璧じゃなくていい」と頭ではわかっているのに、心がついていきません。
+この気持ちとうまく付き合うために、どう考えればいいかを教えてください。" data-title="完璧主義・SNS比較からの脱出" data-tip="「比べてしまう」こと自体は正常。どう付き合うかを整理してもらう。">
+  <div class="card-head">
+    <span class="card-num">No.90</span>
+    <span class="card-title">完璧主義・SNS比較からの脱出</span>
+    <button class="fav-btn" id="fav-90" onclick="toggleFav(90)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-90">SNSで他のお母さんと比べてしまい、自分が劣っているように感じます。<br>「完璧じゃなくていい」と頭ではわかっているのに、心がついていきません。<br>この気持ちとうまく付き合うために、どう考えればいいかを教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-90" onclick="toggleTip(90)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-90" onclick="doCopy(90)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-90">「比べてしまう」こと自体は正常。どう付き合うかを整理してもらう。</div>
+</div>
+<div class="card" id="card-91" data-text="子どもが寝てから自分の時間がほしいのですが、疲れて何もできずに寝てしまいます。
+週に合計（　）時間だけ「自分のため」の時間を作るには、どうしたらいいですか？
+現実的なアドバイスをください。" data-title="自分だけの時間を週に作る設計" data-tip="「自分時間を作りたい」という気持ちは正当。設計してもらえばいい。">
+  <div class="card-head">
+    <span class="card-num">No.91</span>
+    <span class="card-title">自分だけの時間を週に作る設計</span>
+    <button class="fav-btn" id="fav-91" onclick="toggleFav(91)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-91">子どもが寝てから自分の時間がほしいのですが、疲れて何もできずに寝てしまいます。<br>週に合計（　）時間だけ「自分のため」の時間を作るには、どうしたらいいですか？<br>現実的なアドバイスをください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-91" onclick="toggleTip(91)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-91" onclick="doCopy(91)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-91">「自分時間を作りたい」という気持ちは正当。設計してもらえばいい。</div>
+</div>
+<div class="card" id="card-92" data-text="最近、育児の疲れが普段と違う気がします。
+今の状態：（気になる症状・感情・体の変化）
+「通常の育児疲れ」と「専門家に相談すべき状態」の違いを教えてください。" data-title="育児疲れと受診目安の違い" data-tip="「これって普通？」を確認する使い方。気づきを早めるために。">
+  <div class="card-head">
+    <span class="card-num">No.92</span>
+    <span class="card-title">育児疲れと受診目安の違い</span>
+    <button class="fav-btn" id="fav-92" onclick="toggleFav(92)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-92">最近、育児の疲れが普段と違う気がします。<br>今の状態：（気になる症状・感情・体の変化）<br>「通常の育児疲れ」と「専門家に相談すべき状態」の違いを教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-92" onclick="toggleTip(92)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-92" onclick="doCopy(92)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-92">「これって普通？」を確認する使い方。気づきを早めるために。</div>
+</div>
+<div class="card" id="card-93" data-text="（　）に対して子どもに謝りたいです。年齢：（　）歳
+「ごめんね」だけでなく、子どもが「伝わった」と感じられる謝罪の言葉と伝え方を教えてください。" data-title="子どもに謝る言葉を設計する" data-tip="謝ることは弱さではなく、子どもへの最高の教育。">
+  <div class="card-head">
+    <span class="card-num">No.93</span>
+    <span class="card-title">子どもに謝る言葉を設計する</span>
+    <button class="fav-btn" id="fav-93" onclick="toggleFav(93)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-93">（　）に対して子どもに謝りたいです。年齢：（　）歳<br>「ごめんね」だけでなく、子どもが「伝わった」と感じられる謝罪の言葉と伝え方を教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-93" onclick="toggleTip(93)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-93" onclick="doCopy(93)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-93">謝ることは弱さではなく、子どもへの最高の教育。</div>
+</div>
+<div class="card" id="card-94" data-text="今日の自分を振り返って、よかったことを見つけるのを手伝ってください。
+今日起きたこと：（箇条書きで書く）
+完璧じゃなかったことも含めて、今日の私のよかったところを見つけてください。" data-title="「今日は十分頑張った」と思える振り返り" data-tip="就寝前に1分。「よかったこと探し」を習慣にするための補助輪として使う。">
+  <div class="card-head">
+    <span class="card-num">No.94</span>
+    <span class="card-title">「今日は十分頑張った」と思える振り返り</span>
+    <button class="fav-btn" id="fav-94" onclick="toggleFav(94)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-94">今日の自分を振り返って、よかったことを見つけるのを手伝ってください。<br>今日起きたこと：（箇条書きで書く）<br>完璧じゃなかったことも含めて、今日の私のよかったところを見つけてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-94" onclick="toggleTip(94)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-94" onclick="doCopy(94)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-94">就寝前に1分。「よかったこと探し」を習慣にするための補助輪として使う。</div>
+</div>
+<div class="card" id="card-95" data-text="育児前は（趣味・好きなこと）をよくやっていましたが、今はほとんどできていません。
+子育て中でも「好き」を続けられる現実的な形を提案してください。
+時間・場所・方法の制約を踏まえて。" data-title="「好き」を育児中にどう続けるか" data-tip="好きなことを手放さなくていい。形を変えれば続けられる。">
+  <div class="card-head">
+    <span class="card-num">No.95</span>
+    <span class="card-title">「好き」を育児中にどう続けるか</span>
+    <button class="fav-btn" id="fav-95" onclick="toggleFav(95)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-95">育児前は（趣味・好きなこと）をよくやっていましたが、今はほとんどできていません。<br>子育て中でも「好き」を続けられる現実的な形を提案してください。<br>時間・場所・方法の制約を踏まえて。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-95" onclick="toggleTip(95)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-95" onclick="doCopy(95)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-95">好きなことを手放さなくていい。形を変えれば続けられる。</div>
+</div>
+<div class="card" id="card-96" data-text="（　）について、あのとき違う選択をしていたらよかったと思うことがあります。
+（状況・後悔していること）
+客観的に見て、今の私にどう捉え直すことを勧めますか？" data-title="「これでよかったのか」という迷い" data-tip="後悔は全部正しいわけではない。客観的な目で見てもらうと楽になる。">
+  <div class="card-head">
+    <span class="card-num">No.96</span>
+    <span class="card-title">「これでよかったのか」という迷い</span>
+    <button class="fav-btn" id="fav-96" onclick="toggleFav(96)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-96">（　）について、あのとき違う選択をしていたらよかったと思うことがあります。<br>（状況・後悔していること）<br>客観的に見て、今の私にどう捉え直すことを勧めますか？</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-96" onclick="toggleTip(96)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-96" onclick="doCopy(96)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-96">後悔は全部正しいわけではない。客観的な目で見てもらうと楽になる。</div>
+</div>
+</section><section class="cat-section" id="cat-couple">
+  <div class="cat-heading" style="border-left:4px solid #5A8F7B">
+    <span class="cat-emoji">💑</span>
+    <span class="cat-name" style="color:#5A8F7B">夫婦・パートナー連携</span>
+    <span class="cat-cnt">12本</span>
+  </div>
+  <div class="card" id="card-97" data-text="今週の家事・育児の状況をまとめます：
+月：（　）、火：（　）、水：（　）、木：（　）、金：（　）
+来週夫にお願いしたいこと：（　）
+これを夫への「週次の状況共有メモ」として、責める感じなく整理してください。" data-title="夫への週次状況共有メモ" data-tip="感情ではなく「情報共有」として渡す。夫が動きやすくなる。">
+  <div class="card-head">
+    <span class="card-num">No.97</span>
+    <span class="card-title">夫への週次状況共有メモ</span>
+    <button class="fav-btn" id="fav-97" onclick="toggleFav(97)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-97">今週の家事・育児の状況をまとめます：<br>月：（　）、火：（　）、水：（　）、木：（　）、金：（　）<br>来週夫にお願いしたいこと：（　）<br>これを夫への「週次の状況共有メモ」として、責める感じなく整理してください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-97" onclick="toggleTip(97)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-97" onclick="doCopy(97)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-97">感情ではなく「情報共有」として渡す。夫が動きやすくなる。</div>
+</div>
+<div class="card" id="card-98" data-text="今日こんなことがありました：（状況を書く）
+夫が帰ってきたときに、責める感じではなく「今日こんな状況だった」と正確に伝えられる3文を作ってください。
+目的：明日以降のサポートを引き出すこと。" data-title="夫が帰宅したときの「今日の報告」" data-tip="「大変だった」という感情より「何が起きたか」の事実を伝える方が夫は動く。">
+  <div class="card-head">
+    <span class="card-num">No.98</span>
+    <span class="card-title">夫が帰宅したときの「今日の報告」</span>
+    <button class="fav-btn" id="fav-98" onclick="toggleFav(98)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-98">今日こんなことがありました：（状況を書く）<br>夫が帰ってきたときに、責める感じではなく「今日こんな状況だった」と正確に伝えられる3文を作ってください。<br>目的：明日以降のサポートを引き出すこと。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-98" onclick="toggleTip(98)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-98" onclick="doCopy(98)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-98">「大変だった」という感情より「何が起きたか」の事実を伝える方が夫は動く。</div>
+</div>
+<div class="card" id="card-99" data-text="夫にもっと家事・育児を分担してもらいたいです。
+具体的にお願いしたいこと：（　）
+角が立たない・夫が前向きに受け取れる提案の仕方と言葉を教えてください。" data-title="家事分担を夫に提案する言葉" data-tip="「なんでやらないの」より「これをお願いできる？」の方が実現する。">
+  <div class="card-head">
+    <span class="card-num">No.99</span>
+    <span class="card-title">家事分担を夫に提案する言葉</span>
+    <button class="fav-btn" id="fav-99" onclick="toggleFav(99)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-99">夫にもっと家事・育児を分担してもらいたいです。<br>具体的にお願いしたいこと：（　）<br>角が立たない・夫が前向きに受け取れる提案の仕方と言葉を教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-99" onclick="toggleTip(99)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-99" onclick="doCopy(99)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-99">「なんでやらないの」より「これをお願いできる？」の方が実現する。</div>
+</div>
+<div class="card" id="card-100" data-text="夫に（お願い内容）を頼みましたが、うまく伝わらなかったようです。
+角の立たない「もう一度お願いする言葉」と、なぜ伝わらなかったかの分析もお願いします。" data-title="夫が動かないときの再アプローチ" data-tip="一度断られた後の再アプローチ。タイミングと言い方を変えることが大事。">
+  <div class="card-head">
+    <span class="card-num">No.100</span>
+    <span class="card-title">夫が動かないときの再アプローチ</span>
+    <button class="fav-btn" id="fav-100" onclick="toggleFav(100)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-100">夫に（お願い内容）を頼みましたが、うまく伝わらなかったようです。<br>角の立たない「もう一度お願いする言葉」と、なぜ伝わらなかったかの分析もお願いします。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-100" onclick="toggleTip(100)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-100" onclick="doCopy(100)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-100">一度断られた後の再アプローチ。タイミングと言い方を変えることが大事。</div>
+</div>
+<div class="card" id="card-101" data-text="夫に（具体的な育児行動：宿題のサポート・お風呂入れ・送迎など）をやってもらいたいです。
+「もっと育児に参加して」という抽象的なお願いではなく、
+夫が「何をすればいいか」がわかる具体的なお願いの言葉を作ってください。" data-title="夫への育児参加のお願い" data-tip="「参加して」は伝わらない。「〇時に〇〇をやってほしい」が伝わる。">
+  <div class="card-head">
+    <span class="card-num">No.101</span>
+    <span class="card-title">夫への育児参加のお願い</span>
+    <button class="fav-btn" id="fav-101" onclick="toggleFav(101)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-101">夫に（具体的な育児行動：宿題のサポート・お風呂入れ・送迎など）をやってもらいたいです。<br>「もっと育児に参加して」という抽象的なお願いではなく、<br>夫が「何をすればいいか」がわかる具体的なお願いの言葉を作ってください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-101" onclick="toggleTip(101)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-101" onclick="doCopy(101)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-101">「参加して」は伝わらない。「〇時に〇〇をやってほしい」が伝わる。</div>
+</div>
+<div class="card" id="card-102" data-text="夫への不満が積み重なっています。でも感情的になってしまうので伝えられていません。
+私の気持ち：（　）
+事実と感情を整理して、ケンカにならずに夫に伝えられる言葉を考えてもらえますか？" data-title="夫への不満を整理して伝える" data-tip="感情を「事実＋お願い」に変換するのがAIが得意なこと。">
+  <div class="card-head">
+    <span class="card-num">No.102</span>
+    <span class="card-title">夫への不満を整理して伝える</span>
+    <button class="fav-btn" id="fav-102" onclick="toggleFav(102)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-102">夫への不満が積み重なっています。でも感情的になってしまうので伝えられていません。<br>私の気持ち：（　）<br>事実と感情を整理して、ケンカにならずに夫に伝えられる言葉を考えてもらえますか？</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-102" onclick="toggleTip(102)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-102" onclick="doCopy(102)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-102">感情を「事実＋お願い」に変換するのがAIが得意なこと。</div>
+</div>
+<div class="card" id="card-103" data-text="夫と育児の方針が違って困っています。
+私の考え：（　）、夫の考え：（　）
+「どちらが正しいか」より「今どうするか」に焦点を当てた話し合いの進め方を教えてください。" data-title="夫婦の育児方針の違いへの対処" data-tip="正しさを争うのではなく「今の方針」を決めることにフォーカスする。">
+  <div class="card-head">
+    <span class="card-num">No.103</span>
+    <span class="card-title">夫婦の育児方針の違いへの対処</span>
+    <button class="fav-btn" id="fav-103" onclick="toggleFav(103)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-103">夫と育児の方針が違って困っています。<br>私の考え：（　）、夫の考え：（　）<br>「どちらが正しいか」より「今どうするか」に焦点を当てた話し合いの進め方を教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-103" onclick="toggleTip(103)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-103" onclick="doCopy(103)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-103">正しさを争うのではなく「今の方針」を決めることにフォーカスする。</div>
+</div>
+<div class="card" id="card-104" data-text="週末のすり合わせがうまくできていないため、毎週もめてしまいます。
+私のやりたいこと・やるべきこと：（　）
+夫のやりたいこと・やるべきこと（想像）：（　）
+両者が納得できる週末プランの提案の仕方を教えてください。" data-title="週末の過ごし方を事前すり合わせる" data-tip="週末の前日に10分だけ設計する。それだけでもめごとが激減する。">
+  <div class="card-head">
+    <span class="card-num">No.104</span>
+    <span class="card-title">週末の過ごし方を事前すり合わせる</span>
+    <button class="fav-btn" id="fav-104" onclick="toggleFav(104)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-104">週末のすり合わせがうまくできていないため、毎週もめてしまいます。<br>私のやりたいこと・やるべきこと：（　）<br>夫のやりたいこと・やるべきこと（想像）：（　）<br>両者が納得できる週末プランの提案の仕方を教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-104" onclick="toggleTip(104)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-104" onclick="doCopy(104)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-104">週末の前日に10分だけ設計する。それだけでもめごとが激減する。</div>
+</div>
+<div class="card" id="card-105" data-text="「もっと家事・育児を手伝って」と言いたいのですが、言うたびに険悪になります。
+言葉を使わずに、自然と夫が動くような仕組みや環境の設計を教えてください。" data-title="「もっと手伝って」を言わずに伝える" data-tip="言葉で頼む以外の方法がある。仕組み化が最強の解決策。">
+  <div class="card-head">
+    <span class="card-num">No.105</span>
+    <span class="card-title">「もっと手伝って」を言わずに伝える</span>
+    <button class="fav-btn" id="fav-105" onclick="toggleFav(105)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-105">「もっと家事・育児を手伝って」と言いたいのですが、言うたびに険悪になります。<br>言葉を使わずに、自然と夫が動くような仕組みや環境の設計を教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-105" onclick="toggleTip(105)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-105" onclick="doCopy(105)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-105">言葉で頼む以外の方法がある。仕組み化が最強の解決策。</div>
+</div>
+<div class="card" id="card-106" data-text="夫への感謝をうまく言葉にできないでいます。
+やってもらっていること：（　）
+感謝の気持ちを自然に・具体的に伝えられる言葉を作ってください。" data-title="パートナーへの感謝を言葉にする" data-tip="感謝を言語化することで、夫の行動が継続しやすくなる。">
+  <div class="card-head">
+    <span class="card-num">No.106</span>
+    <span class="card-title">パートナーへの感謝を言葉にする</span>
+    <button class="fav-btn" id="fav-106" onclick="toggleFav(106)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-106">夫への感謝をうまく言葉にできないでいます。<br>やってもらっていること：（　）<br>感謝の気持ちを自然に・具体的に伝えられる言葉を作ってください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-106" onclick="toggleTip(106)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-106" onclick="doCopy(106)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-106">感謝を言語化することで、夫の行動が継続しやすくなる。</div>
+</div>
+<div class="card" id="card-107" data-text="忙しくて夫婦の会話が「報告・連絡・相談」だけになってしまっています。
+日常の中で自然に対話が増えるような、小さなきっかけや習慣を教えてください。" data-title="夫婦の会話を取り戻すきっかけ" data-tip="大事な話をしようとしなくていい。小さな会話の積み重ねが関係を作る。">
+  <div class="card-head">
+    <span class="card-num">No.107</span>
+    <span class="card-title">夫婦の会話を取り戻すきっかけ</span>
+    <button class="fav-btn" id="fav-107" onclick="toggleFav(107)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-107">忙しくて夫婦の会話が「報告・連絡・相談」だけになってしまっています。<br>日常の中で自然に対話が増えるような、小さなきっかけや習慣を教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-107" onclick="toggleTip(107)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-107" onclick="doCopy(107)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-107">大事な話をしようとしなくていい。小さな会話の積み重ねが関係を作る。</div>
+</div>
+<div class="card" id="card-108" data-text="夫に今日の状況を伝えたいのですが、疲れていてうまくまとめられません。
+今日起きたこと：（　）
+「事実・感情・お願い」の3つに整理した伝え方を作ってください。" data-title="夫に状況を正確に伝えるための事前整理" data-tip="「言葉がまとまらない」ときこそAIに整理させる。">
+  <div class="card-head">
+    <span class="card-num">No.108</span>
+    <span class="card-title">夫に状況を正確に伝えるための事前整理</span>
+    <button class="fav-btn" id="fav-108" onclick="toggleFav(108)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-108">夫に今日の状況を伝えたいのですが、疲れていてうまくまとめられません。<br>今日起きたこと：（　）<br>「事実・感情・お願い」の3つに整理した伝え方を作ってください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-108" onclick="toggleTip(108)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-108" onclick="doCopy(108)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-108">「言葉がまとまらない」ときこそAIに整理させる。</div>
+</div>
+</section><section class="cat-section" id="cat-moms">
+  <div class="cat-heading" style="border-left:4px solid #7C5CBF">
+    <span class="cat-emoji">👩‍👧</span>
+    <span class="cat-name" style="color:#7C5CBF">ママ友・保護者関係</span>
+    <span class="cat-cnt">12本</span>
+  </div>
+  <div class="card" id="card-109" data-text="（場面：子どもの話・習い事・成績など）の話題になったとき、
+自慢に聞こえず、かつ相手を立てながら自然に話せる言い方を教えてください。
+私の状況：（　）" data-title="ママ友への自然な謙遜の言い方" data-tip="「謙遜しすぎる」も「自慢に聞こえる」も防げる言い方がある。">
+  <div class="card-head">
+    <span class="card-num">No.109</span>
+    <span class="card-title">ママ友への自然な謙遜の言い方</span>
+    <button class="fav-btn" id="fav-109" onclick="toggleFav(109)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-109">（場面：子どもの話・習い事・成績など）の話題になったとき、<br>自慢に聞こえず、かつ相手を立てながら自然に話せる言い方を教えてください。<br>私の状況：（　）</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-109" onclick="toggleTip(109)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-109" onclick="doCopy(109)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-109">「謙遜しすぎる」も「自慢に聞こえる」も防げる言い方がある。</div>
+</div>
+<div class="card" id="card-110" data-text="グループLINEで（内容：行事の出欠確認・幹事への返信など）への返信が必要です。
+私の回答：（参加する・欠席する・未定など）
+角の立たない・短い・自然な返信文を作ってください。" data-title="グループLINEの返信文" data-tip="「なんて返そう」で悩む時間がゼロになる。">
+  <div class="card-head">
+    <span class="card-num">No.110</span>
+    <span class="card-title">グループLINEの返信文</span>
+    <button class="fav-btn" id="fav-110" onclick="toggleFav(110)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-110">グループLINEで（内容：行事の出欠確認・幹事への返信など）への返信が必要です。<br>私の回答：（参加する・欠席する・未定など）<br>角の立たない・短い・自然な返信文を作ってください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-110" onclick="toggleTip(110)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-110" onclick="doCopy(110)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-110">「なんて返そう」で悩む時間がゼロになる。</div>
+</div>
+<div class="card" id="card-111" data-text="ママ友から（ランチ・お茶・集まりへの誘い）を受けました。
+今回は断りたいのですが、次回の関係を壊さない断り方を教えてください。
+理由：（本当の理由を書く）" data-title="ランチ・お茶の誘いの断り方" data-tip="「またいつか」という雰囲気を残して断ることができる。">
+  <div class="card-head">
+    <span class="card-num">No.111</span>
+    <span class="card-title">ランチ・お茶の誘いの断り方</span>
+    <button class="fav-btn" id="fav-111" onclick="toggleFav(111)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-111">ママ友から（ランチ・お茶・集まりへの誘い）を受けました。<br>今回は断りたいのですが、次回の関係を壊さない断り方を教えてください。<br>理由：（本当の理由を書く）</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-111" onclick="toggleTip(111)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-111" onclick="doCopy(111)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-111">「またいつか」という雰囲気を残して断ることができる。</div>
+</div>
+<div class="card" id="card-112" data-text="あるママ友（（関係性））が苦手です。理由：（何が苦手か）
+関係を壊さずに距離を置くための、コミュニケーションの取り方と言葉を教えてください。" data-title="苦手なママ友との付き合い方" data-tip="「仲良くしなきゃ」と「距離を置く」の両立ができる言葉がある。">
+  <div class="card-head">
+    <span class="card-num">No.112</span>
+    <span class="card-title">苦手なママ友との付き合い方</span>
+    <button class="fav-btn" id="fav-112" onclick="toggleFav(112)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-112">あるママ友（（関係性））が苦手です。理由：（何が苦手か）<br>関係を壊さずに距離を置くための、コミュニケーションの取り方と言葉を教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-112" onclick="toggleTip(112)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-112" onclick="doCopy(112)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-112">「仲良くしなきゃ」と「距離を置く」の両立ができる言葉がある。</div>
+</div>
+<div class="card" id="card-113" data-text="子ども同士のトラブルがありました。
+状況：（うちの子が加害者側・被害者側・双方など）
+相手の親にどう連絡するのが適切か、連絡文も含めて教えてください。" data-title="子ども同士トラブル後の親への連絡" data-tip="トラブル直後は感情的になりやすい。AIに冷静な言葉を作ってもらう。">
+  <div class="card-head">
+    <span class="card-num">No.113</span>
+    <span class="card-title">子ども同士トラブル後の親への連絡</span>
+    <button class="fav-btn" id="fav-113" onclick="toggleFav(113)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-113">子ども同士のトラブルがありました。<br>状況：（うちの子が加害者側・被害者側・双方など）<br>相手の親にどう連絡するのが適切か、連絡文も含めて教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-113" onclick="toggleTip(113)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-113" onclick="doCopy(113)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-113">トラブル直後は感情的になりやすい。AIに冷静な言葉を作ってもらう。</div>
+</div>
+<div class="card" id="card-114" data-text="（公園・習い事・学校行事など）で初対面の親に話しかけたいです。
+自然に会話が始められる最初の一言と、その後の会話の広げ方を教えてください。" data-title="初対面の親への話しかけ方" data-tip="「最初の一言」さえあればあとは自然につながる。">
+  <div class="card-head">
+    <span class="card-num">No.114</span>
+    <span class="card-title">初対面の親への話しかけ方</span>
+    <button class="fav-btn" id="fav-114" onclick="toggleFav(114)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-114">（公園・習い事・学校行事など）で初対面の親に話しかけたいです。<br>自然に会話が始められる最初の一言と、その後の会話の広げ方を教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-114" onclick="toggleTip(114)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-114" onclick="doCopy(114)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-114">「最初の一言」さえあればあとは自然につながる。</div>
+</div>
+<div class="card" id="card-115" data-text="PTA・学校行事の役割を（引き受けてほしいと依頼されました・断りたいです）。
+（引き受ける場合・断る場合）の返し方を角が立たない言葉で教えてください。" data-title="PTAの役割を依頼されたときの返し方" data-tip="引き受ける・断る両方のパターンを持っておくと安心。">
+  <div class="card-head">
+    <span class="card-num">No.115</span>
+    <span class="card-title">PTAの役割を依頼されたときの返し方</span>
+    <button class="fav-btn" id="fav-115" onclick="toggleFav(115)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-115">PTA・学校行事の役割を（引き受けてほしいと依頼されました・断りたいです）。<br>（引き受ける場合・断る場合）の返し方を角が立たない言葉で教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-115" onclick="toggleTip(115)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-115" onclick="doCopy(115)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-115">引き受ける・断る両方のパターンを持っておくと安心。</div>
+</div>
+<div class="card" id="card-116" data-text="ママ友に育児の愚痴を話したいのですが、批判になったり湿っぽくなりたくないです。
+（愚痴の内容）について、共感を呼びながら批判にならない言い方を教えてください。" data-title="ママ友に愚痴を言うときの言い方" data-tip="愚痴は言い方次第で「共感を得るコミュニケーション」になる。">
+  <div class="card-head">
+    <span class="card-num">No.116</span>
+    <span class="card-title">ママ友に愚痴を言うときの言い方</span>
+    <button class="fav-btn" id="fav-116" onclick="toggleFav(116)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-116">ママ友に育児の愚痴を話したいのですが、批判になったり湿っぽくなりたくないです。<br>（愚痴の内容）について、共感を呼びながら批判にならない言い方を教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-116" onclick="toggleTip(116)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-116" onclick="doCopy(116)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-116">愚痴は言い方次第で「共感を得るコミュニケーション」になる。</div>
+</div>
+<div class="card" id="card-117" data-text="子どもが（トラブルの内容）をしてしまいました。
+相手は（　）さんのお子さんです。
+誠実で角の立たない謝罪の言葉と流れを教えてください。
+直接会って謝る場合・LINEで連絡する場合の両方で。" data-title="子どもがトラブルを起こした後の謝罪" data-tip="謝罪は「誠実さ」と「簡潔さ」の両立が大事。">
+  <div class="card-head">
+    <span class="card-num">No.117</span>
+    <span class="card-title">子どもがトラブルを起こした後の謝罪</span>
+    <button class="fav-btn" id="fav-117" onclick="toggleFav(117)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-117">子どもが（トラブルの内容）をしてしまいました。<br>相手は（　）さんのお子さんです。<br>誠実で角の立たない謝罪の言葉と流れを教えてください。<br>直接会って謝る場合・LINEで連絡する場合の両方で。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-117" onclick="toggleTip(117)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-117" onclick="doCopy(117)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-117">謝罪は「誠実さ」と「簡潔さ」の両立が大事。</div>
+</div>
+<div class="card" id="card-118" data-text="違う育て方・考え方を持つ親（（具体的な状況））と接することがあります。
+否定せず、でも自分の方針も守るための接し方・返し方を教えてください。" data-title="子育て価値観の違いへの対応" data-tip="違いは「どちらが正しいか」ではない。共存の言葉がある。">
+  <div class="card-head">
+    <span class="card-num">No.118</span>
+    <span class="card-title">子育て価値観の違いへの対応</span>
+    <button class="fav-btn" id="fav-118" onclick="toggleFav(118)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-118">違う育て方・考え方を持つ親（（具体的な状況））と接することがあります。<br>否定せず、でも自分の方針も守るための接し方・返し方を教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-118" onclick="toggleTip(118)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-118" onclick="doCopy(118)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-118">違いは「どちらが正しいか」ではない。共存の言葉がある。</div>
+</div>
+<div class="card" id="card-119" data-text="保護者会・懇談会で（自己紹介・意見を求められるなど）の場面があります。
+無難でありながら印象がよい発言のテンプレートを作ってください。
+子どもの状況：（　）" data-title="保護者会・懇談会での発言テンプレ" data-tip="「何を話そう」で頭が真っ白になる前に準備しておく。">
+  <div class="card-head">
+    <span class="card-num">No.119</span>
+    <span class="card-title">保護者会・懇談会での発言テンプレ</span>
+    <button class="fav-btn" id="fav-119" onclick="toggleFav(119)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-119">保護者会・懇談会で（自己紹介・意見を求められるなど）の場面があります。<br>無難でありながら印象がよい発言のテンプレートを作ってください。<br>子どもの状況：（　）</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-119" onclick="toggleTip(119)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-119" onclick="doCopy(119)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-119">「何を話そう」で頭が真っ白になる前に準備しておく。</div>
+</div>
+<div class="card" id="card-120" data-text="（　）さんに（具体的にしてもらったこと：送迎・子どもの預かり・相談に乗ってもらったなど）をしてもらいました。
+きちんと感謝が伝わる・でも重くなりすぎないお礼の言葉を教えてください。" data-title="お世話になったママ友へのお礼" data-tip="「ありがとう」以上の言葉がある。関係を深めるお礼の言い方。">
+  <div class="card-head">
+    <span class="card-num">No.120</span>
+    <span class="card-title">お世話になったママ友へのお礼</span>
+    <button class="fav-btn" id="fav-120" onclick="toggleFav(120)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-120">（　）さんに（具体的にしてもらったこと：送迎・子どもの預かり・相談に乗ってもらったなど）をしてもらいました。<br>きちんと感謝が伝わる・でも重くなりすぎないお礼の言葉を教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-120" onclick="toggleTip(120)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-120" onclick="doCopy(120)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-120">「ありがとう」以上の言葉がある。関係を深めるお礼の言い方。</div>
+</div>
+</section><section class="cat-section" id="cat-grandpa">
+  <div class="cat-heading" style="border-left:4px solid #D4A843">
+    <span class="cat-emoji">👴</span>
+    <span class="cat-name" style="color:#D4A843">祖父母との対応</span>
+    <span class="cat-cnt">12本</span>
+  </div>
+  <div class="card" id="card-121" data-text="（実家・義実家の親）が子どもに（お菓子を与えすぎる・スマホを長時間渡す・厳しく叱るなど）をします。
+やめてほしいのですが、角が立たない伝え方を教えてください。" data-title="子どもにしてほしくないことを穏やかに断る" data-tip="感謝を先に伝えてからお願いするのが黄金パターン。">
+  <div class="card-head">
+    <span class="card-num">No.121</span>
+    <span class="card-title">子どもにしてほしくないことを穏やかに断る</span>
+    <button class="fav-btn" id="fav-121" onclick="toggleFav(121)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-121">（実家・義実家の親）が子どもに（お菓子を与えすぎる・スマホを長時間渡す・厳しく叱るなど）をします。<br>やめてほしいのですが、角が立たない伝え方を教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-121" onclick="toggleTip(121)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-121" onclick="doCopy(121)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-121">感謝を先に伝えてからお願いするのが黄金パターン。</div>
+</div>
+<div class="card" id="card-122" data-text="（実家・義実家の親）から「（口出しの内容）」と言われます。
+否定せずに、でも自分のやり方も守るための返し方を教えてください。" data-title="育児への口出しをかわす" data-tip="「反論しない・でも従わない」という第三の道がある。">
+  <div class="card-head">
+    <span class="card-num">No.122</span>
+    <span class="card-title">育児への口出しをかわす</span>
+    <button class="fav-btn" id="fav-122" onclick="toggleFav(122)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-122">（実家・義実家の親）から「（口出しの内容）」と言われます。<br>否定せずに、でも自分のやり方も守るための返し方を教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-122" onclick="toggleTip(122)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-122" onclick="doCopy(122)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-122">「反論しない・でも従わない」という第三の道がある。</div>
+</div>
+<div class="card" id="card-123" data-text="（実家・義実家への帰省頻度）について、（多すぎる・日程が合わないなど）で困っています。
+角の立たない断り方・調整の仕方を教えてください。" data-title="帰省の頻度・日程を調整する" data-tip="「行けない」ではなく「この日なら行ける」の形で伝えると角が立ちにくい。">
+  <div class="card-head">
+    <span class="card-num">No.123</span>
+    <span class="card-title">帰省の頻度・日程を調整する</span>
+    <button class="fav-btn" id="fav-123" onclick="toggleFav(123)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-123">（実家・義実家への帰省頻度）について、（多すぎる・日程が合わないなど）で困っています。<br>角の立たない断り方・調整の仕方を教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-123" onclick="toggleTip(123)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-123" onclick="doCopy(123)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-123">「行けない」ではなく「この日なら行ける」の形で伝えると角が立ちにくい。</div>
+</div>
+<div class="card" id="card-124" data-text="（実家・義実家）に子どもを預けます。
+守ってもらいたいこと：（アレルギー・就寝時間・スマホのルールなど）
+感謝しながら、でも確実に守ってもらえるお願いの言葉を作ってください。" data-title="子どもを預けるときのお願い" data-tip="「お願いします」だけでは伝わらない。具体的な行動として伝える。">
+  <div class="card-head">
+    <span class="card-num">No.124</span>
+    <span class="card-title">子どもを預けるときのお願い</span>
+    <button class="fav-btn" id="fav-124" onclick="toggleFav(124)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-124">（実家・義実家）に子どもを預けます。<br>守ってもらいたいこと：（アレルギー・就寝時間・スマホのルールなど）<br>感謝しながら、でも確実に守ってもらえるお願いの言葉を作ってください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-124" onclick="toggleTip(124)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-124" onclick="doCopy(124)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-124">「お願いします」だけでは伝わらない。具体的な行動として伝える。</div>
+</div>
+<div class="card" id="card-125" data-text="義実家では（　）をしますが、私たちの家庭では（　）という方針でやっています。
+否定せずに「私たちはこうしています」と伝える言葉を教えてください。" data-title="義実家のやり方と自分の方針が違うとき" data-tip="「間違い」ではなく「違い」として伝えることが衝突を防ぐ。">
+  <div class="card-head">
+    <span class="card-num">No.125</span>
+    <span class="card-title">義実家のやり方と自分の方針が違うとき</span>
+    <button class="fav-btn" id="fav-125" onclick="toggleFav(125)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-125">義実家では（　）をしますが、私たちの家庭では（　）という方針でやっています。<br>否定せずに「私たちはこうしています」と伝える言葉を教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-125" onclick="toggleTip(125)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-125" onclick="doCopy(125)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-125">「間違い」ではなく「違い」として伝えることが衝突を防ぐ。</div>
+</div>
+<div class="card" id="card-126" data-text="（実家・義実家の親）に（子どもの送迎・当日の子守りなど）をお願いしたいです。
+頼みにくいのですが、相手が喜んで引き受けてくれるようなお願いの仕方を教えてください。" data-title="サポートをお願いしたいとき" data-tip="「頼むのが悪い」という気持ちを手放す。頼まれる側は嬉しいことも多い。">
+  <div class="card-head">
+    <span class="card-num">No.126</span>
+    <span class="card-title">サポートをお願いしたいとき</span>
+    <button class="fav-btn" id="fav-126" onclick="toggleFav(126)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-126">（実家・義実家の親）に（子どもの送迎・当日の子守りなど）をお願いしたいです。<br>頼みにくいのですが、相手が喜んで引き受けてくれるようなお願いの仕方を教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-126" onclick="toggleTip(126)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-126" onclick="doCopy(126)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-126">「頼むのが悪い」という気持ちを手放す。頼まれる側は嬉しいことも多い。</div>
+</div>
+<div class="card" id="card-127" data-text="（実家・義実家の親）が子どもにプレゼント・お小遣いを（多すぎるほど）くれます。
+感謝しながら、量を調整してもらうお願いの仕方を教えてください。" data-title="プレゼント・お小遣いが多すぎるとき" data-tip="「ありがたいけど困る」を伝えるのは勇気がいる。でも伝えないと続く。">
+  <div class="card-head">
+    <span class="card-num">No.127</span>
+    <span class="card-title">プレゼント・お小遣いが多すぎるとき</span>
+    <button class="fav-btn" id="fav-127" onclick="toggleFav(127)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-127">（実家・義実家の親）が子どもにプレゼント・お小遣いを（多すぎるほど）くれます。<br>感謝しながら、量を調整してもらうお願いの仕方を教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-127" onclick="toggleTip(127)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-127" onclick="doCopy(127)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-127">「ありがたいけど困る」を伝えるのは勇気がいる。でも伝えないと続く。</div>
+</div>
+<div class="card" id="card-128" data-text="（実家・義実家に行くと）子どもに（甘いものを与えすぎる・量が多すぎるなど）ことがあります。
+やんわりと伝える言葉を教えてください。" data-title="子どもへの食事の与え方が気になるとき" data-tip="「子どもの健康のために」という視点で伝えると伝わりやすい。">
+  <div class="card-head">
+    <span class="card-num">No.128</span>
+    <span class="card-title">子どもへの食事の与え方が気になるとき</span>
+    <button class="fav-btn" id="fav-128" onclick="toggleFav(128)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-128">（実家・義実家に行くと）子どもに（甘いものを与えすぎる・量が多すぎるなど）ことがあります。<br>やんわりと伝える言葉を教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-128" onclick="toggleTip(128)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-128" onclick="doCopy(128)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-128">「子どもの健康のために」という視点で伝えると伝わりやすい。</div>
+</div>
+<div class="card" id="card-129" data-text="（実家・義実家）と家庭でのしつけ方（叱り方・ルール）が違って、子どもが混乱しているようです。
+穏やかに「統一してほしい」と伝える言葉を教えてください。" data-title="しつけ方針の統一をお願いする" data-tip="子どもへの影響を具体的に伝えると、相手も理解しやすい。">
+  <div class="card-head">
+    <span class="card-num">No.129</span>
+    <span class="card-title">しつけ方針の統一をお願いする</span>
+    <button class="fav-btn" id="fav-129" onclick="toggleFav(129)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-129">（実家・義実家）と家庭でのしつけ方（叱り方・ルール）が違って、子どもが混乱しているようです。<br>穏やかに「統一してほしい」と伝える言葉を教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-129" onclick="toggleTip(129)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-129" onclick="doCopy(129)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-129">子どもへの影響を具体的に伝えると、相手も理解しやすい。</div>
+</div>
+<div class="card" id="card-130" data-text="（実家・義実家の親）から「（言われた言葉）」と言われて傷つきました。
+①この言葉をどう受け取ればいいか整理してください。
+②相手に伝えるべきか・伝えないか、判断の基準も教えてください。" data-title="祖父母の言葉で傷ついたとき" data-tip="傷ついた感情をまず整理する。その上で「言う・言わない」を選ぶ。">
+  <div class="card-head">
+    <span class="card-num">No.130</span>
+    <span class="card-title">祖父母の言葉で傷ついたとき</span>
+    <button class="fav-btn" id="fav-130" onclick="toggleFav(130)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-130">（実家・義実家の親）から「（言われた言葉）」と言われて傷つきました。<br>①この言葉をどう受け取ればいいか整理してください。<br>②相手に伝えるべきか・伝えないか、判断の基準も教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-130" onclick="toggleTip(130)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-130" onclick="doCopy(130)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-130">傷ついた感情をまず整理する。その上で「言う・言わない」を選ぶ。</div>
+</div>
+<div class="card" id="card-131" data-text="（実家・義実家から）帰宅後、子ども（（　）歳）の様子が（荒れる・グズる・睡眠が乱れるなど）になります。
+なぜこうなるのか、どう対応すればいいかを教えてください。
+また、次回の帰省前後にできる予防策も教えてください。" data-title="帰省後に子どもの様子が乱れたとき" data-tip="「帰省後の荒れ」は環境変化によるもの。対策が立てられる。">
+  <div class="card-head">
+    <span class="card-num">No.131</span>
+    <span class="card-title">帰省後に子どもの様子が乱れたとき</span>
+    <button class="fav-btn" id="fav-131" onclick="toggleFav(131)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-131">（実家・義実家から）帰宅後、子ども（（　）歳）の様子が（荒れる・グズる・睡眠が乱れるなど）になります。<br>なぜこうなるのか、どう対応すればいいかを教えてください。<br>また、次回の帰省前後にできる予防策も教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-131" onclick="toggleTip(131)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-131" onclick="doCopy(131)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-131">「帰省後の荒れ」は環境変化によるもの。対策が立てられる。</div>
+</div>
+<div class="card" id="card-132" data-text="（実家・義実家の親）に（してもらったこと）の感謝を伝えたいです。
+形式的にならない・気持ちが伝わる感謝の言葉を作ってください。" data-title="感謝の気持ちを伝える言葉" data-tip="感謝の言葉をしっかり伝えることが、良い関係の土台になる。">
+  <div class="card-head">
+    <span class="card-num">No.132</span>
+    <span class="card-title">感謝の気持ちを伝える言葉</span>
+    <button class="fav-btn" id="fav-132" onclick="toggleFav(132)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-132">（実家・義実家の親）に（してもらったこと）の感謝を伝えたいです。<br>形式的にならない・気持ちが伝わる感謝の言葉を作ってください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-132" onclick="toggleTip(132)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-132" onclick="doCopy(132)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-132">感謝の言葉をしっかり伝えることが、良い関係の土台になる。</div>
+</div>
+</section><section class="cat-section" id="cat-school">
+  <div class="cat-heading" style="border-left:4px solid #4A7CBE">
+    <span class="cat-emoji">🏫</span>
+    <span class="cat-name" style="color:#4A7CBE">先生・学校との連携</span>
+    <span class="cat-cnt">12本</span>
+  </div>
+  <div class="card" id="card-133" data-text="（理由：発熱・通院・家庭の事情など）のため、子どもが（欠席・遅刻）します。
+連絡帳に書く文章を2〜3行で作ってください。
+子どもの学年：（　）年生" data-title="欠席・遅刻の連絡帳の書き方" data-tip="毎回悩む「なんて書こう」が数秒で終わる。">
+  <div class="card-head">
+    <span class="card-num">No.133</span>
+    <span class="card-title">欠席・遅刻の連絡帳の書き方</span>
+    <button class="fav-btn" id="fav-133" onclick="toggleFav(133)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-133">（理由：発熱・通院・家庭の事情など）のため、子どもが（欠席・遅刻）します。<br>連絡帳に書く文章を2〜3行で作ってください。<br>子どもの学年：（　）年生</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-133" onclick="toggleTip(133)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-133" onclick="doCopy(133)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-133">毎回悩む「なんて書こう」が数秒で終わる。</div>
+</div>
+<div class="card" id="card-134" data-text="子どもの担任の先生に（席替えの配慮・友達関係のサポート・特定の対応のお願いなど）を伝えたいです。
+連絡帳または口頭で伝える文章を作ってください。
+クレームではなく「お願い・相談」の形で。" data-title="先生へのお願いを伝える文" data-tip="「要求」ではなく「お願い」の形にすると先生も動きやすい。">
+  <div class="card-head">
+    <span class="card-num">No.134</span>
+    <span class="card-title">先生へのお願いを伝える文</span>
+    <button class="fav-btn" id="fav-134" onclick="toggleFav(134)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-134">子どもの担任の先生に（席替えの配慮・友達関係のサポート・特定の対応のお願いなど）を伝えたいです。<br>連絡帳または口頭で伝える文章を作ってください。<br>クレームではなく「お願い・相談」の形で。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-134" onclick="toggleTip(134)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-134" onclick="doCopy(134)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-134">「要求」ではなく「お願い」の形にすると先生も動きやすい。</div>
+</div>
+<div class="card" id="card-135" data-text="（　）年生の子どもの個人面談があります。
+家庭での様子として伝えたいこと：（　）
+先生から聞きたいこと：（　）
+面談でスムーズに話せるための「伝え方」と「質問リスト」を作ってください。" data-title="個人面談での話し方・聞き方" data-tip="面談は準備した人が得をする。質問リストを持っていくだけで密度が変わる。">
+  <div class="card-head">
+    <span class="card-num">No.135</span>
+    <span class="card-title">個人面談での話し方・聞き方</span>
+    <button class="fav-btn" id="fav-135" onclick="toggleFav(135)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-135">（　）年生の子どもの個人面談があります。<br>家庭での様子として伝えたいこと：（　）<br>先生から聞きたいこと：（　）<br>面談でスムーズに話せるための「伝え方」と「質問リスト」を作ってください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-135" onclick="toggleTip(135)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-135" onclick="doCopy(135)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-135">面談は準備した人が得をする。質問リストを持っていくだけで密度が変わる。</div>
+</div>
+<div class="card" id="card-136" data-text="子ども（（　）年生）が（友達問題・先生との関係・いじめの疑いなど）で困っています。
+クレームにならない・先生と協力関係を築けるような相談の仕方を教えてください。" data-title="子どものトラブルを先生に相談する言い方" data-tip="「告げ口・クレーム」ではなく「一緒に解決したい」という姿勢で伝える。">
+  <div class="card-head">
+    <span class="card-num">No.136</span>
+    <span class="card-title">子どものトラブルを先生に相談する言い方</span>
+    <button class="fav-btn" id="fav-136" onclick="toggleFav(136)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-136">子ども（（　）年生）が（友達問題・先生との関係・いじめの疑いなど）で困っています。<br>クレームにならない・先生と協力関係を築けるような相談の仕方を教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-136" onclick="toggleTip(136)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-136" onclick="doCopy(136)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-136">「告げ口・クレーム」ではなく「一緒に解決したい」という姿勢で伝える。</div>
+</div>
+<div class="card" id="card-137" data-text="担任の先生の（対応・言葉・判断）に疑問を感じています。
+具体的な状況：（　）
+感情的にならず、でも明確に「確認させてほしい」と伝える言葉を教えてください。" data-title="先生の対応に疑問があるときの伝え方" data-tip="「おかしい」と言う前に「確認」から入ると関係が壊れない。">
+  <div class="card-head">
+    <span class="card-num">No.137</span>
+    <span class="card-title">先生の対応に疑問があるときの伝え方</span>
+    <button class="fav-btn" id="fav-137" onclick="toggleFav(137)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-137">担任の先生の（対応・言葉・判断）に疑問を感じています。<br>具体的な状況：（　）<br>感情的にならず、でも明確に「確認させてほしい」と伝える言葉を教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-137" onclick="toggleTip(137)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-137" onclick="doCopy(137)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-137">「おかしい」と言う前に「確認」から入ると関係が壊れない。</div>
+</div>
+<div class="card" id="card-138" data-text="子ども（（　）年生）が（転校・新入学）します。
+先生に事前に伝えておきたいこと：（アレルギー・発達の特性・配慮事項など）
+最初の面談・連絡帳でこれを伝える文章を作ってください。" data-title="転校・入学前の情報共有" data-tip="最初に伝えておくことで、子どもへの対応が変わる。">
+  <div class="card-head">
+    <span class="card-num">No.138</span>
+    <span class="card-title">転校・入学前の情報共有</span>
+    <button class="fav-btn" id="fav-138" onclick="toggleFav(138)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-138">子ども（（　）年生）が（転校・新入学）します。<br>先生に事前に伝えておきたいこと：（アレルギー・発達の特性・配慮事項など）<br>最初の面談・連絡帳でこれを伝える文章を作ってください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-138" onclick="toggleTip(138)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-138" onclick="doCopy(138)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-138">最初に伝えておくことで、子どもへの対応が変わる。</div>
+</div>
+<div class="card" id="card-139" data-text="先生への連絡帳の書き込みに（　）日間返信がありません。
+催促しながら角の立たない一言を作ってください。" data-title="連絡帳の返信が来ないときの催促" data-tip="催促は「もしかしたら見落とし？」というスタンスが一番効く。">
+  <div class="card-head">
+    <span class="card-num">No.139</span>
+    <span class="card-title">連絡帳の返信が来ないときの催促</span>
+    <button class="fav-btn" id="fav-139" onclick="toggleFav(139)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-139">先生への連絡帳の書き込みに（　）日間返信がありません。<br>催促しながら角の立たない一言を作ってください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-139" onclick="toggleTip(139)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-139" onclick="doCopy(139)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-139">催促は「もしかしたら見落とし？」というスタンスが一番効く。</div>
+</div>
+<div class="card" id="card-140" data-text="（学校行事名）を（仕事・体調・家庭の事情など）で欠席します。
+先生・学校への連絡文（メール・連絡帳）を作ってください。" data-title="学校行事を欠席するときの連絡" data-tip="欠席の連絡は早いほどいい。文章はシンプルでいい。">
+  <div class="card-head">
+    <span class="card-num">No.140</span>
+    <span class="card-title">学校行事を欠席するときの連絡</span>
+    <button class="fav-btn" id="fav-140" onclick="toggleFav(140)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-140">（学校行事名）を（仕事・体調・家庭の事情など）で欠席します。<br>先生・学校への連絡文（メール・連絡帳）を作ってください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-140" onclick="toggleTip(140)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-140" onclick="doCopy(140)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-140">欠席の連絡は早いほどいい。文章はシンプルでいい。</div>
+</div>
+<div class="card" id="card-141" data-text="（学期末・卒業・転任など）のタイミングで、担任の先生への感謝を伝えたいです。
+具体的にお世話になったこと：（　）
+形式的にならない・気持ちが伝わる言葉を作ってください。" data-title="先生への感謝の言葉・学期末の挨拶" data-tip="先生は「覚えていてくれた」という具体的な感謝に弱い。">
+  <div class="card-head">
+    <span class="card-num">No.141</span>
+    <span class="card-title">先生への感謝の言葉・学期末の挨拶</span>
+    <button class="fav-btn" id="fav-141" onclick="toggleFav(141)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-141">（学期末・卒業・転任など）のタイミングで、担任の先生への感謝を伝えたいです。<br>具体的にお世話になったこと：（　）<br>形式的にならない・気持ちが伝わる言葉を作ってください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-141" onclick="toggleTip(141)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-141" onclick="doCopy(141)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-141">先生は「覚えていてくれた」という具体的な感謝に弱い。</div>
+</div>
+<div class="card" id="card-142" data-text="子どもが（　）アレルギーです。
+給食での除去食・代替食・緊急時の対応について、先生・学校にお願いする文章を作ってください。" data-title="給食のアレルギー対応をお願いする" data-tip="アレルギー対応は書面で残すことが大事。">
+  <div class="card-head">
+    <span class="card-num">No.142</span>
+    <span class="card-title">給食のアレルギー対応をお願いする</span>
+    <button class="fav-btn" id="fav-142" onclick="toggleFav(142)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-142">子どもが（　）アレルギーです。<br>給食での除去食・代替食・緊急時の対応について、先生・学校にお願いする文章を作ってください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-142" onclick="toggleTip(142)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-142" onclick="doCopy(142)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-142">アレルギー対応は書面で残すことが大事。</div>
+</div>
+<div class="card" id="card-143" data-text="子ども（（　）年生）が担任の先生と「合わない」と言っています。
+具体的な状況：（　）
+親として何をすべきか、先生への相談の仕方と、子どもへのフォローの仕方を教えてください。" data-title="子どもが先生と合わないと感じるとき" data-tip="「先生を変えてほしい」より「子どもを守る」にフォーカスした動き方がある。">
+  <div class="card-head">
+    <span class="card-num">No.143</span>
+    <span class="card-title">子どもが先生と合わないと感じるとき</span>
+    <button class="fav-btn" id="fav-143" onclick="toggleFav(143)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-143">子ども（（　）年生）が担任の先生と「合わない」と言っています。<br>具体的な状況：（　）<br>親として何をすべきか、先生への相談の仕方と、子どもへのフォローの仕方を教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-143" onclick="toggleTip(143)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-143" onclick="doCopy(143)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-143">「先生を変えてほしい」より「子どもを守る」にフォーカスした動き方がある。</div>
+</div>
+<div class="card" id="card-144" data-text="（習い事・課外活動名）の（コーチ・講師）に（欠席・遅刻・退会など）の連絡をしたいです。
+理由：（　）
+LINEまたはメールで送れる簡潔な連絡文を作ってください。" data-title="習い事・課外活動の欠席・変更連絡" data-tip="習い事の連絡は短くていい。必要な情報だけを伝える。">
+  <div class="card-head">
+    <span class="card-num">No.144</span>
+    <span class="card-title">習い事・課外活動の欠席・変更連絡</span>
+    <button class="fav-btn" id="fav-144" onclick="toggleFav(144)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-144">（習い事・課外活動名）の（コーチ・講師）に（欠席・遅刻・退会など）の連絡をしたいです。<br>理由：（　）<br>LINEまたはメールで送れる簡潔な連絡文を作ってください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-144" onclick="toggleTip(144)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-144" onclick="doCopy(144)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-144">習い事の連絡は短くていい。必要な情報だけを伝える。</div>
+</div>
+</section><section class="cat-section" id="cat-special">
+  <div class="cat-heading" style="border-left:4px solid #E8724A">
+    <span class="cat-emoji">🌟</span>
+    <span class="cat-name" style="color:#E8724A">応用・特殊シーン</span>
+    <span class="cat-cnt">16本</span>
+  </div>
+  <div class="card" id="card-145" data-text="（　）歳の子どもの（運動会・学芸会など）が（　）日後に迫っています。
+当日の準備リスト・持ち物・子どもへの声かけ・当日のタイムラインを教えてください。" data-title="運動会・学芸会の前後対応" data-tip="直前に慌てないために、1週間前からAIに設計させておく。">
+  <div class="card-head">
+    <span class="card-num">No.145</span>
+    <span class="card-title">運動会・学芸会の前後対応</span>
+    <button class="fav-btn" id="fav-145" onclick="toggleFav(145)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-145">（　）歳の子どもの（運動会・学芸会など）が（　）日後に迫っています。<br>当日の準備リスト・持ち物・子どもへの声かけ・当日のタイムラインを教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-145" onclick="toggleTip(145)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-145" onclick="doCopy(145)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-145">直前に慌てないために、1週間前からAIに設計させておく。</div>
+</div>
+<div class="card" id="card-146" data-text="子ども（（　）歳・（　）歳）の夏休みの1日のスケジュールを作ってください。
+私の勤務状況：（フルタイム・時短・在宅など）
+宿題を計画的に終わらせるためのスケジュール管理も含めて。" data-title="夏休み・長期休みの生活設計" data-tip="夏休み初日にこれをやれば、最終日の地獄がなくなる。">
+  <div class="card-head">
+    <span class="card-num">No.146</span>
+    <span class="card-title">夏休み・長期休みの生活設計</span>
+    <button class="fav-btn" id="fav-146" onclick="toggleFav(146)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-146">子ども（（　）歳・（　）歳）の夏休みの1日のスケジュールを作ってください。<br>私の勤務状況：（フルタイム・時短・在宅など）<br>宿題を計画的に終わらせるためのスケジュール管理も含めて。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-146" onclick="toggleTip(146)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-146" onclick="doCopy(146)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-146">夏休み初日にこれをやれば、最終日の地獄がなくなる。</div>
+</div>
+<div class="card" id="card-147" data-text="（　）歳の子どもが（症状）でダウンしています。
+今日の段取りとして：
+職場への連絡文、子どものケア方法、夕飯メニュー（食欲なし対応）
+これらをまとめてシミュレーションしてください。" data-title="子どもが体調不良の日の段取り" data-tip="「考える余力がない日」こそ全部AIに投げる日。">
+  <div class="card-head">
+    <span class="card-num">No.147</span>
+    <span class="card-title">子どもが体調不良の日の段取り</span>
+    <button class="fav-btn" id="fav-147" onclick="toggleFav(147)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-147">（　）歳の子どもが（症状）でダウンしています。<br>今日の段取りとして：<br>職場への連絡文、子どものケア方法、夕飯メニュー（食欲なし対応）<br>これらをまとめてシミュレーションしてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-147" onclick="toggleTip(147)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-147" onclick="doCopy(147)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-147">「考える余力がない日」こそ全部AIに投げる日。</div>
+</div>
+<div class="card" id="card-148" data-text="保育園・学校から急にお迎え呼び出しがありました。
+職場への連絡文と、その後（お迎え→帰宅→対応）の動きをシミュレーションしてください。
+私の勤務状況：（　）" data-title="急な病院・お迎え呼び出しの段取り" data-tip="パニックになる前に「次の行動」を整理してもらう使い方。">
+  <div class="card-head">
+    <span class="card-num">No.148</span>
+    <span class="card-title">急な病院・お迎え呼び出しの段取り</span>
+    <button class="fav-btn" id="fav-148" onclick="toggleFav(148)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-148">保育園・学校から急にお迎え呼び出しがありました。<br>職場への連絡文と、その後（お迎え→帰宅→対応）の動きをシミュレーションしてください。<br>私の勤務状況：（　）</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-148" onclick="toggleTip(148)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-148" onclick="doCopy(148)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-148">パニックになる前に「次の行動」を整理してもらう使い方。</div>
+</div>
+<div class="card" id="card-149" data-text="（　）歳の子どもに性教育を始めたいです。
+この年齢に合った内容・伝え方・最初に使える言葉を教えてください。
+子どもが自然に受け取れる方法で。" data-title="子どもへの性教育の始め方" data-tip="「何歳から・何を・どう伝えるか」が整理されているだけで踏み出せる。">
+  <div class="card-head">
+    <span class="card-num">No.149</span>
+    <span class="card-title">子どもへの性教育の始め方</span>
+    <button class="fav-btn" id="fav-149" onclick="toggleFav(149)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-149">（　）歳の子どもに性教育を始めたいです。<br>この年齢に合った内容・伝え方・最初に使える言葉を教えてください。<br>子どもが自然に受け取れる方法で。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-149" onclick="toggleTip(149)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-149" onclick="doCopy(149)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-149">「何歳から・何を・どう伝えるか」が整理されているだけで踏み出せる。</div>
+</div>
+<div class="card" id="card-150" data-text="（　）歳の子どもに「死んだらどうなるの？」と聞かれました。
+その年齢でわかる・不安を与えすぎない言葉で答えるにはどう言えばいいですか？" data-title="「死」について聞かれた時の答え方" data-tip="準備なしに聞かれると焦る。事前に言葉を持っておく。">
+  <div class="card-head">
+    <span class="card-num">No.150</span>
+    <span class="card-title">「死」について聞かれた時の答え方</span>
+    <button class="fav-btn" id="fav-150" onclick="toggleFav(150)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-150">（　）歳の子どもに「死んだらどうなるの？」と聞かれました。<br>その年齢でわかる・不安を与えすぎない言葉で答えるにはどう言えばいいですか？</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-150" onclick="toggleTip(150)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-150" onclick="doCopy(150)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-150">準備なしに聞かれると焦る。事前に言葉を持っておく。</div>
+</div>
+<div class="card" id="card-151" data-text="（　）歳の子どもにお金について教えたいです。
+この年齢に合ったお小遣いの渡し方・お金の価値の伝え方・買い物の練習方法を教えてください。" data-title="お金の教育を始める" data-tip="「お金の話は早すぎない」。年齢に合った形がある。">
+  <div class="card-head">
+    <span class="card-num">No.151</span>
+    <span class="card-title">お金の教育を始める</span>
+    <button class="fav-btn" id="fav-151" onclick="toggleFav(151)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-151">（　）歳の子どもにお金について教えたいです。<br>この年齢に合ったお小遣いの渡し方・お金の価値の伝え方・買い物の練習方法を教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-151" onclick="toggleTip(151)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-151" onclick="doCopy(151)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-151">「お金の話は早すぎない」。年齢に合った形がある。</div>
+</div>
+<div class="card" id="card-152" data-text="（　）歳の子どもにスマホ・ゲームのルールを設定したいです。
+現状：（使用時間・使い方の問題点）
+子どもも納得できるルールの作り方と、破ったときの対処法を教えてください。" data-title="スマホ・ゲームのルール設計" data-tip="「子どもと一緒に決めたルール」は守られやすい。">
+  <div class="card-head">
+    <span class="card-num">No.152</span>
+    <span class="card-title">スマホ・ゲームのルール設計</span>
+    <button class="fav-btn" id="fav-152" onclick="toggleFav(152)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-152">（　）歳の子どもにスマホ・ゲームのルールを設定したいです。<br>現状：（使用時間・使い方の問題点）<br>子どもも納得できるルールの作り方と、破ったときの対処法を教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-152" onclick="toggleTip(152)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-152" onclick="doCopy(152)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-152">「子どもと一緒に決めたルール」は守られやすい。</div>
+</div>
+<div class="card" id="card-153" data-text="家族旅行・お出かけの計画があります。
+行き先：（　）、人数：大人（　）名・子ども（（　）歳）
+持ち物チェックリスト・子連れ移動のコツ・当日のタイムラインを作ってください。" data-title="家族旅行・外出の準備の効率化" data-tip="旅行の準備はAIに丸投げが一番楽。">
+  <div class="card-head">
+    <span class="card-num">No.153</span>
+    <span class="card-title">家族旅行・外出の準備の効率化</span>
+    <button class="fav-btn" id="fav-153" onclick="toggleFav(153)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-153">家族旅行・お出かけの計画があります。<br>行き先：（　）、人数：大人（　）名・子ども（（　）歳）<br>持ち物チェックリスト・子連れ移動のコツ・当日のタイムラインを作ってください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-153" onclick="toggleTip(153)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-153" onclick="doCopy(153)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-153">旅行の準備はAIに丸投げが一番楽。</div>
+</div>
+<div class="card" id="card-154" data-text="（　）歳の子どもの偏食がひどくて悩んでいます。
+食べられるもの：（　）　食べないもの：（　）
+無理なく半年かけて偏食を改善していくアプローチと、月単位の計画を教えてください。" data-title="子どもの偏食改善・長期戦略" data-tip="偏食は短期で解決しない。長期戦として設計する。">
+  <div class="card-head">
+    <span class="card-num">No.154</span>
+    <span class="card-title">子どもの偏食改善・長期戦略</span>
+    <button class="fav-btn" id="fav-154" onclick="toggleFav(154)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-154">（　）歳の子どもの偏食がひどくて悩んでいます。<br>食べられるもの：（　）　食べないもの：（　）<br>無理なく半年かけて偏食を改善していくアプローチと、月単位の計画を教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-154" onclick="toggleTip(154)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-154" onclick="doCopy(154)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-154">偏食は短期で解決しない。長期戦として設計する。</div>
+</div>
+<div class="card" id="card-155" data-text="（　）歳の子どもの（発表会・試合・テスト）が（　）日後に迫っています。
+緊張している子どもへの「前々日・前日・当日朝」それぞれの声かけを教えてください。" data-title="発表会・試合前の子どもへの声かけ" data-tip="「頑張れ」より具体的な言葉の方が子どもの力になる。">
+  <div class="card-head">
+    <span class="card-num">No.155</span>
+    <span class="card-title">発表会・試合前の子どもへの声かけ</span>
+    <button class="fav-btn" id="fav-155" onclick="toggleFav(155)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-155">（　）歳の子どもの（発表会・試合・テスト）が（　）日後に迫っています。<br>緊張している子どもへの「前々日・前日・当日朝」それぞれの声かけを教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-155" onclick="toggleTip(155)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-155" onclick="doCopy(155)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-155">「頑張れ」より具体的な言葉の方が子どもの力になる。</div>
+</div>
+<div class="card" id="card-156" data-text="（　）ヶ月前に下の子が生まれてから、上の子（（　）歳）が（荒れる・赤ちゃん返りするなど）ようになりました。
+なぜこうなるのか、どう対応すればいいかを教えてください。" data-title="上の子へのフォロー（下の子誕生後）" data-tip="上の子の荒れは「愛情が欲しい」サイン。行動ではなく感情に対処する。">
+  <div class="card-head">
+    <span class="card-num">No.156</span>
+    <span class="card-title">上の子へのフォロー（下の子誕生後）</span>
+    <button class="fav-btn" id="fav-156" onclick="toggleFav(156)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-156">（　）ヶ月前に下の子が生まれてから、上の子（（　）歳）が（荒れる・赤ちゃん返りするなど）ようになりました。<br>なぜこうなるのか、どう対応すればいいかを教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-156" onclick="toggleTip(156)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-156" onclick="doCopy(156)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-156">上の子の荒れは「愛情が欲しい」サイン。行動ではなく感情に対処する。</div>
+</div>
+<div class="card" id="card-157" data-text="（　）年生の子どもの進路について初めて考え始めています。
+今の状況：（　）　希望・気になること：（　）
+何年生から・どう情報収集するか・今やっておくべきことを教えてください。" data-title="子どもの進路・受験を初めて考える" data-tip="「まだ早い」より「今から整理する」方が後で楽になる。">
+  <div class="card-head">
+    <span class="card-num">No.157</span>
+    <span class="card-title">子どもの進路・受験を初めて考える</span>
+    <button class="fav-btn" id="fav-157" onclick="toggleFav(157)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-157">（　）年生の子どもの進路について初めて考え始めています。<br>今の状況：（　）　希望・気になること：（　）<br>何年生から・どう情報収集するか・今やっておくべきことを教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-157" onclick="toggleTip(157)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-157" onclick="doCopy(157)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-157">「まだ早い」より「今から整理する」方が後で楽になる。</div>
+</div>
+<div class="card" id="card-158" data-text="（　）歳の子どもの（気になる特性・行動）について、かかりつけ医や専門機関に相談したいです。
+伝えるべき情報を整理して、受診前の準備メモを作ってください。" data-title="気になる発達の点を医師に伝える準備" data-tip="「うまく説明できない」まま受診すると時間がもったいない。準備してから行く。">
+  <div class="card-head">
+    <span class="card-num">No.158</span>
+    <span class="card-title">気になる発達の点を医師に伝える準備</span>
+    <button class="fav-btn" id="fav-158" onclick="toggleFav(158)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-158">（　）歳の子どもの（気になる特性・行動）について、かかりつけ医や専門機関に相談したいです。<br>伝えるべき情報を整理して、受診前の準備メモを作ってください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-158" onclick="toggleTip(158)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-158" onclick="doCopy(158)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-158">「うまく説明できない」まま受診すると時間がもったいない。準備してから行く。</div>
+</div>
+<div class="card" id="card-159" data-text="子育て中に転職・働き方の変更を検討しています。
+現状：（勤務形態・不満・変えたい理由）　家族構成：（　）
+転職のメリット・リスク・タイミングの考え方を整理してください。" data-title="子育て中の転職・キャリア変更の検討" data-tip="感情で決めずに整理してから動く。AIが冷静に整理してくれる。">
+  <div class="card-head">
+    <span class="card-num">No.159</span>
+    <span class="card-title">子育て中の転職・キャリア変更の検討</span>
+    <button class="fav-btn" id="fav-159" onclick="toggleFav(159)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-159">子育て中に転職・働き方の変更を検討しています。<br>現状：（勤務形態・不満・変えたい理由）　家族構成：（　）<br>転職のメリット・リスク・タイミングの考え方を整理してください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-159" onclick="toggleTip(159)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-159" onclick="doCopy(159)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-159">感情で決めずに整理してから動く。AIが冷静に整理してくれる。</div>
+</div>
+<div class="card" id="card-160" data-text="（　）歳の子どもが友達ができないことで悩んでいます。
+現状：（どんな様子か）
+原因の仮説と、親にできるサポートの設計を教えてください。" data-title="子どもの「友達ができない」問題への対処" data-tip="「友達を作れ」は逆効果。環境と関わり方から変える。">
+  <div class="card-head">
+    <span class="card-num">No.160</span>
+    <span class="card-title">子どもの「友達ができない」問題への対処</span>
+    <button class="fav-btn" id="fav-160" onclick="toggleFav(160)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-160">（　）歳の子どもが友達ができないことで悩んでいます。<br>現状：（どんな様子か）<br>原因の仮説と、親にできるサポートの設計を教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-160" onclick="toggleTip(160)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-160" onclick="doCopy(160)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-160">「友達を作れ」は逆効果。環境と関わり方から変える。</div>
+</div>
+</section>
+
+<div class="no-res" id="no-res">
+  <div class="no-res-ico">🔍</div>
+  <p>「<span id="no-res-q"></span>」に一致する<br>プロンプトが見つかりません</p>
+</div>
+</div>
+
+<footer>本書『夕方、もう限界なママへ』読者限定特典<br>全160本 ｜ コピペ後は（　）を書き換えて使用</footer>
+
+<!-- SOS SHEET -->
+<div class="overlay" id="sos-overlay" onclick="closeOverlay('sos-overlay',event)">
+  <div class="sheet">
+    <div class="sheet-head">
+      <div class="sheet-title">🆘 今すぐ使えるSOS</div>
+      <button class="sheet-close" onclick="closeOverlay('sos-overlay')">✕</button>
+    </div>
+    <p class="sheet-desc">「もう無理」な今夜のための緊急プロンプト3本。コピーしてすぐ使えます。</p>
+    <div class="card" id="card-6" data-text="今日は全然時間がなくて夕飯を作る余裕がありません。
+冷蔵庫に（食材）と（食材）があります。
+調理10分以内・子どもが食べられる・洗い物が少ない、この条件で作れるものを教えてください。" data-title="10分緊急メニュー" data-tip="「もう無理」な日のお守り。これがあるだけで気持ちが少し楽になる。">
+  <div class="card-head">
+    <span class="card-num">No.06</span>
+    <span class="card-title">10分緊急メニュー</span>
+    <button class="fav-btn" id="fav-6" onclick="toggleFav(6)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-6">今日は全然時間がなくて夕飯を作る余裕がありません。<br>冷蔵庫に（食材）と（食材）があります。<br>調理10分以内・子どもが食べられる・洗い物が少ない、この条件で作れるものを教えてください。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-6" onclick="toggleTip(6)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-6" onclick="doCopy(6)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-6">「もう無理」な日のお守り。これがあるだけで気持ちが少し楽になる。</div>
+</div>
+<div class="card" id="card-22" data-text="今日は本当に限界まで疲れています。エネルギーが残り5%の状態です。
+子ども（（　）歳・（　）歳）がいて、21時までには寝かしつけたいです。
+「今夜絶対やらなければいけないこと」だけに絞った最低限のプランを教えてください。
+品質は下げていいです。それをやれば最悪の状況は回避できる最低ラインで。" data-title="今夜の最低ラインプラン（MVE）" data-tip="「完璧にやらなくていい日」の許可証になるプロンプト。">
+  <div class="card-head">
+    <span class="card-num">No.22</span>
+    <span class="card-title">今夜の最低ラインプラン（MVE）</span>
+    <button class="fav-btn" id="fav-22" onclick="toggleFav(22)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-22">今日は本当に限界まで疲れています。エネルギーが残り5%の状態です。<br>子ども（（　）歳・（　）歳）がいて、21時までには寝かしつけたいです。<br>「今夜絶対やらなければいけないこと」だけに絞った最低限のプランを教えてください。<br>品質は下げていいです。それをやれば最悪の状況は回避できる最低ラインで。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-22" onclick="toggleTip(22)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-22" onclick="doCopy(22)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-22">「完璧にやらなくていい日」の許可証になるプロンプト。</div>
+</div>
+<div class="card" id="card-85" data-text="今、育児でパンクしそうです。子どもが（状況）で、夕飯もできていなくて、頭の中が真っ白です。
+今すぐ気持ちを落ち着けるために、今この瞬間にすることを1つだけ教えてください。
+長い説明はいらないので「まず〇〇してください」という短い答えで。" data-title="今すぐ落ち着く・緊急1アクション" data-tip="怒鳴る一歩手前にこれを使う。「1つだけ」と絞るのがポイント。">
+  <div class="card-head">
+    <span class="card-num">No.85</span>
+    <span class="card-title">今すぐ落ち着く・緊急1アクション</span>
+    <button class="fav-btn" id="fav-85" onclick="toggleFav(85)" title="お気に入り">☆</button>
+  </div>
+  <div class="card-body">
+    <div class="prompt-box" id="pb-85">今、育児でパンクしそうです。子どもが（状況）で、夕飯もできていなくて、頭の中が真っ白です。<br>今すぐ気持ちを落ち着けるために、今この瞬間にすることを1つだけ教えてください。<br>長い説明はいらないので「まず〇〇してください」という短い答えで。</div>
+  </div>
+  <div class="card-foot">
+    <button class="tip-btn" id="tipbtn-85" onclick="toggleTip(85)">💡 ポイント ▾</button>
+    <button class="copy-btn" id="cp-85" onclick="doCopy(85)">📋 コピー</button>
+  </div>
+  <div class="tip-box" id="tip-85">怒鳴る一歩手前にこれを使う。「1つだけ」と絞るのがポイント。</div>
+</div>
+  </div>
+</div>
+
+<!-- FAV SHEET -->
+<div class="overlay" id="fav-overlay" onclick="closeOverlay('fav-overlay',event)">
+  <div class="sheet">
+    <div class="sheet-head">
+      <div class="sheet-title" style="color:var(--gold)">⭐ お気に入り</div>
+      <button class="sheet-close" onclick="closeOverlay('fav-overlay')">✕</button>
+    </div>
+    <div id="fav-sheet-cards"></div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+<button class="top-btn" id="top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+// Favorites
+var favs = [];
+try{ favs = JSON.parse(localStorage.getItem('pf2') || '[]'); }catch(e){}
+
+// Init favs
+favs.forEach(function(id){
+  var b = document.getElementById('fav-'+id);
+  if(b){ b.classList.add('on'); b.textContent='★'; }
+  var c = document.getElementById('card-'+id);
+  if(c) c.classList.add('faved');
+});
+updateFavBar();
+
+function toggleFav(id){
+  var idx = favs.indexOf(id);
+  if(idx>=0) favs.splice(idx,1); else favs.push(id);
+  try{ localStorage.setItem('pf2', JSON.stringify(favs)); }catch(e){}
+  var on = favs.indexOf(id)>=0;
+  document.querySelectorAll('#fav-'+id).forEach(function(b){
+    b.classList.toggle('on',on); b.textContent = on ? '★' : '☆';
+  });
+  document.querySelectorAll('#card-'+id).forEach(function(c){
+    c.classList.toggle('faved',on);
+  });
+  updateFavBar();
+  showToast(on ? '⭐ お気に入りに追加しました' : 'お気に入りから削除しました');
+}
+
+function updateFavBar(){
+  var bar = document.getElementById('fav-bar');
+  var txt = document.getElementById('fav-bar-txt');
+  if(favs.length>0){ bar.classList.add('on'); txt.textContent='お気に入り '+favs.length+'本'; }
+  else bar.classList.remove('on');
+}
+
+function doCopy(id){
+  var card = document.getElementById('card-'+id);
+  var text = card.getAttribute('data-text');
+  var btn = document.getElementById('cp-'+id);
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(text).then(function(){ flashCopy(btn); });
+  } else {
+    var el = document.createElement('textarea');
+    el.value = text; el.style.position='fixed'; el.style.opacity='0';
+    document.body.appendChild(el); el.focus(); el.select();
+    document.execCommand('copy'); document.body.removeChild(el);
+    flashCopy(btn);
+  }
+}
+function flashCopy(btn){
+  btn.classList.add('done'); btn.innerHTML='✅ コピー済';
+  showToast('コピーしました！AIに貼り付けて使ってください');
+  setTimeout(function(){ btn.classList.remove('done'); btn.innerHTML='📋 コピー'; }, 2000);
+}
+
+function toggleTip(id){
+  var t = document.getElementById('tip-'+id);
+  var b = document.getElementById('tipbtn-'+id);
+  var open = t.style.display === 'block';
+  t.style.display = open ? 'none' : 'block';
+  b.innerHTML = open ? '💡 ポイント ▾' : '💡 ポイント ▴';
+}
+
+function toggleIntro(el){
+  var body = document.getElementById('intro-body');
+  var arr = document.getElementById('intro-arr');
+  var open = body.style.display === 'block';
+  body.style.display = open ? 'none' : 'block';
+  arr.style.transform = open ? '' : 'rotate(180deg)';
+}
+
+// Search
+function doSearch(){
+  var q = document.getElementById('q').value.trim().toLowerCase();
+  document.getElementById('qc').style.display = q ? 'block' : 'none';
+  var cards = document.querySelectorAll('.card');
+  var found = 0;
+  cards.forEach(function(c){
+    var match = !q ||
+      c.getAttribute('data-title').toLowerCase().includes(q) ||
+      c.getAttribute('data-text').toLowerCase().includes(q) ||
+      c.getAttribute('data-tip').toLowerCase().includes(q);
+    c.classList.toggle('hidden', !match);
+    if(match) found++;
+  });
+  document.querySelectorAll('.cat-section').forEach(function(s){
+    var vis = s.querySelectorAll('.card:not(.hidden)').length;
+    s.classList.toggle('hidden', vis===0);
+  });
+  var nr = document.getElementById('no-res');
+  nr.classList.toggle('on', found===0 && !!q);
+  if(found===0 && q) document.getElementById('no-res-q').textContent = q;
+}
+function clearQ(){
+  document.getElementById('q').value='';
+  document.getElementById('qc').style.display='none';
+  doSearch();
+}
+
+// SOS
+function openSOS(){ document.getElementById('sos-overlay').classList.add('on'); document.body.style.overflow='hidden'; }
+function openFavs(){
+  if(!favs.length){ showToast('まだお気に入りがありません'); return; }
+  var fc = document.getElementById('fav-sheet-cards');
+  fc.innerHTML = favs.map(function(id){
+    var c = document.getElementById('card-'+id);
+    return c ? c.outerHTML : '';
+  }).join('');
+  document.getElementById('fav-overlay').classList.add('on');
+  document.body.style.overflow='hidden';
+}
+function closeOverlay(id, e){
+  if(e && e.target !== document.getElementById(id) && !e.target.classList.contains('sheet-close')) return;
+  document.getElementById(id).classList.remove('on');
+  document.body.style.overflow='';
+}
+
+// Toast
+var toastT;
+function showToast(msg){
+  var t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('on');
+  clearTimeout(toastT);
+  toastT = setTimeout(function(){ t.classList.remove('on'); }, 2500);
+}
+
+// Scroll top
+window.addEventListener('scroll', function(){
+  document.getElementById('top-btn').classList.toggle('on', window.scrollY > 350);
+});
+</script>
+</body>
+</html>
