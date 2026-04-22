@@ -1,0 +1,1308 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>【読者限定特典②】子育て記録テンプレート | AIネイティブ世代の育て方</title>
+<style>
+  :root {
+    --orange: #E07040;
+    --navy: #1E3A64;
+    --cream: #fdfdf8;
+    --light-orange: #fdf0e8;
+    --light-navy: #e8edf5;
+    --green: #4caf89;
+    --light-green: #eaf6f0;
+    --pink: #e87080;
+    --light-pink: #fdf0f2;
+    --purple: #8060c0;
+    --light-purple: #f0ecfa;
+    --text: #333;
+    --border: #e0d8cc;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    line-height: 1.7;
+  }
+
+  /* ヘッダー */
+  header {
+    background: linear-gradient(135deg, #3a6a3a 0%, #5a9a5a 100%);
+    color: white;
+    padding: 32px 20px 28px;
+    text-align: center;
+  }
+  .header-badge {
+    display: inline-block;
+    background: var(--orange);
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+  }
+  header h1 {
+    font-size: clamp(20px, 5vw, 28px);
+    font-weight: 900;
+    line-height: 1.4;
+    margin-bottom: 10px;
+  }
+  header p { font-size: 14px; opacity: 0.85; }
+
+  /* メイン */
+  main {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 24px 16px 60px;
+  }
+
+  /* ナビゲーション */
+  .nav-tabs {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    margin-bottom: 28px;
+    scrollbar-width: none;
+  }
+  .nav-tabs::-webkit-scrollbar { display: none; }
+  .nav-tab {
+    flex-shrink: 0;
+    padding: 10px 18px;
+    border-radius: 50px;
+    border: 2px solid var(--border);
+    background: white;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .nav-tab:hover { border-color: var(--green); color: var(--green); }
+  .nav-tab.active { background: var(--green); border-color: var(--green); color: white; }
+
+  /* ページ */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* セクションタイトル */
+  .section-title {
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--navy);
+    margin-bottom: 6px;
+    padding-bottom: 8px;
+    border-bottom: 3px solid var(--green);
+  }
+  .section-desc {
+    font-size: 13px;
+    color: #666;
+    margin-bottom: 24px;
+  }
+
+  /* 月齢カード */
+  .growth-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+    margin-bottom: 32px;
+  }
+
+  .growth-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+  }
+  .growth-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+
+  .growth-card-header {
+    padding: 14px 20px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .growth-card-title {
+    font-size: 16px;
+    font-weight: 900;
+    color: white;
+  }
+  .growth-card-age {
+    font-size: 11px;
+    color: rgba(255,255,255,0.85);
+  }
+  .growth-card-body { padding: 16px 18px 18px; }
+
+  .input-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .input-label {
+    font-size: 12px;
+    font-weight: bold;
+    color: #666;
+    width: 72px;
+    flex-shrink: 0;
+  }
+  .input-field {
+    flex: 1;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 13px;
+    background: var(--cream);
+    transition: border-color 0.2s;
+    outline: none;
+    font-family: inherit;
+  }
+  .input-field:focus { border-color: var(--green); background: white; }
+  .input-unit {
+    font-size: 11px;
+    color: #888;
+    flex-shrink: 0;
+  }
+
+  .textarea-field {
+    width: 100%;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 8px 10px;
+    font-size: 13px;
+    background: var(--cream);
+    transition: border-color 0.2s;
+    outline: none;
+    resize: vertical;
+    font-family: inherit;
+    line-height: 1.6;
+    margin-top: 4px;
+  }
+  .textarea-field:focus { border-color: var(--green); background: white; }
+
+  .milestone-title {
+    font-size: 12px;
+    font-weight: bold;
+    color: #555;
+    margin: 10px 0 6px;
+  }
+  .milestone-list {
+    list-style: none;
+  }
+  .milestone-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 5px;
+    font-size: 12px;
+    color: #555;
+  }
+  .milestone-item input[type="checkbox"] {
+    width: 15px;
+    height: 15px;
+    accent-color: var(--green);
+    flex-shrink: 0;
+  }
+
+  /* 育児日記セクション */
+  .diary-area {
+    margin-bottom: 32px;
+  }
+  .diary-entry {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 16px;
+  }
+  .diary-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+    flex-wrap: wrap;
+  }
+  .diary-date {
+    font-size: 13px;
+    font-weight: bold;
+    color: var(--navy);
+  }
+  .mood-select {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 5px 10px;
+    font-size: 13px;
+    background: var(--cream);
+    font-family: inherit;
+    cursor: pointer;
+    outline: none;
+  }
+  .weather-select {
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 5px 10px;
+    font-size: 13px;
+    background: var(--cream);
+    font-family: inherit;
+    cursor: pointer;
+    outline: none;
+  }
+  .diary-fields { }
+  .diary-field-label {
+    font-size: 12px;
+    font-weight: bold;
+    color: #666;
+    margin-bottom: 4px;
+    display: block;
+  }
+  .diary-field-label.with-icon::before {
+    margin-right: 4px;
+  }
+
+  .add-diary-btn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    background: var(--light-green);
+    border: 2px dashed var(--green);
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--green);
+    cursor: pointer;
+    transition: background 0.2s;
+    text-align: center;
+    font-family: inherit;
+  }
+  .add-diary-btn:hover { background: #d0eee3; }
+
+  .remove-btn {
+    margin-left: auto;
+    background: none;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 11px;
+    color: #888;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .remove-btn:hover { background: #fee; border-color: #e88; color: #c55; }
+
+  /* ChatGPTメモセクション */
+  .ai-section {
+    background: var(--light-navy);
+    border-left: 4px solid var(--navy);
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin-bottom: 20px;
+  }
+  .ai-section-title {
+    font-size: 14px;
+    font-weight: 900;
+    color: var(--navy);
+    margin-bottom: 10px;
+  }
+
+  /* 保存・エクスポートエリア */
+  .action-bar {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 24px;
+    padding: 20px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+  }
+  .action-btn {
+    flex: 1;
+    min-width: 140px;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+  .btn-save {
+    background: var(--green);
+    color: white;
+  }
+  .btn-save:hover { background: #3a9a70; }
+  .btn-reset {
+    background: #f5f5f5;
+    color: #666;
+    border: 1px solid #ddd;
+  }
+  .btn-reset:hover { background: #eee; }
+
+  /* 写真プレースホルダー */
+  .photo-placeholder {
+    background: #f5f5f5;
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    color: #aaa;
+    font-size: 13px;
+    margin-top: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+  .photo-placeholder:hover { background: #ece; border-color: #b8a; }
+  .photo-placeholder input[type="file"] {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    cursor: pointer;
+  }
+  .photo-preview {
+    max-width: 100%;
+    border-radius: 8px;
+    display: none;
+    margin-top: 8px;
+  }
+
+  /* 月齢カラーテーマ */
+  .theme-0  { background: linear-gradient(135deg, #e07878, #f0a0a0); }
+  .theme-3  { background: linear-gradient(135deg, #e09050, #f0b878); }
+  .theme-6  { background: linear-gradient(135deg, #c8a040, #e0c060); }
+  .theme-9  { background: linear-gradient(135deg, #70b870, #90d090); }
+  .theme-12 { background: linear-gradient(135deg, #5090d0, #78b0e8); }
+  .theme-18 { background: linear-gradient(135deg, #7878d0, #9898e8); }
+  .theme-24 { background: linear-gradient(135deg, #c06898, #e088b8); }
+  .theme-36 { background: linear-gradient(135deg, #40a890, #60c8b0); }
+  .theme-48 { background: linear-gradient(135deg, #e07040, #f09060); }
+  .theme-60 { background: linear-gradient(135deg, #507050, #709870); }
+  .theme-72 { background: linear-gradient(135deg, #1E3A64, #2d5a96); }
+
+  /* 注意書き */
+  .warning-box {
+    background: #fff8e1;
+    border: 2px solid #f5a623;
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    line-height: 1.7;
+  }
+  .warning-box .warn-title {
+    font-weight: 900;
+    color: #c77c00;
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+  .warning-box ul {
+    margin: 6px 0 0 18px;
+    color: #555;
+  }
+  .warning-box li { margin-bottom: 3px; }
+
+  /* バックアップモーダル */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 10000;
+    align-items: center;
+    justify-content: center;
+    padding: 16px;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal-box {
+    background: white;
+    border-radius: 14px;
+    padding: 24px 20px;
+    width: 100%;
+    max-width: 540px;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .modal-title {
+    font-size: 16px;
+    font-weight: 900;
+    color: var(--navy);
+  }
+  .modal-desc {
+    font-size: 12px;
+    color: #666;
+    line-height: 1.6;
+  }
+  .modal-textarea {
+    flex: 1;
+    min-height: 180px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 12px;
+    font-family: monospace;
+    resize: none;
+    background: var(--cream);
+    line-height: 1.6;
+  }
+  .modal-actions {
+    display: flex;
+    gap: 10px;
+  }
+  .modal-copy-btn {
+    flex: 1;
+    padding: 12px;
+    background: var(--green);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    font-family: inherit;
+  }
+  .modal-close-btn {
+    padding: 12px 20px;
+    background: #f0f0f0;
+    color: #555;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: inherit;
+  }
+
+  /* バックアップボタン */
+  .btn-backup {
+    background: var(--light-navy);
+    color: var(--navy);
+    border: 2px solid var(--navy);
+  }
+  .btn-backup:hover { background: #d0daea; }
+
+  /* レスポンシブ */
+  @media (max-width: 540px) {
+    .growth-grid { grid-template-columns: 1fr; }
+    .action-bar { flex-direction: column; }
+    .action-btn { min-width: unset; }
+  }
+
+  /* 保存済みトースト */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: #333;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: bold;
+    transition: transform 0.3s ease;
+    z-index: 9999;
+    pointer-events: none;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  /* ページナビ */
+  .page-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--navy);
+    padding: 0 16px;
+    height: 44px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .page-nav a {
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: bold;
+    padding: 12px 4px;
+    white-space: nowrap;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .page-nav a:active { opacity: 0.6; }
+  .page-nav .nav-center {
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+
+<nav class="page-nav">
+  <a href="index.html">← 特典一覧</a>
+  <span class="nav-center">特典②</span>
+  <a href="prompts.html">← プロンプト集</a>
+</nav>
+
+<header>
+  <div class="header-badge">読者限定特典②</div>
+  <h1>子育て記録テンプレート</h1>
+  <p>月齢別の成長記録シート＋育児日記フォーマット</p>
+</header>
+
+<main>
+
+  <div class="warning-box">
+    <div class="warn-title">⚠️ データの保存について（必ずお読みください）</div>
+    <ul>
+      <li>入力した記録は<strong>このブラウザのみ</strong>に保存されます。他の端末では表示されません。</li>
+      <li>ブラウザのキャッシュ削除・アプリの再インストール・機種変更でデータが<strong>消える場合があります</strong>。</li>
+      <li>大切な記録は定期的に「<strong>記録を一括コピー</strong>」ボタンでバックアップを取ってください。</li>
+      <li>コピーしたテキストはメモ帳・LINEのノート・メールなどに貼り付けて保存しておくと安心です。</li>
+    </ul>
+  </div>
+
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showPage('growth', this)">月齢別 成長記録</button>
+    <button class="nav-tab" onclick="showPage('diary', this)">育児日記</button>
+    <button class="nav-tab" onclick="showPage('ai', this)">AIとの記録</button>
+  </div>
+
+  <!-- ============================== -->
+  <!-- ページ①：月齢別成長記録 -->
+  <!-- ============================== -->
+  <div class="page active" id="page-growth">
+    <div class="section-title">月齢別 成長記録シート</div>
+    <div class="section-desc">0〜6歳（72ヶ月）の大切な成長をひとつひとつ記録しましょう。入力したデータはこのページに自動保存されます。</div>
+
+    <div class="growth-grid">
+
+      <!-- 0ヶ月 -->
+      <div class="growth-card">
+        <div class="growth-card-header theme-0">
+          <span class="growth-card-title">新生児期</span>
+          <span class="growth-card-age">0〜1ヶ月</span>
+        </div>
+        <div class="growth-card-body">
+          <div class="input-row"><span class="input-label">記録日</span><input class="input-field" type="date" id="g0_date" onchange="saveData()"></div>
+          <div class="input-row"><span class="input-label">身長</span><input class="input-field" type="text" id="g0_height" placeholder="--" onchange="saveData()"><span class="input-unit">cm</span></div>
+          <div class="input-row"><span class="input-label">体重</span><input class="input-field" type="text" id="g0_weight" placeholder="--" onchange="saveData()"><span class="input-unit">kg</span></div>
+          <div class="input-row"><span class="input-label">頭囲</span><input class="input-field" type="text" id="g0_head" placeholder="--" onchange="saveData()"><span class="input-unit">cm</span></div>
+          <div class="milestone-title">できたこと チェック</div>
+          <ul class="milestone-list">
+            <li class="milestone-item"><input type="checkbox" id="g0_m1" onchange="saveData()"><label for="g0_m1">原始反射（把握・吸啜）</label></li>
+            <li class="milestone-item"><input type="checkbox" id="g0_m2" onchange="saveData()"><label for="g0_m2">声に反応する</label></li>
+            <li class="milestone-item"><input type="checkbox" id="g0_m3" onchange="saveData()"><label for="g0_m3">顔を向ける（追視）</label></li>
+          </ul>
+          <div class="milestone-title">ひとことメモ</div>
+          <textarea class="textarea-field" id="g0_memo" rows="2" placeholder="この時期の思い出・気になること..." onchange="saveData()"></textarea>
+        </div>
+      </div>
+
+      <!-- 3ヶ月 -->
+      <div class="growth-card">
+        <div class="growth-card-header theme-3">
+          <span class="growth-card-title">3ヶ月</span>
+          <span class="growth-card-age">首すわり期</span>
+        </div>
+        <div class="growth-card-body">
+          <div class="input-row"><span class="input-label">記録日</span><input class="input-field" type="date" id="g3_date" onchange="saveData()"></div>
+          <div class="input-row"><span class="input-label">身長</span><input class="input-field" type="text" id="g3_height" placeholder="--" onchange="saveData()"><span class="input-unit">cm</span></div>
+          <div class="input-row"><span class="input-label">体重</span><input class="input-field" type="text" id="g3_weight" placeholder="--" onchange="saveData()"><span class="input-unit">kg</span></div>
+          <div class="input-row"><span class="input-label">好きな遊び</span><input class="input-field" type="text" id="g3_play" placeholder="メリー、にぎにぎ..." onchange="saveData()"></div>
+          <div class="milestone-title">できたこと チェック</div>
+          <ul class="milestone-list">
+            <li class="milestone-item"><input type="checkbox" id="g3_m1" onchange="saveData()"><label for="g3_m1">首がすわった</label></li>
+            <li class="milestone-item"><input type="checkbox" id="g3_m2" onchange="saveData()"><label for="g3_m2">声を出して笑う（社会的微笑）</label></li>
+            <li class="milestone-item"><input type="checkbox" id="g3_m3" onchange="saveData()"><label for="g3_m3">腹ばいで頭を持ち上げる</label></li>
+            <li class="milestone-item"><input type="checkbox" id="g3_m4" onchange="saveData()"><label for="g3_m4">あやすと反応する</label></li>
+          </ul>
+          <div class="milestone-title">ひとことメモ</div>
+          <textarea class="textarea-field" id="g3_memo" rows="2" placeholder="この頃の様子..." onchange="saveData()"></textarea>
+        </div>
+      </div>
+
+      <!-- 6ヶ月 -->
+      <div class="growth-card">
+        <div class="growth-card-header theme-6">
+          <span class="growth-card-title">6ヶ月</span>
+          <span class="growth-card-age">お座り前後</span>
+        </div>
+        <div class="growth-card-body">
+          <div class="input-row"><span class="input-label">記録日</span><input class="input-field" type="date" id="g6_date" onchange="saveData()"></div>
+          <div class="input-row"><span class="input-label">身長</span><input class="input-field" type="text" id="g6_height" placeholder="--" onchange="saveData()"><span class="input-unit">cm</span></div>
+          <div class="input-row"><span class="input-label">体重</span><input class="input-field" type="text" id="g6_weight" placeholder="--" onchange="saveData()"><span class="input-unit">kg</span></div>
+          <div class="input-row"><span class="input-label">離乳食</span><input class="input-field" type="text" id="g6_food" placeholder="開始した食材..." onchange="saveData()"></div>
+          <div class="milestone-title">できたこと チェック</div>
+          <ul class="milestone-list">
+            <li class="milestone-item"><input type="checkbox" id="g6_m1" onchange="saveData()"><label for="g6_m1">寝返りができた</label></li>
+            <li class="milestone-item"><input type="checkbox" id="g6_m2" onchange="saveData()"><label for="g6_m2">お座りが安定してきた</label></li>
+            <li class="milestone-item"><input type="checkbox" id="g6_m3" onchange="saveData()"><label for="g6_m3">離乳食を始めた</label></li>
+            <li class="milestone-item"><input type="checkbox" id="g6_m4" onchange="saveData()"><label for="g6_m4">人見知りが始まった</label></li>
+          </ul>
+          <div class="milestone-title">ひとことメモ</div>
+          <textarea class="textarea-field" id="g6_memo" rows="2" placeholder="この頃の様子..." onchange="saveData()"></textarea>
+        </div>
+      </div>
+
+      <!-- 9ヶ月 -->
+      <div class="growth-card">
+        <div class="growth-card-header theme-9">
+          <span class="growth-card-title">9ヶ月</span>
+          <span class="growth-card-age">ハイハイ期</span>
+        </div>
+        <div class="growth-card-body">
+          <div class="input-row"><span class="input-label">記録日</span><input class="input-field" type="date" id="g9_date" onchange="saveData()"></div>
+          <div class="input-row"><span class="input-label">身長</span><input class="input-field" type="text" id="g9_height" placeholder="--" onchange="saveData()"><span class="input-unit">cm</span></div>
+          <div class="input-row"><span class="input-label">体重</span><input class="input-field" type="text" id="g9_weight" placeholder="--" onchange="saveData()"><span class="input-unit">kg</span></div>
+          <div class="input-row"><span class="input-label">好きな遊び</span><input class="input-field" type="text" id="g9_play" placeholder="いないいないばあ..." onchange="saveData()"></div>
+          <div class="milestone-title">できたこと チェック</div>
+          <ul class="milestone-list">
+            <li class="milestone-item"><input type="checkbox" id="g9_m1" onchange="saveData()"><label for="g9_m1">ハイハイができた</label></li>
+            <li class="milestone-item"><input type="checkbox" id="g9_m2" onchange="saveData()"><label for="g9_m2">つかまり立ちができた</label></li>
+            <li class="milestone-item"><input type="checkbox" id="g9_m3" onchange="saveData()"><label for="g9_m3">指差し（要求）が出た</label></li>
+            <li class="milestone-item"><input type="checkbox" id="g9_m4" onchange="saveData()"><label for="g9_m4">「マンマ」「バブバブ」等の喃語</label></li>
+          </ul>
+          <div class="milestone-title">ひとことメモ</div>
+          <textarea class="textarea-field" id="g9_memo" rows="2" placeholder="この頃の様子..." onchange="saveData()"></textarea>
+        </div>
+      </div>
+
+      <!-- 12ヶ月 -->
+      <div class="growth-card">
+        <div class="growth-card-header theme-12">
+          <span class="growth-card-title">1歳（12ヶ月）</span>
+          <span class="growth-card-age">歩き始め</span>
+        </div>
+        <div class="growth-card-body">
+          <div class="input-row"><span class="input-label">記録日</span><input class="input-field" type="date" id="g12_date" onchange="saveData()"></div>
+          <div class="input-row"><span class="input-label">身長</span><input class="input-field" type="text" id="g12_height" placeholder="--" onchange="saveData()"><span class="input-unit">cm</span></div>
+          <div class="input-row"><span class="input-label">体重</span><input class="input-field" type="text" id="g12_weight" placeholder="--" onchange="saveData()"><span class="input-unit">kg</span></div>
+          <div class="input-row"><span class="input-label">初めての言葉</span><input class="input-field" type="text" id="g12_word" placeholder="マンマ、ワンワン..." onchange="saveData()"></div>
+          <div class="milestone-title">できたこと チェック</div>
+          <ul class="milestone-list">
+            <li class="milestone-item"><input type="checkbox" id="g12_m1" onchange="saveData()"><label for="g12_m1">初めて一人で立った</label></li>
+            <li class="milestone-item"><input type="checkbox" id="g12_m2" onchange="saveData()"><label for="g12_m2">初めて一人で歩いた</label></li>
+            <li class="milestone-item"><input type="checkbox" id="g12_m3" onchange="saveData()"><label for="g12_m3">意味のある言葉が出た</label></li>
+            <li class="milestone-item"><input type="checkbox" id="g12_m4" onchange="saveData()"><label for="g12_m4">コップから飲めた</label></li>
+          </ul>
+          <div class="milestone-title">ひとことメモ</div>
+          <textarea class="textarea-field" id="g12_memo" rows="2" placeholder="この頃の様子..." onchange="saveData()"></textarea>
+        </div>
+      </div>
+
+      <!-- 18ヶ月 -->
+      <div class="growth-card">
+        <div class="growth-card-header theme-18">
+          <span class="growth-card-title">1歳半（18ヶ月）</span>
+          <span class="growth-card-age">語彙爆発期</span>
+        </div>
+        <div class="growth-card-body">
+          <div class="input-row"><span class="input-label">記録日</span><input class="input-field" type="date" id="g18_date" onchange="saveData()"></div>
+          <div class="input-row"><span class="input-label">身長</span><input class="input-field" type="text" id="g18_height" placeholder="--" onchange="saveData()"><span class="input-unit">cm</span></div>
+          <div class="input-row"><span class="input-label">体重</span><input class="input-field" type="text" id="g18_weight" placeholder="--" onchange="saveData()"><span class="input-unit">kg</span></div>
+          <div class="input-row"><span class="input-label">語彙数</span><input class="input-field" type="text" id="g18_words" placeholder="語程度" onchange="saveData()"><span class="input-unit">語</span></div>
+          <div class="milestone-title">できたこと チェック</div>
+          <ul class="milestone-list">
+            <li class="milestone-item"><input type="checkbox" id="g18_m1" onchange="saveData()"><label for="g18_m1">安定して歩ける</label></li>
+            <li class="milestone-item"><input type="checkbox" id="g18_m2" onchange="saveData()"><label for="g18_m2">「ちょうだい・どうぞ」がわかる</label></li>
+            <li class="milestone-item"><input type="checkbox" id="g18_m3" onchange="saveData()"><label for="g18_m3">スプーンを使おうとする</label></li>
+            <li class="milestone-item"><input type="checkbox" id="g18_m4" onchange="saveData()"><label for="g18_m4">絵本の絵を指差しできる</label></li>
+          </ul>
+          <div class="milestone-title">ひとことメモ</div>
+          <textarea class="textarea-field" id="g18_memo" rows="2" placeholder="この頃の様子..." onchange="saveData()"></textarea>
+        </div>
+      </div>
+
+      <!-- 2歳 -->
+      <div class="growth-card">
+        <div class="growth-card-header theme-24">
+          <span class="growth-card-title">2歳（24ヶ月）</span>
+          <span class="growth-card-age">イヤイヤ期</span>
+        </div>
+        <div class="growth-card-body">
+          <div class="input-row"><span class="input-label">記録日</span><input class="input-field" type="date" id="g24_date" onchange="saveData()"></div>
+          <div class="input-row"><span class="input-label">身長</span><input class="input-field" type="text" id="g24_height" placeholder="--" onchange="saveData()"><span class="input-unit">cm</span></div>
+          <div class="input-row"><span class="input-label">体重</span><input class="input-field" type="text" id="g24_weight" placeholder="--" onchange="saveData()"><span class="input-unit">kg</span></div>
+          <div class="input-row"><span class="input-label">好きなもの</span><input class="input-field" type="text" id="g24_fav" placeholder="アンパンマン、恐竜..." onchange="saveData()"></div>
+          <div class="milestone-title">できたこと チェック</div>
+          <ul class="milestone-list">
+            <li class="milestone-item"><input type="checkbox" id="g24_m1" onchange="saveData()"><label for="g24_m1">2語文が出た（「ワンワン きた」）</label></li>
+            <li class="milestone-item"><input type="checkbox" id="g24_m2" onchange="saveData()"><label for="g24_m2">走れるようになった</label></li>
+            <li class="milestone-item"><input type="checkbox" id="g24_m3" onchange="saveData()"><label for="g24_m3">ズボンを自分ではけた</label></li>
+            <li class="milestone-item"><input type="checkbox" id="g24_m4" onchange="saveData()"><label for="g24_m4">お友達と並んで遊べた</label></li>
+          </ul>
+          <div class="milestone-title">ひとことメモ</div>
+          <textarea class="textarea-field" id="g24_memo" rows="2" placeholder="この頃の様子..." onchange="saveData()"></textarea>
+        </div>
+      </div>
+
+      <!-- 3歳 -->
+      <div class="growth-card">
+        <div class="growth-card-header theme-36">
+          <span class="growth-card-title">3歳（36ヶ月）</span>
+          <span class="growth-card-age">会話が始まる</span>
+        </div>
+        <div class="growth-card-body">
+          <div class="input-row"><span class="input-label">記録日</span><input class="input-field" type="date" id="g36_date" onchange="saveData()"></div>
+          <div class="input-row"><span class="input-label">身長</span><input class="input-field" type="text" id="g36_height" placeholder="--" onchange="saveData()"><span class="input-unit">cm</span></div>
+          <div class="input-row"><span class="input-label">体重</span><input class="input-field" type="text" id="g36_weight" placeholder="--" onchange="saveData()"><span class="input-unit">kg</span></div>
+          <div class="input-row"><span class="input-label">好きな遊び</span><input class="input-field" type="text" id="g36_play" placeholder="ごっこ遊び、積み木..." onchange="saveData()"></div>
+          <div class="milestone-title">できたこと チェック</div>
+          <ul class="milestone-list">
+            <li class="milestone-item"><input type="checkbox" id="g36_m1" onchange="saveData()"><label for="g36_m1">会話でやり取りができた</label></li>
+            <li class="milestone-item"><input type="checkbox" id="g36_m2" onchange="saveData()"><label for="g36_m2">トイレが自分でできた</label></li>
+            <li class="milestone-item"><input type="checkbox" id="g36_m3" onchange="saveData()"><label for="g36_m3">三輪車に乗れた</label></li>
+            <li class="milestone-item"><input type="checkbox" id="g36_m4" onchange="saveData()"><label for="g36_m4">着替えを一人でできた</label></li>
+          </ul>
+          <div class="milestone-title">ひとことメモ</div>
+          <textarea class="textarea-field" id="g36_memo" rows="2" placeholder="この頃の様子..." onchange="saveData()"></textarea>
+        </div>
+      </div>
+
+      <!-- 4歳 -->
+      <div class="growth-card">
+        <div class="growth-card-header theme-48">
+          <span class="growth-card-title">4歳（48ヶ月）</span>
+          <span class="growth-card-age">なぜなぜ期</span>
+        </div>
+        <div class="growth-card-body">
+          <div class="input-row"><span class="input-label">記録日</span><input class="input-field" type="date" id="g48_date" onchange="saveData()"></div>
+          <div class="input-row"><span class="input-label">身長</span><input class="input-field" type="text" id="g48_height" placeholder="--" onchange="saveData()"><span class="input-unit">cm</span></div>
+          <div class="input-row"><span class="input-label">体重</span><input class="input-field" type="text" id="g48_weight" placeholder="--" onchange="saveData()"><span class="input-unit">kg</span></div>
+          <div class="input-row"><span class="input-label">得意なこと</span><input class="input-field" type="text" id="g48_skill" placeholder="絵を描く、数を数える..." onchange="saveData()"></div>
+          <div class="milestone-title">できたこと チェック</div>
+          <ul class="milestone-list">
+            <li class="milestone-item"><input type="checkbox" id="g48_m1" onchange="saveData()"><label for="g48_m1">ハサミが使えた</label></li>
+            <li class="milestone-item"><input type="checkbox" id="g48_m2" onchange="saveData()"><label for="g48_m2">なぜ？どうして？が増えた</label></li>
+            <li class="milestone-item"><input type="checkbox" id="g48_m3" onchange="saveData()"><label for="g48_m3">ルールのある遊びができた</label></li>
+            <li class="milestone-item"><input type="checkbox" id="g48_m4" onchange="saveData()"><label for="g48_m4">友達の名前を覚えた</label></li>
+          </ul>
+          <div class="milestone-title">ひとことメモ</div>
+          <textarea class="textarea-field" id="g48_memo" rows="2" placeholder="この頃の様子..." onchange="saveData()"></textarea>
+        </div>
+      </div>
+
+      <!-- 5歳 -->
+      <div class="growth-card">
+        <div class="growth-card-header theme-60">
+          <span class="growth-card-title">5歳（60ヶ月）</span>
+          <span class="growth-card-age">社会性が育つ</span>
+        </div>
+        <div class="growth-card-body">
+          <div class="input-row"><span class="input-label">記録日</span><input class="input-field" type="date" id="g60_date" onchange="saveData()"></div>
+          <div class="input-row"><span class="input-label">身長</span><input class="input-field" type="text" id="g60_height" placeholder="--" onchange="saveData()"><span class="input-unit">cm</span></div>
+          <div class="input-row"><span class="input-label">体重</span><input class="input-field" type="text" id="g60_weight" placeholder="--" onchange="saveData()"><span class="input-unit">kg</span></div>
+          <div class="input-row"><span class="input-label">将来の夢</span><input class="input-field" type="text" id="g60_dream" placeholder="子どもが言った夢..." onchange="saveData()"></div>
+          <div class="milestone-title">できたこと チェック</div>
+          <ul class="milestone-list">
+            <li class="milestone-item"><input type="checkbox" id="g60_m1" onchange="saveData()"><label for="g60_m1">自分の名前が書けた</label></li>
+            <li class="milestone-item"><input type="checkbox" id="g60_m2" onchange="saveData()"><label for="g60_m2">じゃんけんのルールがわかった</label></li>
+            <li class="milestone-item"><input type="checkbox" id="g60_m3" onchange="saveData()"><label for="g60_m3">友達と役割分担して遊べた</label></li>
+            <li class="milestone-item"><input type="checkbox" id="g60_m4" onchange="saveData()"><label for="g60_m4">一人でお風呂に入れた</label></li>
+          </ul>
+          <div class="milestone-title">ひとことメモ</div>
+          <textarea class="textarea-field" id="g60_memo" rows="2" placeholder="この頃の様子..." onchange="saveData()"></textarea>
+        </div>
+      </div>
+
+      <!-- 6歳 -->
+      <div class="growth-card">
+        <div class="growth-card-header theme-72">
+          <span class="growth-card-title">6歳（72ヶ月）</span>
+          <span class="growth-card-age">就学準備期</span>
+        </div>
+        <div class="growth-card-body">
+          <div class="input-row"><span class="input-label">記録日</span><input class="input-field" type="date" id="g72_date" onchange="saveData()"></div>
+          <div class="input-row"><span class="input-label">身長</span><input class="input-field" type="text" id="g72_height" placeholder="--" onchange="saveData()"><span class="input-unit">cm</span></div>
+          <div class="input-row"><span class="input-label">体重</span><input class="input-field" type="text" id="g72_weight" placeholder="--" onchange="saveData()"><span class="input-unit">kg</span></div>
+          <div class="input-row"><span class="input-label">得意なこと</span><input class="input-field" type="text" id="g72_skill" placeholder="この子の一番の強み..." onchange="saveData()"></div>
+          <div class="milestone-title">できたこと チェック</div>
+          <ul class="milestone-list">
+            <li class="milestone-item"><input type="checkbox" id="g72_m1" onchange="saveData()"><label for="g72_m1">ひらがな・数字が読める</label></li>
+            <li class="milestone-item"><input type="checkbox" id="g72_m2" onchange="saveData()"><label for="g72_m2">45分座って活動できる</label></li>
+            <li class="milestone-item"><input type="checkbox" id="g72_m3" onchange="saveData()"><label for="g72_m3">自分のことを話せる</label></li>
+            <li class="milestone-item"><input type="checkbox" id="g72_m4" onchange="saveData()"><label for="g72_m4">友達と仲良く遊べる</label></li>
+          </ul>
+          <div class="milestone-title">小学校入学前のひとこと</div>
+          <textarea class="textarea-field" id="g72_memo" rows="3" placeholder="6年間育ててきた感想、子どもへのメッセージ..." onchange="saveData()"></textarea>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="action-bar">
+      <button class="action-btn btn-save" onclick="saveData(); showToast('保存しました！')">保存する</button>
+      <button class="action-btn btn-backup" onclick="openBackupModal()">記録を一括コピー</button>
+      <button class="action-btn btn-reset" onclick="confirmReset('growth')">記録をリセット</button>
+    </div>
+  </div>
+
+  <!-- ============================== -->
+  <!-- ページ②：育児日記 -->
+  <!-- ============================== -->
+  <div class="page" id="page-diary">
+    <div class="section-title">育児日記</div>
+    <div class="section-desc">毎日の小さな気づきをここに残しましょう。「+追加」でいつでもページを増やせます。</div>
+
+    <div class="diary-area" id="diaryArea">
+      <!-- JS で生成 -->
+    </div>
+
+    <button class="add-diary-btn" onclick="addDiaryEntry()">+ 記録を追加する</button>
+
+    <div class="action-bar" style="margin-top:20px">
+      <button class="action-btn btn-save" onclick="saveData(); showToast('保存しました！')">保存する</button>
+      <button class="action-btn btn-backup" onclick="openBackupModal()">記録を一括コピー</button>
+      <button class="action-btn btn-reset" onclick="confirmReset('diary')">日記をリセット</button>
+    </div>
+  </div>
+
+  <!-- ============================== -->
+  <!-- ページ③：AIとの記録 -->
+  <!-- ============================== -->
+  <div class="page" id="page-ai">
+    <div class="section-title">AIとの記録メモ</div>
+    <div class="section-desc">ChatGPTに相談したこと・もらったアドバイス・試してみたことを記録しておきましょう。</div>
+
+    <div id="aiArea">
+      <!-- JS で生成 -->
+    </div>
+
+    <button class="add-diary-btn" onclick="addAiEntry()">+ AIとの記録を追加する</button>
+
+    <div class="action-bar" style="margin-top:20px">
+      <button class="action-btn btn-save" onclick="saveData(); showToast('保存しました！')">保存する</button>
+      <button class="action-btn btn-backup" onclick="openBackupModal()">記録を一括コピー</button>
+      <button class="action-btn btn-reset" onclick="confirmReset('ai')">AIメモをリセット</button>
+    </div>
+  </div>
+
+</main>
+
+<!-- バックアップモーダル -->
+<div class="modal-overlay" id="backupModal">
+  <div class="modal-box">
+    <div class="modal-title">記録を一括コピー（バックアップ）</div>
+    <div class="modal-desc">
+      下のテキストを全選択してコピーしてください。<br>
+      LINEのノート・メモ帳・メールに貼り付けて保存しておくと安心です。
+    </div>
+    <textarea class="modal-textarea" id="backupTextarea" readonly></textarea>
+    <div class="modal-actions">
+      <button class="modal-copy-btn" id="modalCopyBtn" onclick="copyBackupText()">全てコピーする</button>
+      <button class="modal-close-btn" onclick="closeBackupModal()">閉じる</button>
+    </div>
+  </div>
+</div>
+
+<footer style="text-align:center;padding:40px 20px;background:var(--navy);color:white;font-size:13px;">
+  <p style="font-size:16px;font-weight:bold;margin-bottom:6px;">0〜6歳 AIネイティブ世代の育て方</p>
+  <p style="opacity:.7;">読者限定特典②  子育て記録テンプレート</p>
+  <p style="opacity:.7;margin-top:8px;">入力データはこのブラウザのローカルストレージに保存されます。</p>
+</footer>
+
+<div class="toast" id="toast">保存しました！</div>
+
+<script>
+const STORAGE_KEY = 'childcare_record_v2';
+
+// ページ切り替え
+function showPage(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  btn.classList.add('active');
+}
+
+// トースト
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// -------- 育児日記 --------
+let diaryCount = 0;
+
+function addDiaryEntry(data) {
+  diaryCount++;
+  const id = 'diary' + diaryCount;
+  const area = document.getElementById('diaryArea');
+  const today = new Date().toISOString().slice(0,10);
+  const div = document.createElement('div');
+  div.className = 'diary-entry';
+  div.id = id;
+  div.innerHTML = `
+    <div class="diary-header">
+      <input type="date" class="input-field" id="${id}_date" value="${data?.date || today}" onchange="saveData()" style="width:auto">
+      <select class="mood-select" id="${id}_mood" onchange="saveData()">
+        <option value="">気分</option>
+        <option ${data?.mood==='😄とても楽しい'?'selected':''}>😄とても楽しい</option>
+        <option ${data?.mood==='😊楽しい'?'selected':''}>😊楽しい</option>
+        <option ${data?.mood==='😐普通'?'selected':''}>😐普通</option>
+        <option ${data?.mood==='😥少し疲れた'?'selected':''}>😥少し疲れた</option>
+        <option ${data?.mood==='😫ヘトヘト'?'selected':''}>😫ヘトヘト</option>
+      </select>
+      <select class="weather-select" id="${id}_weather" onchange="saveData()">
+        <option value="">天気</option>
+        <option ${data?.weather==='☀️晴れ'?'selected':''}>☀️晴れ</option>
+        <option ${data?.weather==='⛅曇り'?'selected':''}>⛅曇り</option>
+        <option ${data?.weather==='🌧雨'?'selected':''}>🌧雨</option>
+        <option ${data?.weather==='❄️雪'?'selected':''}>❄️雪</option>
+      </select>
+      <button class="remove-btn" onclick="removeDiaryEntry('${id}')">削除</button>
+    </div>
+    <div class="diary-fields">
+      <label class="diary-field-label">今日あったこと・気づき</label>
+      <textarea class="textarea-field" id="${id}_event" rows="3" placeholder="今日の出来事、子どもの言葉、気づいたこと..." onchange="saveData()">${data?.event||''}</textarea>
+
+      <label class="diary-field-label" style="margin-top:12px">子どものかわいい一言・行動メモ</label>
+      <textarea class="textarea-field" id="${id}_quote" rows="2" placeholder="「ままだいすき」「にじいろのあめだよ」など..." onchange="saveData()">${data?.quote||''}</textarea>
+
+      <label class="diary-field-label" style="margin-top:12px">明日やりたいこと・試したいこと</label>
+      <textarea class="textarea-field" id="${id}_next" rows="2" placeholder="ChatGPTに相談したいこと、試してみたいこと..." onchange="saveData()">${data?.next||''}</textarea>
+    </div>
+  `;
+  area.appendChild(div);
+}
+
+function removeDiaryEntry(id) {
+  if (confirm('この記録を削除しますか？')) {
+    document.getElementById(id)?.remove();
+    saveData();
+  }
+}
+
+// -------- AI記録 --------
+let aiCount = 0;
+
+function addAiEntry(data) {
+  aiCount++;
+  const id = 'ai' + aiCount;
+  const area = document.getElementById('aiArea');
+  const today = new Date().toISOString().slice(0,10);
+  const div = document.createElement('div');
+  div.className = 'diary-entry';
+  div.id = id;
+  div.style.borderLeft = '3px solid var(--navy)';
+  div.innerHTML = `
+    <div class="diary-header">
+      <input type="date" class="input-field" id="${id}_date" value="${data?.date || today}" onchange="saveData()" style="width:auto">
+      <span style="font-size:12px;color:#888;font-weight:bold;">AIとの会話記録</span>
+      <button class="remove-btn" onclick="removeAiEntry('${id}')">削除</button>
+    </div>
+    <div class="ai-section">
+      <div class="ai-section-title">ChatGPTに聞いたこと（悩み・相談内容）</div>
+      <textarea class="textarea-field" id="${id}_q" rows="3" placeholder="例：夜泣きが続いていて、今日どんなことを相談したか..." onchange="saveData()">${data?.q||''}</textarea>
+    </div>
+    <div style="margin-top:12px">
+      <label class="diary-field-label">もらったアドバイス・気づき</label>
+      <textarea class="textarea-field" id="${id}_a" rows="3" placeholder="AIにもらったアドバイス、参考になったポイント..." onchange="saveData()">${data?.a||''}</textarea>
+    </div>
+    <div style="margin-top:12px">
+      <label class="diary-field-label">実際に試した結果</label>
+      <textarea class="textarea-field" id="${id}_result" rows="2" placeholder="試してみた結果・子どもの反応..." onchange="saveData()">${data?.result||''}</textarea>
+    </div>
+    <div style="margin-top:12px">
+      <label class="diary-field-label">役立ち度</label>
+      <select class="mood-select" id="${id}_score" onchange="saveData()">
+        <option value="">選択</option>
+        <option ${data?.score==='⭐⭐⭐⭐⭐ とても役立った'?'selected':''}>⭐⭐⭐⭐⭐ とても役立った</option>
+        <option ${data?.score==='⭐⭐⭐⭐ 役立った'?'selected':''}>⭐⭐⭐⭐ 役立った</option>
+        <option ${data?.score==='⭐⭐⭐ まあまあ'?'selected':''}>⭐⭐⭐ まあまあ</option>
+        <option ${data?.score==='⭐⭐ あまり合わなかった'?'selected':''}>⭐⭐ あまり合わなかった</option>
+      </select>
+    </div>
+  `;
+  area.appendChild(div);
+}
+
+function removeAiEntry(id) {
+  if (confirm('この記録を削除しますか？')) {
+    document.getElementById(id)?.remove();
+    saveData();
+  }
+}
+
+// -------- 保存・読み込み --------
+function saveData() {
+  const data = {};
+
+  // 成長記録
+  const keys = ['0','3','6','9','12','18','24','36','48','60','72'];
+  const fields = ['date','height','weight','head','play','food','words','fav','skill','word','dream','memo'];
+  keys.forEach(k => {
+    const prefix = 'g' + k + '_';
+    fields.forEach(f => {
+      const el = document.getElementById(prefix + f);
+      if (el) data[prefix + f] = el.type === 'checkbox' ? el.checked : el.value;
+    });
+    // milestone checkboxes
+    for (let i = 1; i <= 4; i++) {
+      const el = document.getElementById('g' + k + '_m' + i);
+      if (el) data['g' + k + '_m' + i] = el.checked;
+    }
+  });
+
+  // 日記
+  const diaries = [];
+  document.querySelectorAll('[id^="diary"]').forEach(el => {
+    if (!el.classList.contains('diary-entry')) return;
+    const id = el.id;
+    diaries.push({
+      date: document.getElementById(id+'_date')?.value,
+      mood: document.getElementById(id+'_mood')?.value,
+      weather: document.getElementById(id+'_weather')?.value,
+      event: document.getElementById(id+'_event')?.value,
+      quote: document.getElementById(id+'_quote')?.value,
+      next: document.getElementById(id+'_next')?.value,
+    });
+  });
+  data._diaries = diaries;
+
+  // AI記録
+  const aiEntries = [];
+  document.querySelectorAll('[id^="ai"]').forEach(el => {
+    if (!el.classList.contains('diary-entry')) return;
+    const id = el.id;
+    aiEntries.push({
+      date: document.getElementById(id+'_date')?.value,
+      q: document.getElementById(id+'_q')?.value,
+      a: document.getElementById(id+'_a')?.value,
+      result: document.getElementById(id+'_result')?.value,
+      score: document.getElementById(id+'_score')?.value,
+    });
+  });
+  data._ai = aiEntries;
+
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+
+function loadData() {
+  const raw = localStorage.getItem(STORAGE_KEY);
+  if (!raw) return;
+  try {
+    const data = JSON.parse(raw);
+
+    // 成長記録
+    Object.entries(data).forEach(([k, v]) => {
+      if (k.startsWith('_')) return;
+      const el = document.getElementById(k);
+      if (!el) return;
+      if (el.type === 'checkbox') el.checked = v;
+      else el.value = v;
+    });
+
+    // 日記
+    if (data._diaries) {
+      data._diaries.forEach(d => addDiaryEntry(d));
+    } else {
+      addDiaryEntry();
+    }
+
+    // AI記録
+    if (data._ai) {
+      data._ai.forEach(d => addAiEntry(d));
+    } else {
+      addAiEntry();
+    }
+  } catch(e) {
+    addDiaryEntry();
+    addAiEntry();
+  }
+}
+
+// -------- バックアップ（一括コピー） --------
+function buildBackupText() {
+  const now = new Date().toLocaleString('ja-JP');
+  let lines = [];
+  lines.push('=== 子育て記録バックアップ ===');
+  lines.push('作成日時: ' + now);
+  lines.push('');
+
+  // 成長記録
+  lines.push('【月齢別成長記録】');
+  const stages = [
+    ['0',  '新生児期（0〜1ヶ月）'],
+    ['3',  '3ヶ月（首すわり期）'],
+    ['6',  '6ヶ月（お座り前後）'],
+    ['9',  '9ヶ月（ハイハイ期）'],
+    ['12', '1歳（12ヶ月・歩き始め）'],
+    ['18', '1歳半（18ヶ月・語彙爆発期）'],
+    ['24', '2歳（24ヶ月・イヤイヤ期）'],
+    ['36', '3歳（36ヶ月・会話が始まる）'],
+    ['48', '4歳（48ヶ月・なぜなぜ期）'],
+    ['60', '5歳（60ヶ月・社会性が育つ）'],
+    ['72', '6歳（72ヶ月・就学準備期）'],
+  ];
+  const textFields = ['date','height','weight','head','play','food','words','fav','skill','word','dream','memo'];
+  const textLabels = {'date':'記録日','height':'身長','weight':'体重','head':'頭囲','play':'好きな遊び','food':'離乳食','words':'語彙数','fav':'好きなもの','skill':'得意なこと','word':'初めての言葉','dream':'将来の夢','memo':'メモ'};
+
+  stages.forEach(([k, label]) => {
+    const prefix = 'g' + k + '_';
+    const hasData = textFields.some(f => {
+      const el = document.getElementById(prefix + f);
+      return el && el.value;
+    });
+    const hasCheck = [1,2,3,4].some(i => {
+      const el = document.getElementById('g' + k + '_m' + i);
+      return el && el.checked;
+    });
+    if (!hasData && !hasCheck) return;
+    lines.push('■ ' + label);
+    textFields.forEach(f => {
+      const el = document.getElementById(prefix + f);
+      if (el && el.value) {
+        const unit = f === 'height' || f === 'head' ? 'cm' : f === 'weight' ? 'kg' : f === 'words' ? '語' : '';
+        lines.push('  ' + textLabels[f] + ': ' + el.value + unit);
+      }
+    });
+    const checked = [];
+    [1,2,3,4].forEach(i => {
+      const el = document.getElementById('g' + k + '_m' + i);
+      if (el && el.checked) {
+        const lbl = el.nextElementSibling;
+        if (lbl) checked.push(lbl.textContent);
+      }
+    });
+    if (checked.length) lines.push('  達成: ' + checked.join(' / '));
+    lines.push('');
+  });
+
+  // 育児日記
+  const diaryEntries = document.querySelectorAll('#diaryArea .diary-entry');
+  if (diaryEntries.length > 0) {
+    lines.push('【育児日記】');
+    diaryEntries.forEach(el => {
+      const id = el.id;
+      const date = document.getElementById(id+'_date')?.value || '';
+      const mood = document.getElementById(id+'_mood')?.value || '';
+      const weather = document.getElementById(id+'_weather')?.value || '';
+      const event = document.getElementById(id+'_event')?.value || '';
+      const quote = document.getElementById(id+'_quote')?.value || '';
+      const next = document.getElementById(id+'_next')?.value || '';
+      if (!date && !event && !quote) return;
+      lines.push('■ ' + date + (mood ? '　' + mood : '') + (weather ? '　' + weather : ''));
+      if (event) lines.push('  今日あったこと: ' + event.replace(/\n/g, ' '));
+      if (quote) lines.push('  かわいい一言: ' + quote.replace(/\n/g, ' '));
+      if (next) lines.push('  明日やること: ' + next.replace(/\n/g, ' '));
+      lines.push('');
+    });
+  }
+
+  // AI記録
+  const aiEntries = document.querySelectorAll('#aiArea .diary-entry');
+  if (aiEntries.length > 0) {
+    lines.push('【AIとの記録】');
+    aiEntries.forEach(el => {
+      const id = el.id;
+      const date = document.getElementById(id+'_date')?.value || '';
+      const q = document.getElementById(id+'_q')?.value || '';
+      const a = document.getElementById(id+'_a')?.value || '';
+      const result = document.getElementById(id+'_result')?.value || '';
+      const score = document.getElementById(id+'_score')?.value || '';
+      if (!date && !q) return;
+      lines.push('■ ' + date);
+      if (q) lines.push('  相談内容: ' + q.replace(/\n/g, ' '));
+      if (a) lines.push('  アドバイス: ' + a.replace(/\n/g, ' '));
+      if (result) lines.push('  試した結果: ' + result.replace(/\n/g, ' '));
+      if (score) lines.push('  役立ち度: ' + score);
+      lines.push('');
+    });
+  }
+
+  lines.push('=== バックアップ終了 ===');
+  return lines.join('\n');
+}
+
+function openBackupModal() {
+  const text = buildBackupText();
+  const ta = document.getElementById('backupTextarea');
+  ta.value = text;
+  document.getElementById('backupModal').classList.add('open');
+  // スマホ向け：自動で全選択
+  setTimeout(() => { ta.focus(); ta.select(); }, 100);
+  // ボタンリセット
+  const btn = document.getElementById('modalCopyBtn');
+  btn.textContent = '全てコピーする';
+  btn.style.background = '';
+}
+
+function closeBackupModal() {
+  document.getElementById('backupModal').classList.remove('open');
+}
+
+function copyBackupText() {
+  const ta = document.getElementById('backupTextarea');
+  const text = ta.value;
+  const btn = document.getElementById('modalCopyBtn');
+
+  const finish = (ok) => {
+    if (ok) {
+      btn.textContent = '✓ コピー完了！';
+      btn.style.background = '#4caf50';
+      showToast('クリップボードにコピーしました！');
+    } else {
+      // フォールバック：全選択してユーザーに手動コピーを促す
+      ta.focus();
+      ta.select();
+      btn.textContent = '長押しでコピーしてください';
+      btn.style.background = '#e07040';
+    }
+  };
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(() => finish(true)).catch(() => {
+      // execCommand フォールバック
+      ta.focus(); ta.select();
+      try { finish(document.execCommand('copy')); } catch { finish(false); }
+    });
+  } else {
+    ta.focus(); ta.select();
+    try { finish(document.execCommand('copy')); } catch { finish(false); }
+  }
+}
+
+// モーダル外タップで閉じる
+document.addEventListener('click', e => {
+  const modal = document.getElementById('backupModal');
+  if (e.target === modal) closeBackupModal();
+});
+
+function confirmReset(type) {
+  if (confirm('この記録をリセットしますか？\n（元には戻せません）')) {
+    if (type === 'growth') {
+      document.querySelectorAll('#page-growth input, #page-growth textarea, #page-growth select').forEach(el => {
+        if (el.type === 'checkbox') el.checked = false;
+        else el.value = '';
+      });
+    } else if (type === 'diary') {
+      document.getElementById('diaryArea').innerHTML = '';
+      diaryCount = 0;
+      addDiaryEntry();
+    } else if (type === 'ai') {
+      document.getElementById('aiArea').innerHTML = '';
+      aiCount = 0;
+      addAiEntry();
+    }
+    saveData();
+    showToast('リセットしました');
+  }
+}
+
+// 初期化
+window.addEventListener('load', loadData);
+</script>
+</body>
+</html>

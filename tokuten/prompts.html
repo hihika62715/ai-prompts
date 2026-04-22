@@ -1,0 +1,1085 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>【読者限定特典①】ChatGPTプロンプト集30選 | AIネイティブ世代の育て方</title>
+<style>
+  :root {
+    --orange: #E07040;
+    --navy: #1E3A64;
+    --cream: #fdfdf8;
+    --light-orange: #fdf0e8;
+    --light-navy: #e8edf5;
+    --text: #333;
+    --border: #e0d8cc;
+    --success: #4caf50;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Yu Gothic", sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    line-height: 1.7;
+  }
+
+  /* ヘッダー */
+  header {
+    background: linear-gradient(135deg, var(--navy) 0%, #2d5a96 100%);
+    color: white;
+    padding: 32px 20px 28px;
+    text-align: center;
+  }
+  .header-badge {
+    display: inline-block;
+    background: var(--orange);
+    color: white;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+    letter-spacing: 1px;
+  }
+  header h1 {
+    font-size: clamp(20px, 5vw, 28px);
+    font-weight: 900;
+    line-height: 1.4;
+    margin-bottom: 10px;
+  }
+  header p {
+    font-size: 14px;
+    opacity: 0.85;
+  }
+  .header-stats {
+    display: flex;
+    justify-content: center;
+    gap: 24px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+  }
+  .stat {
+    text-align: center;
+  }
+  .stat-num {
+    font-size: 28px;
+    font-weight: 900;
+    color: #f9d87a;
+  }
+  .stat-label {
+    font-size: 11px;
+    opacity: 0.8;
+  }
+
+  /* メイン */
+  main {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 20px 16px 60px;
+  }
+
+  /* 使い方バナー */
+  .howto {
+    background: var(--light-navy);
+    border-left: 4px solid var(--navy);
+    border-radius: 8px;
+    padding: 16px 20px;
+    margin-bottom: 24px;
+    font-size: 14px;
+  }
+  .howto strong { color: var(--navy); }
+  .howto ol { margin: 8px 0 0 20px; }
+  .howto li { margin-bottom: 4px; }
+
+  /* 検索バー */
+  .search-wrap {
+    position: relative;
+    margin-bottom: 20px;
+  }
+  .search-wrap input {
+    width: 100%;
+    padding: 14px 46px 14px 18px;
+    border: 2px solid var(--border);
+    border-radius: 50px;
+    font-size: 15px;
+    background: white;
+    transition: border-color 0.2s;
+    outline: none;
+  }
+  .search-wrap input:focus { border-color: var(--orange); }
+  .search-icon {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    pointer-events: none;
+  }
+
+  /* カテゴリタブ */
+  .tabs {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    margin-bottom: 24px;
+    scrollbar-width: none;
+  }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab {
+    flex-shrink: 0;
+    padding: 8px 16px;
+    border-radius: 50px;
+    border: 2px solid var(--border);
+    background: white;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .tab:hover { border-color: var(--orange); color: var(--orange); }
+  .tab.active { background: var(--orange); border-color: var(--orange); color: white; }
+
+  /* カテゴリセクション */
+  .category-section { margin-bottom: 36px; }
+  .category-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--orange);
+  }
+  .category-icon { font-size: 24px; }
+  .category-title {
+    font-size: 18px;
+    font-weight: 900;
+    color: var(--navy);
+  }
+  .category-count {
+    font-size: 12px;
+    color: var(--orange);
+    font-weight: bold;
+  }
+
+  /* プロンプトカード */
+  .prompt-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 14px;
+    transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .prompt-card:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    transform: translateY(-1px);
+  }
+  .prompt-card.hidden { display: none; }
+
+  .prompt-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+  .prompt-num {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    background: var(--light-orange);
+    color: var(--orange);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 13px;
+  }
+  .prompt-title {
+    flex: 1;
+    font-size: 15px;
+    font-weight: bold;
+    color: var(--navy);
+    line-height: 1.5;
+  }
+  .copy-btn {
+    flex-shrink: 0;
+    padding: 7px 14px;
+    background: var(--orange);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+  }
+  .copy-btn:hover { background: #c85e2e; }
+  .copy-btn:active { transform: scale(0.95); }
+  .copy-btn.copied {
+    background: var(--success);
+  }
+
+  .prompt-text {
+    background: var(--cream);
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-size: 13px;
+    line-height: 1.8;
+    white-space: pre-wrap;
+    border-left: 3px solid var(--orange);
+    color: #444;
+  }
+
+  .prompt-tags {
+    margin-top: 10px;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .tag {
+    background: var(--light-navy);
+    color: var(--navy);
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 12px;
+  }
+
+  /* 件数表示 */
+  .result-count {
+    text-align: center;
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 16px;
+  }
+
+  /* フッター */
+  footer {
+    text-align: center;
+    padding: 40px 20px;
+    background: var(--navy);
+    color: white;
+    font-size: 13px;
+    margin-top: 60px;
+  }
+  footer p { opacity: 0.7; margin-bottom: 8px; }
+  footer .footer-title { font-size: 16px; font-weight: bold; opacity: 1; margin-bottom: 6px; }
+
+  /* 通知 */
+  .toast {
+    position: fixed;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: #333;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: bold;
+    transition: transform 0.3s ease;
+    z-index: 9999;
+    pointer-events: none;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); }
+
+  @media (max-width: 480px) {
+    .prompt-header { flex-wrap: wrap; }
+    .copy-btn { width: 100%; text-align: center; margin-top: 4px; }
+  }
+
+  /* ページナビ */
+  .page-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--navy);
+    padding: 0 16px;
+    height: 44px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .page-nav a {
+    color: rgba(255,255,255,0.85);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: bold;
+    padding: 12px 4px;
+    white-space: nowrap;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .page-nav a:active { opacity: 0.6; }
+  .page-nav .nav-center {
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    pointer-events: none;
+  }
+</style>
+</head>
+<body>
+
+<nav class="page-nav">
+  <a href="index.html">← 特典一覧</a>
+  <span class="nav-center">特典①</span>
+  <a href="kiroku.html">記録テンプレ →</a>
+</nav>
+
+<header>
+  <div class="header-badge">読者限定特典①</div>
+  <h1>ChatGPTプロンプト集 30選</h1>
+  <p>0〜6歳の子育てに特化したそのままコピペできるテンプレート</p>
+  <div class="header-stats">
+    <div class="stat"><div class="stat-num">30</div><div class="stat-label">プロンプト</div></div>
+    <div class="stat"><div class="stat-num">6</div><div class="stat-label">カテゴリ</div></div>
+    <div class="stat"><div class="stat-num">0〜6</div><div class="stat-label">対象年齢</div></div>
+  </div>
+</header>
+
+<main>
+
+  <div class="howto">
+    <strong>使い方</strong>
+    <ol>
+      <li>カテゴリタブまたは検索で気になるプロンプトを探す</li>
+      <li>「コピー」ボタンを押してクリップボードに保存</li>
+      <li>ChatGPT（または他のAI）に貼り付けて送信</li>
+      <li>お子さんの月齢・状況を【　】に入力して使ってください</li>
+    </ol>
+  </div>
+
+  <div class="search-wrap">
+    <input type="text" id="searchInput" placeholder="プロンプトを検索... (例: 夜泣き、離乳食、発達)" oninput="filterPrompts()">
+    <span class="search-icon">🔍</span>
+  </div>
+
+  <div class="tabs" id="tabs">
+    <button class="tab active" onclick="filterByCategory('all', this)">すべて（30）</button>
+    <button class="tab" onclick="filterByCategory('離乳食', this)">🍼 離乳食・食事</button>
+    <button class="tab" onclick="filterByCategory('夜泣き', this)">🌙 夜泣き・睡眠</button>
+    <button class="tab" onclick="filterByCategory('発達', this)">🌱 発達・成長相談</button>
+    <button class="tab" onclick="filterByCategory('日常', this)">💬 日常の悩み相談</button>
+    <button class="tab" onclick="filterByCategory('遊び', this)">🎨 遊び・知育・絵本</button>
+    <button class="tab" onclick="filterByCategory('祖父母', this)">👴 祖父母・家族向け</button>
+  </div>
+
+  <div class="result-count" id="resultCount">30件表示中</div>
+
+  <!-- ============================================================ -->
+  <!-- カテゴリ①：離乳食・食事 -->
+  <!-- ============================================================ -->
+  <div class="category-section" data-category="離乳食">
+    <div class="category-header">
+      <span class="category-icon">🍼</span>
+      <span class="category-title">離乳食・食事</span>
+      <span class="category-count">5選</span>
+    </div>
+
+    <div class="prompt-card" data-category="離乳食" data-tags="離乳食 初期 中期 後期 進め方">
+      <div class="prompt-header">
+        <div class="prompt-num">1</div>
+        <div class="prompt-title">離乳食の進め方スケジュールを教えて</div>
+        <button class="copy-btn" onclick="copyPrompt(this)">コピー</button>
+      </div>
+      <div class="prompt-text">私の子どもは現在【月齢】です。離乳食を始めたばかりで、何をどのくらいの量から始めればいいかわかりません。
+以下を教えてください：
+・今の月齢に合った食材リスト（OK・NG食材）
+・1日の食事回数と時間帯
+・食材の固さの目安
+・最初の1週間の簡単なスケジュール例</div>
+      <div class="prompt-tags"><span class="tag">離乳食</span><span class="tag">初期〜後期</span><span class="tag">スケジュール</span></div>
+    </div>
+
+    <div class="prompt-card" data-category="離乳食" data-tags="食べない 偏食 野菜 食事">
+      <div class="prompt-header">
+        <div class="prompt-num">2</div>
+        <div class="prompt-title">野菜を食べない子への対処法</div>
+        <button class="copy-btn" onclick="copyPrompt(this)">コピー</button>
+      </div>
+      <div class="prompt-text">【月齢・年齢】の子どもが野菜をまったく食べません。
+試した方法：【これまでに試したこと】
+好きな食べ物：【好きな食べ物】
+
+野菜を食べてもらうための工夫を5つ教えてください。
+「混ぜる・隠す」以外の方法も含めて、楽しく食べられるアイデアをお願いします。</div>
+      <div class="prompt-tags"><span class="tag">偏食</span><span class="tag">野菜嫌い</span><span class="tag">食事の工夫</span></div>
+    </div>
+
+    <div class="prompt-card" data-category="離乳食" data-tags="アレルギー 卵 小麦 牛乳 初めて">
+      <div class="prompt-header">
+        <div class="prompt-num">3</div>
+        <div class="prompt-title">アレルギー食材を初めて与えるときの注意点</div>
+        <button class="copy-btn" onclick="copyPrompt(this)">コピー</button>
+      </div>
+      <div class="prompt-text">【月齢】の子どもに【食材名：卵・小麦・牛乳など】を初めて食べさせようと思っています。
+
+以下を教えてください：
+・与えるタイミング（曜日・時間帯）
+・最初に与える量の目安
+・アレルギー反応のサイン（軽度〜重度）
+・万が一反応が出たときの対応手順
+・受診の目安</div>
+      <div class="prompt-tags"><span class="tag">アレルギー</span><span class="tag">初めての食材</span><span class="tag">安全管理</span></div>
+    </div>
+
+    <div class="prompt-card" data-category="離乳食" data-tags="食事 時短 まとめ作り 冷凍 ストック">
+      <div class="prompt-header">
+        <div class="prompt-num">4</div>
+        <div class="prompt-title">週末まとめ作り・冷凍ストックレシピ</div>
+        <button class="copy-btn" onclick="copyPrompt(this)">コピー</button>
+      </div>
+      <div class="prompt-text">【月齢】向けの離乳食を週末にまとめて作り、冷凍ストックしたいです。
+家にある食材：【冷蔵庫の食材を書く】
+
+以下を考えてください：
+・冷凍できる食材の組み合わせ5パターン
+・各パターンの簡単な調理手順
+・1回分の冷凍量の目安
+・解凍するときの注意点</div>
+      <div class="prompt-tags"><span class="tag">時短</span><span class="tag">冷凍ストック</span><span class="tag">まとめ作り</span></div>
+    </div>
+
+    <div class="prompt-card" data-category="離乳食" data-tags="食事 楽しい テーブル マナー しつけ">
+      <div class="prompt-header">
+        <div class="prompt-num">5</div>
+        <div class="prompt-title">食事中に立ち歩く・遊び食べへの対処法</div>
+        <button class="copy-btn" onclick="copyPrompt(this)">コピー</button>
+      </div>
+      <div class="prompt-text">【年齢】の子どもが食事中にすぐ立ち歩いたり、食べ物で遊んだりします。
+食事の時間：【分程度】
+座っていられる時間：【分くらい】
+
+発達段階を踏まえた上で、以下を教えてください：
+・立ち歩きが起こる理由（発達的な背景）
+・食事に集中させる環境づくり
+・叱らずに習慣づけるための声かけ例（具体的なセリフ）</div>
+      <div class="prompt-tags"><span class="tag">遊び食べ</span><span class="tag">立ち歩き</span><span class="tag">声かけ</span></div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- カテゴリ②：夜泣き・睡眠 -->
+  <!-- ============================================================ -->
+  <div class="category-section" data-category="夜泣き">
+    <div class="category-header">
+      <span class="category-icon">🌙</span>
+      <span class="category-title">夜泣き・睡眠</span>
+      <span class="category-count">5選</span>
+    </div>
+
+    <div class="prompt-card" data-category="夜泣き" data-tags="夜泣き 対処法 原因">
+      <div class="prompt-header">
+        <div class="prompt-num">6</div>
+        <div class="prompt-title">夜泣きの原因と今夜できる対処法</div>
+        <button class="copy-btn" onclick="copyPrompt(this)">コピー</button>
+      </div>
+      <div class="prompt-text">【月齢・年齢】の子どもが毎晩夜泣きをしています。
+状況：【夜泣きの頻度・時間帯・泣き方】
+試したこと：【試したことを書く】
+
+以下を教えてください：
+・この月齢での夜泣きの主な原因
+・今夜すぐに試せる対処法（3つ）
+・長期的に改善するための取り組み
+・受診が必要なサインはどんなとき？</div>
+      <div class="prompt-tags"><span class="tag">夜泣き</span><span class="tag">原因分析</span><span class="tag">即実践</span></div>
+    </div>
+
+    <div class="prompt-card" data-category="夜泣き" data-tags="寝かしつけ 時間 ルーティン ネントレ">
+      <div class="prompt-header">
+        <div class="prompt-num">7</div>
+        <div class="prompt-title">寝かしつけルーティンを一から作りたい</div>
+        <button class="copy-btn" onclick="copyPrompt(this)">コピー</button>
+      </div>
+      <div class="prompt-text">【月齢・年齢】の子どもに寝かしつけルーティンを作りたいです。
+現在の状況：
+・就寝時間の目安：【時間】
+・授乳/ミルク：【あり・なし】
+・一人で寝れるか：【できる・できない】
+
+我が家に合ったルーティン（20〜30分）を提案してください。
+ステップごとに「何分・何をする」と具体的に教えてください。</div>
+      <div class="prompt-tags"><span class="tag">ネントレ</span><span class="tag">ルーティン</span><span class="tag">睡眠改善</span></div>
+    </div>
+
+    <div class="prompt-card" data-category="夜泣き" data-tags="昼寝 スケジュール 月齢 睡眠">
+      <div class="prompt-header">
+        <div class="prompt-num">8</div>
+        <div class="prompt-title">月齢別の理想的な睡眠スケジュール</div>
+        <button class="copy-btn" onclick="copyPrompt(this)">コピー</button>
+      </div>
+      <div class="prompt-text">【月齢・年齢】の子どもの睡眠スケジュールが崩れていて、夜の寝つきが悪くなっています。
+
+以下を教えてください：
+・この月齢の「理想的な昼寝・夜の就寝時間帯」
+・サンプルスケジュール（起床〜就寝まで）
+・昼寝時間が長すぎると夜に影響する？調整方法は？
+・活動限界時間（起きていられる最長時間）の目安</div>
+      <div class="prompt-tags"><span class="tag">昼寝</span><span class="tag">スケジュール</span><span class="tag">月齢別</span></div>
+    </div>
+
+    <div class="prompt-card" data-category="夜泣き" data-tags="添い寝 卒乳 断乳 一人寝">
+      <div class="prompt-header">
+        <div class="prompt-num">9</div>
+        <div class="prompt-title">授乳なしで寝られるように移行したい</div>
+        <button class="copy-btn" onclick="copyPrompt(this)">コピー</button>
+      </div>
+      <div class="prompt-text">【月齢】の子どもが授乳（またはミルク）なしでは寝られません。
+今後【断乳・卒乳】を考えています。
+
+以下を段階的に教えてください：
+・授乳寝かしつけを卒業するための3ステップ
+・赤ちゃんへの心の準備（声かけ）
+・ぐずったときの代替の寝かしつけ方法
+・無理なく進めるための期間の目安</div>
+      <div class="prompt-tags"><span class="tag">断乳</span><span class="tag">一人寝</span><span class="tag">ステップアップ</span></div>
+    </div>
+
+    <div class="prompt-card" data-category="夜泣き" data-tags="親 睡眠不足 疲れ 乗り越える">
+      <div class="prompt-header">
+        <div class="prompt-num">10</div>
+        <div class="prompt-title">睡眠不足の親へのサポート・乗り越え方</div>
+        <button class="copy-btn" onclick="copyPrompt(this)">コピー</button>
+      </div>
+      <div class="prompt-text">子どもの夜泣きで毎晩細切れ睡眠が続き、心身ともに限界を感じています。
+私の状況：【一人育児・パートナー帰宅遅いなど状況を書く】
+
+以下を教えてください：
+・細切れ睡眠でも疲れを回復する方法
+・日中の育児中に少しでも休む工夫
+・パートナーや周囲に頼むための言葉（伝え方）
+・「これは必ずいつか終わる」という見通し（いつ頃楽になる？）</div>
+      <div class="prompt-tags"><span class="tag">親の疲れ</span><span class="tag">睡眠不足</span><span class="tag">メンタルケア</span></div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- カテゴリ③：発達・成長相談 -->
+  <!-- ============================================================ -->
+  <div class="category-section" data-category="発達">
+    <div class="category-header">
+      <span class="category-icon">🌱</span>
+      <span class="category-title">発達・成長相談</span>
+      <span class="category-count">5選</span>
+    </div>
+
+    <div class="prompt-card" data-category="発達" data-tags="発達 言葉 遅い 話さない 相談">
+      <div class="prompt-header">
+        <div class="prompt-num">11</div>
+        <div class="prompt-title">言葉の発達が気になる・遅いかも</div>
+        <button class="copy-btn" onclick="copyPrompt(this)">コピー</button>
+      </div>
+      <div class="prompt-text">【月齢・年齢】の子どもの言葉の発達が気になっています。
+現在の状況：
+・話せる言葉の数：【語程度】
+・指差しはできる：【はい・いいえ】
+・こちらの話を理解している様子：【ある・ない】
+
+以下を教えてください：
+・この月齢の言葉の発達の目安
+・家庭でできる言葉を引き出す関わり方（具体的な遊び・声かけ）
+・専門家への相談を検討するタイミング</div>
+      <div class="prompt-tags"><span class="tag">言葉の発達</span><span class="tag">遅れ</span><span class="tag">関わり方</span></div>
+    </div>
+
+    <div class="prompt-card" data-category="発達" data-tags="かんしゃく 癇癪 イヤイヤ 2歳 3歳">
+      <div class="prompt-header">
+        <div class="prompt-num">12</div>
+        <div class="prompt-title">イヤイヤ期・癇癪のうまい対処法</div>
+        <button class="copy-btn" onclick="copyPrompt(this)">コピー</button>
+      </div>
+      <div class="prompt-text">【年齢】の子どもが激しい癇癪を起こします。
+きっかけ：【よくあるきっかけを書く（例：思い通りにならない・着替えを嫌がるなど）】
+続く時間：【分くらい】
+
+以下を教えてください：
+・癇癪が起きたときの「その場でできる対応」（NGとOKの例）
+・癇癪を予防するための事前の工夫
+・「共感」の具体的な声かけセリフ例
+・こちらが感情的になりそうなときの自分の整え方</div>
+      <div class="prompt-tags"><span class="tag">癇癪</span><span class="tag">イヤイヤ期</span><span class="tag">声かけ</span></div>
+    </div>
+
+    <div class="prompt-card" data-category="発達" data-tags="歩く ハイハイ 運動発達 マイルストーン">
+      <div class="prompt-header">
+        <div class="prompt-num">13</div>
+        <div class="prompt-title">運動発達のマイルストーンを教えて</div>
+        <button class="copy-btn" onclick="copyPrompt(this)">コピー</button>
+      </div>
+      <div class="prompt-text">【月齢・年齢】の子どもの運動発達について確認したいです。
+現在できること：【寝返り・お座り・ハイハイ・つかまり立ちなど】
+気になること：【具体的に気になっていること】
+
+以下を教えてください：
+・0〜2歳の運動発達の目安（月齢ごとの一覧）
+・「様子見でOK」と「すぐ相談すべき」の判断基準
+・発達を促すための日常的な関わり遊び
+・かかりつけ医に伝えるべき具体的な症状の書き方</div>
+      <div class="prompt-tags"><span class="tag">運動発達</span><span class="tag">マイルストーン</span><span class="tag">受診目安</span></div>
+    </div>
+
+    <div class="prompt-card" data-category="発達" data-tags="トイレ トレーニング オムツ外し 2歳 3歳">
+      <div class="prompt-header">
+        <div class="prompt-num">14</div>
+        <div class="prompt-title">トイレトレーニングの始め時と進め方</div>
+        <button class="copy-btn" onclick="copyPrompt(this)">コピー</button>
+      </div>
+      <div class="prompt-text">【年齢】の子どものトイレトレーニングを始めようか考えています。
+現在の状況：
+・「トイレ・おしっこ」の意味は理解している：【はい・いいえ】
+・オムツが2〜3時間濡れないことがある：【はい・いいえ】
+・補助便座/おまるは用意している：【はい・いいえ】
+
+以下を教えてください：
+・始めるサインのチェックリスト
+・ストレスなく進める3ステップ
+・失敗したときの声かけ（叱らない伝え方）
+・完了までの現実的な期間の目安</div>
+      <div class="prompt-tags"><span class="tag">トイトレ</span><span class="tag">オムツ外し</span><span class="tag">進め方</span></div>
+    </div>
+
+    <div class="prompt-card" data-category="発達" data-tags="発達障害 グレーゾーン ADHD ASD 相談">
+      <div class="prompt-header">
+        <div class="prompt-num">15</div>
+        <div class="prompt-title">発達に関する心配を専門家に相談したい</div>
+        <button class="copy-btn" onclick="copyPrompt(this)">コピー</button>
+      </div>
+      <div class="prompt-text">【年齢】の子どもの発達について専門家に相談しようと思っています。
+気になっていること：【具体的に気になる行動・言動を書く】
+
+以下を教えてください：
+・まず相談すべき窓口（かかりつけ医・発達相談・療育センターなど）
+・相談時に伝えると良い情報・観察ポイント
+・相談前に親としてやっておくと良いこと
+・「様子見」と言われたときにできる家庭での支援</div>
+      <div class="prompt-tags"><span class="tag">専門家相談</span><span class="tag">発達心配</span><span class="tag">相談の準備</span></div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- カテゴリ④：日常の悩み相談 -->
+  <!-- ============================================================ -->
+  <div class="category-section" data-category="日常">
+    <div class="category-header">
+      <span class="category-icon">💬</span>
+      <span class="category-title">日常の悩み相談</span>
+      <span class="category-count">5選</span>
+    </div>
+
+    <div class="prompt-card" data-category="日常" data-tags="イライラ 怒り すぐ怒る 子育て感情">
+      <div class="prompt-header">
+        <div class="prompt-num">16</div>
+        <div class="prompt-title">子どもについイライラしてしまう自分を変えたい</div>
+        <button class="copy-btn" onclick="copyPrompt(this)">コピー</button>
+      </div>
+      <div class="prompt-text">最近、【子どもの年齢】の子どもに対してすぐイライラしてしまいます。
+特にイライラするシーン：【例：朝の準備・食事・言うことを聞かないとき】
+
+以下を教えてください：
+・子育てでイライラする心理的な原因（私だけじゃない、と思えるような説明）
+・イライラしそうになったときの「その場で使えるリセット法」（3つ）
+・子どもへの怒りを減らすための根本的な考え方の転換
+・今夜、自分を労わるためにできること</div>
+      <div class="prompt-tags"><span class="tag">イライラ</span><span class="tag">怒り管理</span><span class="tag">メンタルケア</span></div>
+    </div>
+
+    <div class="prompt-card" data-category="日常" data-tags="兄弟 けんか 喧嘩 上の子 赤ちゃん返り">
+      <div class="prompt-header">
+        <div class="prompt-num">17</div>
+        <div class="prompt-title">兄弟喧嘩・赤ちゃん返りの対処法</div>
+        <button class="copy-btn" onclick="copyPrompt(this)">コピー</button>
+      </div>
+      <div class="prompt-text">子どもが2人います。
+上の子：【年齢】　下の子：【年齢・月齢】
+悩み：【例：赤ちゃん返りがひどい・兄弟喧嘩が絶えない・下の子に意地悪をする】
+
+以下を教えてください：
+・この年齢差での典型的な行動と、その心理的背景
+・上の子の気持ちを満たす毎日の関わり方
+・喧嘩が起きたときの仲裁の仕方（どちらの味方もしない方法）
+・親が2人を同時にケアするための時間管理のコツ</div>
+      <div class="prompt-tags"><span class="tag">兄弟喧嘩</span><span class="tag">赤ちゃん返り</span><span class="tag">2人育児</span></div>
+    </div>
+
+    <div class="prompt-card" data-category="日常" data-tags="保育園 登園拒否 行かない 泣く 分離不安">
+      <div class="prompt-header">
+        <div class="prompt-num">18</div>
+        <div class="prompt-title">保育園に行きたがらない・泣く子への対応</div>
+        <button class="copy-btn" onclick="copyPrompt(this)">コピー</button>
+      </div>
+      <div class="prompt-text">【年齢】の子どもが保育園に行くのを嫌がり、毎朝泣きます。
+入園からの期間：【例：2ヶ月目】
+様子：【例：お友達がいない・特定のことが嫌・理由が言えない】
+
+以下を教えてください：
+・登園拒否の背景にある子どもの気持ち
+・朝の送り出しを楽にするルーティンの作り方
+・嫌がっているときの声かけ（「頑張って！」以外）
+・保育士さんと連携するための相談の仕方</div>
+      <div class="prompt-tags"><span class="tag">登園拒否</span><span class="tag">分離不安</span><span class="tag">保育園</span></div>
+    </div>
+
+    <div class="prompt-card" data-category="日常" data-tags="スマホ タブレット 動画 YouTube ルール">
+      <div class="prompt-header">
+        <div class="prompt-num">19</div>
+        <div class="prompt-title">スマホ・動画視聴のルール作りを手伝って</div>
+        <button class="copy-btn" onclick="copyPrompt(this)">コピー</button>
+      </div>
+      <div class="prompt-text">【年齢】の子どものスマホ・タブレット使用ルールを決めたいです。
+現在の使用状況：【例：毎日2時間以上・食事中も見ている・やめるとき大泣きする】
+
+以下を教えてください：
+・年齢に合った適切な視聴時間の目安（WHOや小児科学会の推奨）
+・「時間になったら素直にやめられる」仕組みの作り方
+・子どもと一緒に決めるルールの例文（子どもが納得しやすい言い方）
+・やめられないときの対応（取り上げる以外の方法）</div>
+      <div class="prompt-tags"><span class="tag">スマホルール</span><span class="tag">動画</span><span class="tag">メディア管理</span></div>
+    </div>
+
+    <div class="prompt-card" data-category="日常" data-tags="一人っ子 孤独 育児 孤立 ワンオペ">
+      <div class="prompt-header">
+        <div class="prompt-num">20</div>
+        <div class="prompt-title">ワンオペ育児の孤独感・辛さを相談したい</div>
+        <button class="copy-btn" onclick="copyPrompt(this)">コピー</button>
+      </div>
+      <div class="prompt-text">ワンオペで【月齢・年齢】の子どもを育てています。
+状況：【例：夫の帰宅が深夜・実家が遠い・ママ友がいない】
+今の気持ち：【自由に書く】
+
+今すぐ気持ちを楽にするためのアドバイスをください。
+また、以下も教えてください：
+・孤独感を和らげる具体的なアクション（オンライン・地域でできること）
+・自分の時間を少しでも確保する方法
+・「誰かに助けを求める」ことへの罪悪感を手放すヒント</div>
+      <div class="prompt-tags"><span class="tag">ワンオペ</span><span class="tag">孤独感</span><span class="tag">メンタルケア</span></div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- カテゴリ⑤：遊び・知育・絵本 -->
+  <!-- ============================================================ -->
+  <div class="category-section" data-category="遊び">
+    <div class="category-header">
+      <span class="category-icon">🎨</span>
+      <span class="category-title">遊び・知育・絵本</span>
+      <span class="category-count">5選</span>
+    </div>
+
+    <div class="prompt-card" data-category="遊び" data-tags="知育 おもちゃ 遊び 月齢 発達">
+      <div class="prompt-header">
+        <div class="prompt-num">21</div>
+        <div class="prompt-title">月齢に合った知育遊びを提案して</div>
+        <button class="copy-btn" onclick="copyPrompt(this)">コピー</button>
+      </div>
+      <div class="prompt-text">【月齢・年齢】の子どもと家でできる知育遊びを教えてください。
+今持っているおもちゃ・材料：【例：積み木・クレヨン・ペットボトル・新聞紙など】
+子どもの好きなこと・興味：【例：音・動くもの・絵本・外遊び】
+
+以下を教えてください：
+・この月齢で伸ばせる能力と適した遊びの組み合わせ
+・今すぐ家にあるもので5分でできる遊び（5つ）
+・「飽きてきた」ときの遊びのバリエーションの増やし方
+・1日のスケジュールの中に遊びを組み込む目安時間</div>
+      <div class="prompt-tags"><span class="tag">知育遊び</span><span class="tag">家遊び</span><span class="tag">月齢別</span></div>
+    </div>
+
+    <div class="prompt-card" data-category="遊び" data-tags="絵本 読み聞かせ おすすめ 選び方">
+      <div class="prompt-header">
+        <div class="prompt-num">22</div>
+        <div class="prompt-title">年齢・目的に合った絵本を選んでほしい</div>
+        <button class="copy-btn" onclick="copyPrompt(this)">コピー</button>
+      </div>
+      <div class="prompt-text">【年齢】の子どもに読み聞かせする絵本を探しています。
+子どもの特徴：【例：乗り物が好き・怖がりで新しいことが苦手・感情的になりやすい】
+今持っている絵本：【あれば書く】
+目的：【例：就寝前の落ち着かせ・語彙を増やしたい・感情教育・トイトレ応援】
+
+目的と年齢に合った絵本を5冊提案してください。
+各絵本について：タイトル・著者・どんな効果があるか・読み聞かせのコツも教えてください。</div>
+      <div class="prompt-tags"><span class="tag">絵本</span><span class="tag">読み聞かせ</span><span class="tag">おすすめ</span></div>
+    </div>
+
+    <div class="prompt-card" data-category="遊び" data-tags="英語 バイリンガル 英語教育 幼児 おすすめ">
+      <div class="prompt-header">
+        <div class="prompt-num">23</div>
+        <div class="prompt-title">幼児期からの英語教育はどう始める？</div>
+        <button class="copy-btn" onclick="copyPrompt(this)">コピー</button>
+      </div>
+      <div class="prompt-text">【年齢】の子どもに英語教育を始めたいと思っています。
+親の英語レベル：【例：中学英語レベル・得意ではない】
+予算：【例：月3,000円以内・できれば無料で】
+目標：【例：英語を嫌いにならない程度でOK・バイリンガルを目指したい】
+
+以下を教えてください：
+・幼児期の英語習得の研究に基づいたおすすめのアプローチ
+・毎日5〜15分でできる家庭英語の習慣化アイデア
+・無料または低コストで使える英語コンテンツ（YouTube・アプリ・絵本）
+・親が英語が得意でなくてもできる関わり方</div>
+      <div class="prompt-tags"><span class="tag">英語教育</span><span class="tag">バイリンガル</span><span class="tag">幼児英語</span></div>
+    </div>
+
+    <div class="prompt-card" data-category="遊び" data-tags="公園 外遊び 友達 社会性 コミュニケーション">
+      <div class="prompt-header">
+        <div class="prompt-num">24</div>
+        <div class="prompt-title">お友達との関わり方・社会性を育てたい</div>
+        <button class="copy-btn" onclick="copyPrompt(this)">コピー</button>
+      </div>
+      <div class="prompt-text">【年齢】の子どもの社会性を育てたいです。
+気になっていること：【例：友達と遊べない・おもちゃを貸せない・すぐ泣く・引っ込み思案】
+
+以下を教えてください：
+・この年齢の社会性の発達の目安（何ができるのが普通か）
+・「貸してどうぞ」「ごめんなさい」を教えるための具体的な声かけシナリオ
+・公園・プレイデートで親がすべき関わり方（介入のタイミング）
+・社会性を育てる家庭での習慣（ごっこ遊び・ルールのある遊びなど）</div>
+      <div class="prompt-tags"><span class="tag">社会性</span><span class="tag">友達関係</span><span class="tag">コミュニケーション</span></div>
+    </div>
+
+    <div class="prompt-card" data-category="遊び" data-tags="創造性 工作 アート 感性 表現">
+      <div class="prompt-header">
+        <div class="prompt-num">25</div>
+        <div class="prompt-title">子どもの創造性・感性を育てる遊び</div>
+        <button class="copy-btn" onclick="copyPrompt(this)">コピー</button>
+      </div>
+      <div class="prompt-text">【年齢】の子どもの創造性や感性を育てたいです。
+家にある材料：【例：色紙・クレヨン・粘土・廃材（牛乳パック・段ボール）】
+時間：【平日30分・休日1〜2時間程度】
+
+以下を教えてください：
+・創造性を育てると言われる遊びの原則（親の関わり方のコツ）
+・家にある材料でできる「正解がない」アート遊び5選
+・子どもの作品を「否定しない」ほめ方・コメントの仕方
+・片付けが楽になる「創造的散らかし」の環境づくり</div>
+      <div class="prompt-tags"><span class="tag">創造性</span><span class="tag">アート遊び</span><span class="tag">感性教育</span></div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- カテゴリ⑥：祖父母・家族向け -->
+  <!-- ============================================================ -->
+  <div class="category-section" data-category="祖父母">
+    <div class="category-header">
+      <span class="category-icon">👴</span>
+      <span class="category-title">祖父母・家族向け</span>
+      <span class="category-count">5選</span>
+    </div>
+
+    <div class="prompt-card" data-category="祖父母" data-tags="祖父母 おじいちゃん おばあちゃん 子育て方針 違い">
+      <div class="prompt-header">
+        <div class="prompt-num">26</div>
+        <div class="prompt-title">祖父母と子育て方針が違う・うまく伝えたい</div>
+        <button class="copy-btn" onclick="copyPrompt(this)">コピー</button>
+      </div>
+      <div class="prompt-text">祖父母（義父母）との子育て方針の違いで悩んでいます。
+具体的な違い：【例：おやつを際限なく与える・テレビを長時間見せる・「叩いてでも言うことを聞かせろ」と言う】
+関係性：【例：同居・近所・たまに会う】
+
+以下を教えてください：
+・祖父母世代と現代の子育ての違いを整理する（どこが変わったか）
+・角が立たない伝え方・お願いの仕方（具体的なセリフ例）
+・「絶対に譲れないライン」と「そこまで気にしなくていいこと」の整理方法
+・関係を壊さずに意見を通すための関わり方のコツ</div>
+      <div class="prompt-tags"><span class="tag">祖父母</span><span class="tag">方針の違い</span><span class="tag">伝え方</span></div>
+    </div>
+
+    <div class="prompt-card" data-category="祖父母" data-tags="夫 パートナー 育児参加 家事分担 頼み方">
+      <div class="prompt-header">
+        <div class="prompt-num">27</div>
+        <div class="prompt-title">パートナーにもっと育児参加してほしい</div>
+        <button class="copy-btn" onclick="copyPrompt(this)">コピー</button>
+      </div>
+      <div class="prompt-text">パートナーにもっと育児に参加してほしいのですが、うまく頼めません。
+状況：【例：仕事が忙しい・育児の仕方がわからなそう・言っても動かない・喧嘩になる】
+今の分担状況：【例：ほぼ全て私・お風呂だけやってもらっている】
+
+以下を教えてください：
+・「手伝って」ではなく「一緒に育てる」に変えるための会話の切り口
+・パートナーが動きやすいお願いの仕方（具体的・小さいステップ）
+・育児参加を増やした夫婦がやっていること・決めていること
+・感謝を伝えることで関係が変わる理由と実践方法</div>
+      <div class="prompt-tags"><span class="tag">夫婦分担</span><span class="tag">育児参加</span><span class="tag">パートナー</span></div>
+    </div>
+
+    <div class="prompt-card" data-category="祖父母" data-tags="祖父母 AI ChatGPT 説明 伝え方">
+      <div class="prompt-header">
+        <div class="prompt-num">28</div>
+        <div class="prompt-title">祖父母にAI子育てを理解してもらう説明文</div>
+        <button class="copy-btn" onclick="copyPrompt(this)">コピー</button>
+      </div>
+      <div class="prompt-text">AIを子育てに使っていることを祖父母（義父母）に話したら、「機械に子育てさせるなんて」と反対されました。
+祖父母の年齢：【60代・70代】
+具体的に反対された内容：【例：ChatGPTに相談するのはおかしい・スクリーンタイムが増える】
+
+以下を教えてください：
+・祖父母世代にわかりやすいAI活用の説明（難しい言葉なし）
+・「子どもの代わりにならない」「親の判断を補助するツール」と伝える例文
+・実際に一緒に体験してもらうための簡単なデモ案
+・反対意見を受け入れながら自分のやり方も守るための一言</div>
+      <div class="prompt-tags"><span class="tag">AI説明</span><span class="tag">祖父母理解</span><span class="tag">コミュニケーション</span></div>
+    </div>
+
+    <div class="prompt-card" data-category="祖父母" data-tags="サポート お願い 頼む 助けてもらう 実家">
+      <div class="prompt-header">
+        <div class="prompt-num">29</div>
+        <div class="prompt-title">祖父母に子育てサポートをお願いするメッセージ</div>
+        <button class="copy-btn" onclick="copyPrompt(this)">コピー</button>
+      </div>
+      <div class="prompt-text">実家（義実家）の祖父母に育児サポートをお願いしたいのですが、遠慮してうまく頼めません。
+お願いしたいこと：【例：週1回預かってほしい・発熱のときのお迎え・買い物の手伝い】
+関係性：【例：年に数回会う・車で1時間の距離】
+
+以下を教えてください：
+・「迷惑をかけたくない」という気持ちを手放すための考え方
+・祖父母が喜んで協力したくなるお願いの仕方（具体的な文例）
+・頼んで良い範囲・頼みすぎない線引きの考え方
+・LINEで送れる「お願いメッセージ」のテンプレート</div>
+      <div class="prompt-tags"><span class="tag">祖父母サポート</span><span class="tag">頼み方</span><span class="tag">LINEテンプレ</span></div>
+    </div>
+
+    <div class="prompt-card" data-category="祖父母" data-tags="家族 全員 子育て チーム 全体">
+      <div class="prompt-header">
+        <div class="prompt-num">30</div>
+        <div class="prompt-title">家族全員が同じ方向を向くための話し合い方</div>
+        <button class="copy-btn" onclick="copyPrompt(this)">コピー</button>
+      </div>
+      <div class="prompt-text">家族（夫婦＋祖父母）が子育ての方針についてバラバラで、子どもが混乱しているように見えます。
+子どもの年齢：【年齢】
+主な方針の違い：【例：しつけの厳しさ・食事ルール・就寝時間・スマホ使用】
+
+以下を教えてください：
+・家族全員で「子育ての基本ルール」を決めるための話し合いの進め方
+・話し合いの場を設ける声かけの仕方（嫌な雰囲気にならないために）
+・「絶対に統一すべき3つのこと」と「各自の裁量に任せて良いこと」の分け方
+・決めたルールを一覧にして共有するためのフォーマット案</div>
+      <div class="prompt-tags"><span class="tag">家族チーム</span><span class="tag">育児方針統一</span><span class="tag">話し合い</span></div>
+    </div>
+  </div>
+
+</main>
+
+<footer>
+  <p class="footer-title">0〜6歳 AIネイティブ世代の育て方</p>
+  <p>読者限定特典①  ChatGPTプロンプト集30選</p>
+  <p>本書をご購入いただきありがとうございます。</p>
+</footer>
+
+<!-- トースト通知 -->
+<div class="toast" id="toast">コピーしました！</div>
+
+<script>
+  let currentCategory = 'all';
+
+  function copyPrompt(btn) {
+    const card = btn.closest('.prompt-card');
+    const text = card.querySelector('.prompt-text').innerText;
+
+    function onSuccess(method) {
+      btn.textContent = '✓ コピー完了';
+      btn.classList.add('copied');
+      setTimeout(() => {
+        btn.textContent = 'コピー';
+        btn.classList.remove('copied');
+      }, 2000);
+      showToast('コピーしました！');
+      console.log('[copy] method:', method);
+    }
+
+    function onFail() {
+      btn.textContent = 'コピー失敗';
+      setTimeout(() => { btn.textContent = 'コピー'; }, 2000);
+      showToast('コピーに失敗しました');
+    }
+
+    // フォールバック: textarea + execCommand（iOS Safari HTTP対応）
+    function fallbackCopy() {
+      try {
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        // iOS で非表示要素はコピー不可のため、画面内に配置（透明にする）
+        ta.style.cssText = [
+          'position:fixed', 'left:0', 'top:0',
+          'width:2px', 'height:2px', 'padding:0',
+          'border:none', 'outline:none',
+          'box-shadow:none', 'background:transparent',
+          'opacity:0', 'z-index:-1'
+        ].join(';');
+        ta.readOnly = false;
+        document.body.appendChild(ta);
+        ta.focus();
+        ta.select();
+        ta.setSelectionRange(0, 99999); // iOS必須
+        const ok = document.execCommand('copy');
+        document.body.removeChild(ta);
+        if (ok) onSuccess('fallback');
+        else onFail();
+      } catch (e) {
+        onFail();
+      }
+    }
+
+    // Stage 1: Clipboard API（HTTPS / セキュアコンテキストのみ有効）
+    if (navigator.clipboard && typeof navigator.clipboard.writeText === 'function') {
+      navigator.clipboard.writeText(text)
+        .then(() => onSuccess('clipboard'))
+        .catch(() => fallbackCopy());
+    } else {
+      // Stage 2: フォールバック（HTTP / iOS Safari 等）
+      fallbackCopy();
+    }
+  }
+
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2200);
+  }
+
+  function filterByCategory(cat, btn) {
+    currentCategory = cat;
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('searchInput').value = '';
+    applyFilters();
+  }
+
+  function filterPrompts() {
+    currentCategory = 'all';
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelector('.tab').classList.add('active');
+    applyFilters();
+  }
+
+  function applyFilters() {
+    const query = document.getElementById('searchInput').value.trim().toLowerCase();
+    const cards = document.querySelectorAll('.prompt-card');
+    let visible = 0;
+
+    cards.forEach(card => {
+      const catMatch = currentCategory === 'all' || card.dataset.category === currentCategory;
+      const text = (card.dataset.tags + ' ' + card.querySelector('.prompt-text').innerText + ' ' + card.querySelector('.prompt-title').innerText).toLowerCase();
+      const queryMatch = query === '' || text.includes(query);
+      if (catMatch && queryMatch) {
+        card.classList.remove('hidden');
+        visible++;
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+
+    // カテゴリセクションの表示/非表示
+    document.querySelectorAll('.category-section').forEach(section => {
+      const visibleInSection = section.querySelectorAll('.prompt-card:not(.hidden)').length;
+      section.style.display = visibleInSection > 0 ? '' : 'none';
+    });
+
+    document.getElementById('resultCount').textContent = visible + '件表示中';
+  }
+</script>
+</body>
+</html>
